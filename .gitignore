@@ -414,3 +414,4 @@ cmake-build-debug/
 CMakeLists.txt
 cmake/
 SDL2/
+SDL2_ttf/
