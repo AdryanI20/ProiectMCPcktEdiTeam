@@ -1,10 +1,10 @@
 #pragma once
 #include "SDL.h"
-#include "SDL_ttf.h"
 #include <iostream>
 #include <string>
 
 class InputHandle;
+class TextureManager;
 
 class Game {
 public:
@@ -26,6 +26,7 @@ private:
     SDL_Renderer* m_renderer;
 
     InputHandle* m_inputhandler;
+    TextureManager* m_texturemanager;
 
     bool m_running;
 };
