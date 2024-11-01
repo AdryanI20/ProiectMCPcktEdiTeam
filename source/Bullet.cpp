@@ -1,21 +1,21 @@
 #include "Bullet.h"
 
-Bullet::isHit(bool hit)
+void Bullet::isHit(bool hit)
 {
 	m_isHit = hit;
 }
 
-Bullet::updateSpeed()
+void Bullet::updateSpeed()
 {
 	m_bulletSpeed = m_bulletSpeed * 2;
 }
 
-Bullet::getPosition()
+std::pair<int, int> Bullet::getPosition()
 {
 	return m_position;
 }
 
-Bullet::setPosition(int i, int j)
+void Bullet::setPosition(int i, int j)
 {
 	m_position.first = i;
 	m_position.second = j;
