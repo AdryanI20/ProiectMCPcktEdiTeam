@@ -1,10 +1,17 @@
 #include "Character.h"
 #include <string_view>
 
-Character::Character(int id, int team, std::string_view name, int points, int score, std::pair<int, int> startPosition)
+Character::Character(int id, int team, std::string_view name, std::pair<int, int> startPosition)
 {
 	m_id = id;
 	m_team = team;
+	m_name = name;
+	m_startPosition = startPosition;
+}
+
+Character::~Character()
+{
+
 }
 
 void Character::rotateLeft()
@@ -52,4 +59,59 @@ void Character::move(int direcction)
 	default:
 		break;
 	}
+}
+
+int Character::getHealth()
+{
+	return m_health;
+}
+
+void Character::setHealth(int value)
+{
+	m_health = value;
+}
+
+int Character::getLives()
+{
+	return m_lives;
+}
+
+void Character::setLives(int value)
+{
+	m_lives = value;
+}
+
+int Character::getPoints()
+{
+	return m_points;
+}
+
+void Character::setPoints(int value)
+{
+	m_points = value;
+}
+
+int Character::getScore()
+{
+	return m_score;
+}
+
+void Character::setScore(int value)
+{
+	m_score = value;
+}
+
+std::pair<int, int> Character::getPosition()
+{
+	return m_position;
+}
+
+void Character::setPosition(std::pair<int, int> position)
+{
+	m_position = position;
+}
+
+void Character::setWeapon(Weapon weapon)
+{
+	m_playerWeapon = weapon;
 }
