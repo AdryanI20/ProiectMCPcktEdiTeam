@@ -20,3 +20,8 @@ void Bullet::setPosition(int i, int j)
 	m_position.first = i;
 	m_position.second = j;
 }
+
+void Bullet::setDirection(int direction)
+{
+	m_facingDirection = direction;
+}

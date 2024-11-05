@@ -1,6 +1,7 @@
 #pragma once
 #include <string>
 #include <cstdint>
+#include <vector>
 #include "Bullet.h"
 
 class Weapon
@@ -11,11 +12,13 @@ public:
 
     void setWeaponStats(float fireRate);
 	int getDamage();
-	int getfireRate();
+	float getfireRate();
 	void isBulletFired(bool isFired); 
-	void shoot(int direction);
+	void shoot(int direction, int pozitie_actuala_i, int pozitie_actuala_j);
 
+	
 private:
+	std::vector<Bullet> bullets_shot;
 	int m_damage;
 	float m_fireRate;
 	bool m_isBulletFired;
