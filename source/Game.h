@@ -20,6 +20,7 @@ public:
     void Clean();
     void Quit();
     bool isRunning();
+    void showText(const std::string& content);
 
 private:
     SDL_Window* m_window;
@@ -29,4 +30,5 @@ private:
     TextureManager* m_texturemanager;
 
     bool m_running;
+    int test;
 };

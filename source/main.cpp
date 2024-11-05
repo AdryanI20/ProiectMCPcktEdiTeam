@@ -33,33 +33,6 @@ int main(int argc, char* args[])
         }
         //
     }
-//    if ()
-//    {
-//        std::cout << "Game Init Succeeded" << std::endl;
-//
-//        while (MainGame->isRunning())
-//        {
-//            frameStart = SDL_GetTicks();
-//            MainGame->Update();
-//            MainGame->HandleEvents();
-//            MainGame->Render();
-//
-//            frameTime = SDL_GetTicks() - frameStart;
-//            if (frameTime < DELAY_TIME)
-//            {
-//                SDL_Delay((int)(DELAY_TIME - frameTime));
-//            }
-//            else
-//            {
-//                SDL_Delay((int)DELAY_TIME);
-//            }
-//        }
-//    }
-//    else
-//    {
-//        std::cout << "game init failed" << SDL_GetError() << std::endl;
-//        return -1;
-//    }
 
     MainGame->Clean();
 

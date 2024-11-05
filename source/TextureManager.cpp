@@ -19,7 +19,9 @@ bool TextureManager::Load(const std::string& input, std::string id, SDL_Renderer
 
     SDL_Surface* text_surf = TTF_RenderText_Solid(m_font, input.c_str(), SDL_Color( 255, 255, 255, 255));
     SDL_Texture* texture = SDL_CreateTextureFromSurface(renderer, text_surf);
-    std::cout << text_surf->w << " " << text_surf->h << std::endl;
+    int textW = text_surf->w;
+    int textH = text_surf->h;
+
     SDL_FreeSurface(text_surf);
 
     if (texture == nullptr) {
@@ -27,26 +29,35 @@ bool TextureManager::Load(const std::string& input, std::string id, SDL_Renderer
         return false;
     }
 
-    m_textureMap[id] = texture;
+    m_textureMap[id] = std::make_tuple(texture, textW, textH);
     return true;
 }
 
-void TextureManager::Draw(const std::string& id, int x, int y, int w, int h, double scale, SDL_Renderer* renderer) {
+void TextureManager::Draw(const std::string& id, int x, int y, double scale, SDL_Renderer* renderer, int w, int h) {
     SDL_Rect srcRect, destRect;
 
     srcRect.x = 0;
     srcRect.y = 0;
-    srcRect.w = destRect.w = w;
-    srcRect.h = destRect.h = h;
+    if (w == -1 or h == -1) {
+        srcRect.w = destRect.w = std::get<1>(m_textureMap[id]);
+        srcRect.h = destRect.h = std::get<2>(m_textureMap[id]);
+    } else {
+        srcRect.w = destRect.w = w;
+        srcRect.h = destRect.h = h;
+    }
     destRect.x = x;
     destRect.y = y;
     destRect.w *= scale;
     destRect.h *= scale;
 
-    SDL_RenderCopy(renderer, m_textureMap[id], &srcRect, &destRect);
+    SDL_RenderCopy(renderer, std::get<0>(m_textureMap[id]), &srcRect, &destRect);
 }
 
 void TextureManager::clearFromTextureMap(const std::string& id)
 {
     m_textureMap.erase(id);
+}
+
+bool TextureManager::TextureExists(const std::string &id) {
+    return (m_textureMap.find(id) != m_textureMap.end());
 }

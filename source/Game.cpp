@@ -3,7 +3,7 @@
 #include "TextureManager.h"
 
 Game::Game() {
-
+    test = 0;
 }
 
 Game::~Game() {
@@ -38,14 +38,13 @@ bool Game::Init(const std::string& title, int x, int y, int width, int height, i
     m_inputhandler = new InputHandle();
     m_running = true;
 
-    m_texturemanager->Load("test", "testid", m_renderer);
-
     return true;
 }
 
 void Game::Render() {
     SDL_RenderClear(m_renderer);
-    m_texturemanager->Draw("testid", 0, 0, 96, 24, 2, m_renderer);
+    if (m_texturemanager->TextureExists("text"))
+        m_texturemanager->Draw("text", 0, 0, 2, m_renderer);
     SDL_RenderPresent(m_renderer);
 }
 
@@ -70,5 +69,15 @@ bool Game::isRunning() {
 }
 
 void Game::Update() {
+    if (test < 60) {
+        showText("0 0 0 1 0");
+        test++;
+    } else
+        showText("0 1 1 1 0");
+}
 
+void Game::showText(const std::string &content) {
+    if (m_texturemanager->TextureExists("text"))
+        m_texturemanager->clearFromTextureMap("text");
+    m_texturemanager->Load(content, "text", m_renderer);
 }
