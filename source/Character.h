@@ -9,25 +9,27 @@
 class Character
 {
 public:
-	Character(int id, int team, std::string_view name, std::pair<int, int> startPosition, Weapon* weapon);
+	Character(int id, int team, std::string_view name, std::pair<int, int> startPosition, Weapon* weapon)
+		: m_id(id), m_team(team), m_name(name), m_startPosition(startPosition), m_playerWeapon(weapon),
+		m_health(1), m_lives(3), m_points(0), m_score(0), m_speed(1), m_facingDirection(0), m_position(m_startPosition) {}
 	~Character();
 private:
 	std::string m_name;
-	int m_health{ 1 };
-	int m_lives{ 3 };
-	int m_points{ 0 };
-	int m_score{ 0 };
+	int m_health;
+	int m_lives;
+	int m_points;
+	int m_score;
 
 	int m_id;
 	int m_team;
 
-	const float m_speed{ 1 };
-	int m_facingDirection{ 0 };
+	const float m_speed;
+	int m_facingDirection;
 
-	std::pair<int, int> m_startPosition{0, 0};
-	std::pair<int, int> m_position{ m_startPosition };
+	std::pair<int, int> m_startPosition;
+	std::pair<int, int> m_position;
 
-	Weapon* m_playerWeapon{ nullptr };
+	Weapon* m_playerWeapon;
 
 public:
 	void rotateLeft();

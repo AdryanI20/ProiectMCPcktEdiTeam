@@ -2,6 +2,7 @@
 #include "SDL.h"
 #include <iostream>
 #include <string>
+#include "Character.h"
 
 class Map;
 class InputHandle;
@@ -30,6 +31,7 @@ private:
     InputHandle* m_inputhandler;
     TextureManager* m_texturemanager;
     Map* m_map;
+    std::vector<Character*> m_gameObjects;
 
     bool m_running;
 };

@@ -2,20 +2,6 @@
 #include <string_view>
 #include <ctime>
 
-Character::Character(int id, int team, std::string_view name, std::pair<int, int> startPosition, Weapon* weapon)
-{
-	m_id = id;
-	m_team = team;
-	m_name = name;
-	m_startPosition = startPosition;
-	m_playerWeapon = weapon;
-}
-
-Character::~Character()
-{
-
-}
-
 void Character::rotateLeft()
 {
 	m_facingDirection--;
