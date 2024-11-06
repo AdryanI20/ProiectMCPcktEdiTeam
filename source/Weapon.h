@@ -14,12 +14,14 @@ public:
 	int getDamage();
 	float getfireRate();
 	void isBulletFired(bool isFired); 
-	void shoot(int direction, int pozitie_actuala_i, int pozitie_actuala_j);
-
+	void shoot(int direction);
+	void bulletPush(Bullet b);
+	void setPosition(int i, int j);
 	
 private:
 	std::vector<Bullet> bullets_shot;
 	int m_damage;
 	float m_fireRate;
 	bool m_isBulletFired;
+	std::pair<int, int> m_position;
 };
