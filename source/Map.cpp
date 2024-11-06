@@ -22,23 +22,38 @@ void Map::createRandomMap() {
 
 std::string Map::getMapString() {
     std::string MapOutput;
-    for(int i =0;i<m_rows;++i) {
-        for(int j =0;j<m_cols;++j) {
-            char type;
-            switch(m_grid[i][j]){
-            case 0:
-                type = ' ';
-                break;
-            case 1:
-                type = 'W';
-                break;
-            case 2:
-                type = 'I';
-                break;
+    for (int j = 0; j < m_cols + 2; j++) {
+        MapOutput += ' ';
+    }
+    MapOutput += '\n';
+    for (int i = 0; i < m_rows; ++i) {
+        MapOutput += ' ';
+        for (int i = 0; i < m_rows; ++i) {
+            for (int j = 0; j < m_cols; ++j) {
+                char type;
+                switch (m_grid[i][j]) {
+                    case FREE_SPACE:
+                        type = ' ';
+                        break;
+                    case DESTRUCTIBIL_WALL:
+                        type = 'W';
+                        break;
+                    case INDESTRUCTIBIL_WALL:
+                        type = 'I';
+                        break;
+                    case PLAYER:
+                        type = '@';
+                        break;
+                }
+                MapOutput += type;
             }
-            MapOutput += type;
-        }
+            MapOutput += ' ';
 //        MapOutput += "\n";
+            for (int j = 0; j < m_cols + 2; ++j)
+                MapOutput += ' ';
+        }
+        MapOutput += "\n";
     }
     return MapOutput;
 }
+//
