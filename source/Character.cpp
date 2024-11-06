@@ -1,12 +1,14 @@
 #include "Character.h"
 #include <string_view>
+#include <ctime>
 
-Character::Character(int id, int team, std::string_view name, std::pair<int, int> startPosition)
+Character::Character(int id, int team, std::string_view name, std::pair<int, int> startPosition, Weapon* weapon)
 {
 	m_id = id;
 	m_team = team;
 	m_name = name;
 	m_startPosition = startPosition;
+	m_playerWeapon = weapon;
 }
 
 Character::~Character()
@@ -45,16 +47,16 @@ void Character::move(int direcction)
 	switch (direcction)
 	{
 	case 0:
-		m_position.first--;
+		m_position.first -= m_speed; // * time
 		break;
 	case 1:
-		m_position.second--;
+		m_position.second += m_speed;
 		break;
 	case 2:
-		m_position.first++;
+		m_position.first += m_speed;
 		break;
 	case 3:
-		m_position.second++;
+		m_position.second -= m_speed;
 		break;
 	default:
 		break;
@@ -111,7 +113,12 @@ void Character::setPosition(std::pair<int, int> position)
 	m_position = position;
 }
 
-void Character::setWeapon(Weapon weapon)
+void Character::setWeapon(Weapon* weapon)
 {
 	m_playerWeapon = weapon;
+}
+
+void Character::fire()
+{
+	m_playerWeapon->shoot(m_facingDirection, m_position.first, m_position.second);
 }

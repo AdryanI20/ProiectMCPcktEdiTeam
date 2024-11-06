@@ -9,7 +9,7 @@
 class Character
 {
 public:
-	Character(int id, int team, std::string_view name, std::pair<int, int> startPosition);
+	Character(int id, int team, std::string_view name, std::pair<int, int> startPosition, Weapon* weapon);
 	~Character();
 private:
 	std::string m_name;
@@ -24,10 +24,10 @@ private:
 	const float m_speed{ 1 };
 	int m_facingDirection{ 0 };
 
-	std::pair<int, int> m_startPosition;
+	std::pair<int, int> m_startPosition{0, 0};
 	std::pair<int, int> m_position{ m_startPosition };
 
-	Weapon& m_playerWeapon;
+	Weapon* m_playerWeapon{ nullptr };
 
 public:
 	void rotateLeft();
@@ -45,5 +45,7 @@ public:
 	void setScore(int value);
 	std::pair<int, int> getPosition();
 	void setPosition(std::pair<int, int> position);
-	void setWeapon(Weapon weapon);
+	void setWeapon(Weapon* weapon);
+	void fire();
+	
 };
