@@ -13,7 +13,7 @@ public:
 	void setDirection(int direction);
 	void update();
 private:
-	int m_facingDirection;
+	int m_facingDirection = 0;
 	float m_bulletSpeed;
 	bool m_isHit;
 	std::pair<int, int>m_position;
