@@ -1,10 +1,5 @@
-//
-// Created by norri on 10/30/2024.
-//
-
-#ifndef PROIECTMC_MAP_H
-#define PROIECTMC_MAP_H
-
+#include <vector>
+#include "CellType.h"
 
 class Map {
 private:
@@ -15,6 +10,3 @@ public:
     void displayRandomMop();
     void displayMap()const;
 };
-
-
-#endif //PROIECTMC_MAP_H

@@ -1,12 +1,10 @@
-//
-// Created by norri on 10/30/2024.
-//
-
 #include "Map.h"
 #include "CellType.h"
+#include <iostream>
+
 Map::Map(int rows,int cols): rows(rows),cols(cols){
-    grid.resize(rows,std::vector<CellType>(cols,FREE_SPACE))
-};
+    grid.resize(rows, std::vector<CellType>(cols, FREE_SPACE));
+}
 
 void Map::displayRandomMop() {
     for (int i = 0; i < rows; i++) {
@@ -21,9 +19,15 @@ void Map::displayMap() const{
         for(int j =0;j<cols;++j){
             char type;
             switch(grid[i][j]){
-                int FREE_SPACE=S; break;
-                int DESTRUCTIBIL_WALL=W; break;
-                int INDESTRUCTIBIL_WALL=I; break;
+            case 0:
+                type = ' ';
+                break;
+            case 1:
+                type = 'W';
+                break;
+            case 2:
+                type = 'I';
+                break;
             }
             std::cout<< type<<" ";
         }

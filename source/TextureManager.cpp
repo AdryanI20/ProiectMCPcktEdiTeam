@@ -11,7 +11,7 @@ TextureManager::~TextureManager() {
 
 bool TextureManager::Load(const std::string& input, std::string id, SDL_Renderer* renderer)
 {
-    m_font = TTF_OpenFont("../resources/kongtext.ttf", 24);
+    m_font = TTF_OpenFont("resources/kongtext.ttf", 24);
     if (!m_font) {
         std::cout << "Failed to load font: " << TTF_GetError() << std::endl;
         return false;

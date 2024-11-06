@@ -120,5 +120,5 @@ void Character::setWeapon(Weapon* weapon)
 
 void Character::fire()
 {
-	m_playerWeapon->shoot(m_facingDirection, m_position.first, m_position.second);
+	//m_playerWeapon->shoot(m_facingDirection, m_position.first, m_position.second);
 }
