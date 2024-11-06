@@ -3,6 +3,7 @@
 #include <iostream>
 #include <string>
 
+class Map;
 class InputHandle;
 class TextureManager;
 
@@ -28,7 +29,7 @@ private:
 
     InputHandle* m_inputhandler;
     TextureManager* m_texturemanager;
+    Map* m_map;
 
     bool m_running;
-    int test;
 };

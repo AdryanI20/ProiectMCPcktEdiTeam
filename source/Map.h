@@ -1,12 +1,14 @@
 #include <vector>
 #include "CellType.h"
+#include <string>
 
 class Map {
-private:
-    int rows, cols;
-    std::vector<std::vector<CellType>>grid;
 public:
     Map(int rows,int cols);
-    void displayRandomMop();
-    void displayMap()const;
+    void createRandomMap();
+//    std::vector<std::vector<CellType>> getMap();
+    std::string getMapString();
+private:
+    int m_rows, m_cols;
+    std::vector<std::vector<CellType>> m_grid;
 };

@@ -6,10 +6,11 @@ TextureManager::TextureManager() {
 }
 
 TextureManager::~TextureManager() {
-
+    for (auto const& [key, _] : m_textureMap)
+        clearFromTextureMap(key);
 }
 
-bool TextureManager::Load(const std::string& input, std::string id, SDL_Renderer* renderer)
+bool TextureManager::Load(const std::string& input, const std::string& id, SDL_Renderer* renderer)
 {
     m_font = TTF_OpenFont("resources/kongtext.ttf", 24);
     if (!m_font) {
@@ -17,7 +18,7 @@ bool TextureManager::Load(const std::string& input, std::string id, SDL_Renderer
         return false;
     }
 
-    SDL_Surface* text_surf = TTF_RenderText_Solid(m_font, input.c_str(), SDL_Color( 255, 255, 255, 255));
+    SDL_Surface* text_surf = TTF_RenderText_Solid_Wrapped(m_font, input.c_str(), SDL_Color( 255, 255, 255, 255), 960);
     SDL_Texture* texture = SDL_CreateTextureFromSurface(renderer, text_surf);
     int textW = text_surf->w;
     int textH = text_surf->h;

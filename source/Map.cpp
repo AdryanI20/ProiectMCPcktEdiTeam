@@ -1,24 +1,31 @@
 #include "Map.h"
 #include "CellType.h"
+
 #include <iostream>
 
-Map::Map(int rows,int cols): rows(rows),cols(cols){
-    grid.resize(rows, std::vector<CellType>(cols, FREE_SPACE));
+Map::Map(int rows,int cols): m_rows(rows), m_cols(cols){
+    m_grid.resize(rows, std::vector<CellType>(cols, FREE_SPACE));
 }
 
-void Map::displayRandomMop() {
-    for (int i = 0; i < rows; i++) {
-        for (int j = 0; j < cols; j++) {
+void Map::createRandomMap() {
+    for (int i = 0; i < m_rows; i++) {
+        for (int j = 0; j < m_cols; j++) {
             int randValue = rand() % 3;
-            grid[i][j] = static_cast<CellType>(randValue);
+            m_grid[i][j] = static_cast<CellType>(randValue);
         }
     }
 }
-void Map::displayMap() const{
-    for(int i =0;i<rows;++i){
-        for(int j =0;j<cols;++j){
+
+//std::vector<std::vector<CellType>> Map::getMap() {
+//    return m_grid;
+//}
+
+std::string Map::getMapString() {
+    std::string MapOutput;
+    for(int i =0;i<m_rows;++i) {
+        for(int j =0;j<m_cols;++j) {
             char type;
-            switch(grid[i][j]){
+            switch(m_grid[i][j]){
             case 0:
                 type = ' ';
                 break;
@@ -29,8 +36,9 @@ void Map::displayMap() const{
                 type = 'I';
                 break;
             }
-            std::cout<< type<<" ";
+            MapOutput += type;
         }
-        std::cout<<std::endl;
+//        MapOutput += "\n";
     }
-};
+    return MapOutput;
+}

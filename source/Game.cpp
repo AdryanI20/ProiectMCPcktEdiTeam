@@ -1,9 +1,10 @@
 #include "Game.h"
 #include "InputHandle.h"
 #include "TextureManager.h"
+#include "Map.h"
 
 Game::Game() {
-    test = 0;
+
 }
 
 Game::~Game() {
@@ -36,6 +37,8 @@ bool Game::Init(const std::string& title, int x, int y, int width, int height, i
 
     m_texturemanager = new TextureManager();
     m_inputhandler = new InputHandle();
+    m_map = new Map(30, 30);
+    m_map->createRandomMap();
     m_running = true;
 
     return true;
@@ -55,7 +58,6 @@ void Game::HandleEvents() {
 void Game::Clean() {
     SDL_DestroyWindow(m_window);
     SDL_DestroyRenderer(m_renderer);
-    m_texturemanager->clearFromTextureMap("testid");
     TTF_Quit();
     SDL_Quit();
 }
@@ -69,11 +71,7 @@ bool Game::isRunning() {
 }
 
 void Game::Update() {
-    if (test < 60) {
-        showText("0 0 0 1 0");
-        test++;
-    } else
-        showText("0 1 1 1 0");
+    showText(m_map->getMapString());
 }
 
 void Game::showText(const std::string &content) {
