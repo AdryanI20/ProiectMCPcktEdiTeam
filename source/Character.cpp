@@ -2,18 +2,14 @@
 #include <string_view>
 #include <ctime>
 
-Character::Character(int id, int team, std::string_view name, std::pair<int, int> startPosition, Weapon* weapon)
+int Character::getFacingDirection()
 {
-	m_id = id;
-	m_team = team;
-	m_name = name;
-	m_startPosition = startPosition;
-	m_playerWeapon = weapon;
+	return m_facingDirection;
 }
 
-Character::~Character()
+void Character::setFacingDirection(int direction)
 {
-
+	m_facingDirection = direction;
 }
 
 void Character::rotateLeft()
@@ -32,31 +28,21 @@ void Character::rotateRight()
 		m_facingDirection = 0;
 }
 
-int Character::getFacingDirection()
+void Character::move(int direction)
 {
-	return m_facingDirection;
-}
-
-void Character::setFacingDirection(int direction)
-{
-	m_facingDirection = direction;
-}
-
-void Character::move(int direcction)
-{
-	switch (direcction)
+	switch (direction)
 	{
 	case 0:
-		m_position.first -= m_speed; // * time
+		m_position.first = static_cast<int>(m_position.first - m_speed);
 		break;
 	case 1:
-		m_position.second += m_speed;
+		m_position.second = static_cast<int>(m_position.second + m_speed);
 		break;
 	case 2:
-		m_position.first += m_speed;
+		m_position.first = static_cast<int>(m_position.first + m_speed);
 		break;
 	case 3:
-		m_position.second -= m_speed;
+		m_position.second = static_cast<int>(m_position.second - m_speed);
 		break;
 	default:
 		break;
@@ -121,4 +107,9 @@ void Character::setWeapon(Weapon* weapon)
 void Character::fire()
 {
 	//m_playerWeapon->shoot(m_facingDirection, m_position.first, m_position.second);
+}
+
+void Character::update()
+{
+	move(getFacingDirection());
 }

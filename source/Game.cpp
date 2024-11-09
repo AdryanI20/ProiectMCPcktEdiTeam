@@ -2,6 +2,7 @@
 #include "InputHandle.h"
 #include "TextureManager.h"
 #include "Map.h"
+#include "Weapon.h"
 
 Game::Game() {
 
@@ -39,6 +40,10 @@ bool Game::Init(const std::string& title, int x, int y, int width, int height, i
     m_inputhandler = new InputHandle();
     m_map = new Map(30, 30);
     m_map->createRandomMap();
+
+    Character* character = new Character(0, 0, "Nume", std::make_pair<int, int>(0, 0), new Weapon());
+    m_characters.push_back(character);
+
     m_running = true;
 
     return true;
