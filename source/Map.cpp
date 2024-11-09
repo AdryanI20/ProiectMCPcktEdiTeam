@@ -61,5 +61,11 @@ void Map::placePlayer(int playerId, int row, int col) {
         std::cerr << "Pozitia (" << row << ", " << col << ") este in afara limitei hartii!\n";
         return;
     }
+    if (m_grid[row][col] == FREE_SPACE) {
+        m_grid[row][col] = PLAYER;
+        std::cout << "Playerul " << playerId << " a fost plasat la (" << row << ", " << col << ")\n";
+    } else {
+        std::cerr << "Nu se poate plasa playerul " << playerId << " la (" << row << ", " << col << ") deoarece celula este ocupată!\n";
+    }
 }
 //
