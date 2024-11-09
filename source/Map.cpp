@@ -1,6 +1,5 @@
 #include "Map.h"
 #include "CellType.h"
-
 #include <iostream>
 
 Map::Map(int rows,int cols): m_rows(rows), m_cols(cols){
@@ -55,5 +54,12 @@ std::string Map::getMapString() {
         MapOutput += "\n";
     }
     return MapOutput;
+}
+
+void Map::placePlayer(int playerId, int row, int col) {
+    if (row < 0 || row >= m_rows || col < 0 || col >= m_cols) {
+        std::cerr << "Pozitia (" << row << ", " << col << ") este in afara limitei hartii!\n";
+        return;
+    }
 }
 //
