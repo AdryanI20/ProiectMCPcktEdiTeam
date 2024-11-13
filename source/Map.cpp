@@ -1,7 +1,11 @@
 #include "Map.h"
 #include "CellType.h"
 #include "Direction.h"
+#include "Character.h"
 #include <iostream>
+#include <vector>
+#include <algorithm>
+#include <random>
 
 Map::Map(int rows,int cols): m_rows(rows), m_cols(cols){
     m_grid.resize(rows, std::vector<CellType>(cols, FREE_SPACE));
@@ -15,11 +19,6 @@ void Map::createRandomMap() {
         }
     }
 }
-
-//std::vector<std::vector<CellType>> Map::getMap() {
-//    return m_grid;
-//}
-
 std::string Map::getMapString() {
     std::string MapOutput;
     for (int j = 0; j < m_cols + 2; j++) {
@@ -95,4 +94,29 @@ bool Map::canMove(int row, int col, Direction direction)  {
     }
     return false;
 }
-//
+void Map::placeCharactersInCorners(std::vector<Character>& characters) {
+    if (characters.size() < 2 || characters.size() > 4) {
+        std::cerr << "Număr invalid de jucători. Trebuie să fie între 2 și 4.\n";
+        return;
+    }
+
+    std::vector<std::pair<int, int>> corners = {
+            {0, 0},                          // Stânga sus
+            {0, m_cols - 1},                 // Dreapta sus
+            {m_rows - 1, 0},                 // Stânga jos
+            {m_rows - 1, m_cols - 1}         // Dreapta jos
+    };
+
+    std::random_device rd;
+    std::mt19937 g(rd());
+    std::shuffle(corners.begin(), corners.end(), g);
+
+    for (size_t i = 0; i < characters.size(); ++i) {
+        int row = corners[i].first;
+        int col = corners[i].second;
+
+        characters[i].setPosition({static_cast<float>(row), static_cast<float>(col)});
+        m_grid[row][col] = PLAYER;
+
+    }
+}

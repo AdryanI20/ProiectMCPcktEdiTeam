@@ -32,6 +32,9 @@ private:
 
 	Weapon* m_playerWeapon;
 
+    int m_row;
+    int m_col;
+
 public:
 	int getFacingDirection();
 	void setFacingDirection(int direction);
@@ -52,4 +55,5 @@ public:
 	void setWeapon(Weapon* weapon);
 	void fire();
 	void update();
+
 };
