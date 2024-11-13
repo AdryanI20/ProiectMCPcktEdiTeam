@@ -33,16 +33,16 @@ void Character::move(int direction)
 	switch (direction)
 	{
 	case 0:
-		m_position.first = static_cast<int>(m_position.first - m_speed);
+		m_position.first -= m_speed;
 		break;
 	case 1:
-		m_position.second = static_cast<int>(m_position.second + m_speed);
+		m_position.second += m_speed;
 		break;
 	case 2:
-		m_position.first = static_cast<int>(m_position.first + m_speed);
+		m_position.first += m_speed;
 		break;
 	case 3:
-		m_position.second = static_cast<int>(m_position.second - m_speed);
+		m_position.second -= m_speed;
 		break;
 	default:
 		break;
@@ -89,12 +89,17 @@ void Character::setScore(int value)
 	m_score = value;
 }
 
-std::pair<int, int> Character::getPosition()
+std::pair<float, float> Character::getFloatPosition()
 {
 	return m_position;
 }
 
-void Character::setPosition(std::pair<int, int> position)
+std::pair<int, int> Character::getIntPosition()
+{
+	return std::make_pair(static_cast<int>(m_position.first), static_cast<int>(m_position.second));
+}
+
+void Character::setPosition(std::pair<float, float> position)
 {
 	m_position = position;
 }
