@@ -23,7 +23,7 @@ void Character::rotateLeft()
 void Character::rotateRight()
 {
 	m_facingDirection++;
-	
+
 	if (m_facingDirection == 4)
 		m_facingDirection = 0;
 }

@@ -39,7 +39,7 @@ public:
 	void setHealth(int value);
 	int getLives();
 	void setLives(int value);
-	
+
 	int getPoints();
 	void setPoints(int value);
 	int getScore();
