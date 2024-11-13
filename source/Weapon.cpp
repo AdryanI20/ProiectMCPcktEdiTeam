@@ -15,14 +15,19 @@ void Weapon::isBulletFired(bool isFired)
 	m_isBulletFired = isFired;
 }
 
-void Weapon::setWeaponStats(float fireRate)
+void Weapon::setWeaponStats(float fireRateModifier)
 {
-	m_fireRate = fireRate;
+	m_fireRate = m_fireRate*fireRateModifier;
 }
 
 void Weapon::bulletPush(Bullet b)
 {
-	bullets_shot.push_back(b);
+	m_bullets.push_back(b);
+}
+
+std::vector<Bullet> Weapon::getBulletsVector()
+{
+	return m_bullets;
 }
 
 void Weapon::setPosition(int i, int j)
@@ -31,9 +36,14 @@ void Weapon::setPosition(int i, int j)
 	m_position.second = j;
 }
 
+void Weapon::setBulletSpeed()
+{
+	m_speed *= 2;
+}
+
 void Weapon::shoot(int direction)
 {
-	Bullet newBullet;
+	Bullet newBullet(m_speed);
 	newBullet.setDirection(direction);
 	if (direction == 0)
 	{
@@ -53,6 +63,11 @@ void Weapon::shoot(int direction)
 	}
 
 	this->bulletPush(newBullet);
+}
+
+void Weapon::deleteBullet(int position)
+{
+	m_bullets.erase(m_bullets.begin()+position-1);
 }
 
 

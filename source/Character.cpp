@@ -23,7 +23,7 @@ void Character::rotateLeft()
 void Character::rotateRight()
 {
 	m_facingDirection++;
-	
+
 	if (m_facingDirection == 4)
 		m_facingDirection = 0;
 }
@@ -104,14 +104,14 @@ void Character::setPosition(std::pair<float, float> position)
 	m_position = position;
 }
 
-void Character::setWeapon(Weapon* weapon)
+void Character::setWeapon(float FireRateModifier)
 {
-	m_playerWeapon = weapon;
+	m_playerWeapon.setWeaponStats(FireRateModifier);
 }
 
 void Character::fire()
 {
-	//m_playerWeapon->shoot(m_facingDirection, m_position.first, m_position.second);
+	m_playerWeapon.shoot(m_facingDirection);
 }
 
 void Character::update()

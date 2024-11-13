@@ -9,10 +9,10 @@
 class Character
 {
 public:
-	Character(int id, int team, std::string_view name, std::pair<int, int> startPosition, Weapon* weapon)
+	Character(int id, int team, std::string_view name, std::pair<float, float> startPosition, Weapon weapon)
 		: m_id(id), m_team(team), m_name(name), m_startPosition(startPosition), m_playerWeapon(weapon),
 		m_health(1), m_lives(3), m_points(0), m_score(0), m_speed(1), m_facingDirection(0), m_position(m_startPosition) {}
-	~Character();
+	//~Character();
 
 private:
 	std::string m_name;
@@ -30,7 +30,7 @@ private:
 	std::pair<float, float> m_startPosition;
 	std::pair<float, float> m_position;
 
-	Weapon* m_playerWeapon;
+	Weapon m_playerWeapon;
 
     int m_row;
     int m_col;
@@ -38,22 +38,19 @@ private:
 public:
 	int getFacingDirection();
 	void setFacingDirection(int direction);
-	void rotateLeft();
-	void rotateRight();
-	void move(int direction);
 	int getHealth();
 	void setHealth(int value);
 	int getLives();
 	void setLives(int value);
+
 	int getPoints();
 	void setPoints(int value);
 	int getScore();
 	void setScore(int value);
-	std::pair<float, float> getFloatPosition();
 	std::pair<int, int> getIntPosition();
 	void setPosition(std::pair<float, float> position);
-	void setWeapon(Weapon* weapon);
+	std::pair<float, float> getFloatPosition();
+	void setWeapon(float FireRateModifier);
 	void fire();
 	void update();
-
 };

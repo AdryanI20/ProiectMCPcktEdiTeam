@@ -3,11 +3,10 @@
 class Bullet
 {
 public:
-	Bullet():m_bulletSpeed(0.25), m_isHit(false){}
+	Bullet(float bulletSpeed):m_speed(bulletSpeed), m_isHit(false){}
 	~Bullet(){}
 
 	void isHit(bool hit);
-	void updateSpeed();
 	std::pair<int, int> getPosition();
 	std::pair<float, float> getFloatPosition();
 	void setPosition(int i, int j);
@@ -17,7 +16,7 @@ public:
 	void update();
 private:
 	int m_facingDirection = 0;
-	float m_bulletSpeed;
+	float m_speed;
 	bool m_isHit;
 	std::pair<float, float> m_floatPosition;
 	std::pair<int, int>m_position;

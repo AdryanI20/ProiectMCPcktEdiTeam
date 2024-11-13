@@ -41,7 +41,8 @@ bool Game::Init(const std::string& title, int x, int y, int width, int height, i
     m_map = new Map(30, 30);
     m_map->createRandomMap();
 
-    Character* character = new Character(0, 0, "Nume", std::make_pair<float, float>(0, 0), new Weapon());
+    Weapon weapon_test;
+    Character character(0, 0, "Nume", std::make_pair<float, float>(0, 0), weapon_test);
     m_characters.push_back(character);
 
     m_running = true;
