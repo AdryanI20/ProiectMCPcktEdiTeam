@@ -21,12 +21,11 @@ void Map::createRandomMap() {
 }
 std::string Map::getMapString() {
     std::string MapOutput;
-    for (int j = 0; j < m_cols + 2; j++) {
-        MapOutput += ' ';
-    }
-    MapOutput += '\n';
-    for (int i = 0; i < m_rows; ++i) {
-        MapOutput += ' ';
+//    for (int j = 0; j < m_cols + 2; j++) {
+//        MapOutput += ' ';
+//    }
+//    MapOutput += '\n';
+//        MapOutput += ' ';/
         for (int i = 0; i < m_rows; ++i) {
             for (int j = 0; j < m_cols; ++j) {
                 char type;
@@ -46,13 +45,12 @@ std::string Map::getMapString() {
                 }
                 MapOutput += type;
             }
-            MapOutput += ' ';
-//        MapOutput += "\n";
-            for (int j = 0; j < m_cols + 2; ++j)
-                MapOutput += ' ';
-        }
+//            MapOutput += ' ';
         MapOutput += "\n";
-    }
+//            for (int j = 0; j < m_cols + 2; ++j)
+//                MapOutput += ' ';
+        }
+//        MapOutput += "\n";
     return MapOutput;
 }
 
