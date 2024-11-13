@@ -27,8 +27,8 @@ private:
 	float m_speed;
 	int m_facingDirection;
 
-	std::pair<int, int> m_startPosition;
-	std::pair<int, int> m_position;
+	std::pair<float, float> m_startPosition;
+	std::pair<float, float> m_position;
 
 	Weapon* m_playerWeapon;
 
@@ -46,8 +46,9 @@ public:
 	void setPoints(int value);
 	int getScore();
 	void setScore(int value);
-	std::pair<int, int> getPosition();
-	void setPosition(std::pair<int, int> position);
+	std::pair<float, float> getFloatPosition();
+	std::pair<int, int> getIntPosition();
+	void setPosition(std::pair<float, float> position);
 	void setWeapon(Weapon* weapon);
 	void fire();
 	void update();
