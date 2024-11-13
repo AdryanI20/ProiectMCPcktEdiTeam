@@ -1,5 +1,6 @@
 #include "Map.h"
 #include "CellType.h"
+#include "Direction.h"
 #include <iostream>
 
 Map::Map(int rows,int cols): m_rows(rows), m_cols(cols){
@@ -67,5 +68,31 @@ void Map::placePlayer(int playerId, int row, int col) {
     } else {
         std::cerr << "Nu se poate plasa playerul " << playerId << " la (" << row << ", " << col << ") deoarece celula este ocupată!\n";
     }
+}
+bool Map::canMove(int row, int col, Direction direction)  {
+    int newRow = row;
+    int newCol = col;
+
+    switch (direction) {
+        case Direction::UP:
+            newRow -= 1;
+            break;
+        case Direction::DOWN:
+            newRow += 1;
+            break;
+        case Direction::LEFT:
+            newCol -= 1;
+            break;
+        case Direction::RIGHT:
+            newCol += 1;
+            break;
+    }
+    if (newRow < 0 || newRow >= m_rows || newCol < 0 || newCol >= m_cols) {
+        return false;
+    }
+    if (m_grid[newRow][newCol] == FREE_SPACE) {
+        return true;
+    }
+    return false;
 }
 //
