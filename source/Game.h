@@ -7,6 +7,7 @@
 class Map;
 class InputHandle;
 class TextureManager;
+class GameStateMachine;
 
 class Game {
 public:
@@ -23,6 +24,7 @@ public:
     void Quit();
     bool isRunning();
     void showText(const std::string& content);
+    GameStateMachine* getStateMachine();
 
 private:
     SDL_Window* m_window;
@@ -32,6 +34,7 @@ private:
     TextureManager* m_texturemanager;
     Map* m_map;
     std::vector<Character> m_characters;
+    GameStateMachine* m_gameStateMachine;
 
     bool m_running;
 };

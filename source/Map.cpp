@@ -109,12 +109,12 @@ void Map::placeCharactersInCorners(std::vector<Character>& characters) {
     std::mt19937 g(rd());
     std::shuffle(corners.begin(), corners.end(), g);
 
-    for (size_t i = 0; i < characters.size(); ++i) {
-        int row = corners[i].first;
-        int col = corners[i].second;
-
-        characters[i].setPosition({static_cast<float>(row), static_cast<float>(col)});
-        m_grid[row][col] = PLAYER;
-
-    }
+//    for (size_t i = 0; i < characters.size(); ++i) {
+//        int row = corners[i].first;
+//        int col = corners[i].second;
+//
+//        characters[i].setPosition({static_cast<float>(row), static_cast<float>(col)});
+//        m_grid[row][col] = PLAYER;
+//
+//    }
 }

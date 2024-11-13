@@ -1,6 +1,7 @@
 #include "InputHandle.h"
 #include "Game.h"
 #include <iostream>
+#include "GameStateMachine.h"
 
 InputHandle::InputHandle() {
 
@@ -28,11 +29,11 @@ void InputHandle::Update(Game *CurGame) {
                 break;
 
             case SDL_KEYDOWN:
-                onKeyDown(&event);
+                onKeyDown(&event, CurGame->getStateMachine());
                 break;
 
             case SDL_KEYUP:
-                onKeyUp(&event);
+                onKeyUp(&event, CurGame->getStateMachine());
                 break;
 
             default:
@@ -45,12 +46,14 @@ void InputHandle::Clean() {
 
 }
 
-void InputHandle::onKeyDown(SDL_Event *event) {
+void InputHandle::onKeyDown(SDL_Event *event, GameStateMachine* gameStateMachine) {
     std::cout << "Key Pressed: " << SDL_GetKeyName(event->key.keysym.sym) << std::endl;
+    gameStateMachine->onKeyDown(event);
 }
 
-void InputHandle::onKeyUp(SDL_Event *event) {
+void InputHandle::onKeyUp(SDL_Event *event, GameStateMachine* gameStateMachine) {
     std::cout << "Key Released: " << SDL_GetKeyName(event->key.keysym.sym) << std::endl;
+    gameStateMachine->onKeyUp(event);
 }
 
 bool InputHandle::isKeyDown(SDL_Scancode key) {

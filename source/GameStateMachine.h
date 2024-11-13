@@ -14,13 +14,10 @@ public:
     void popState();
 
     void Update();
-    void Render();
+    void Render(SDL_Renderer* renderer);
 
     void onKeyDown(SDL_Event* e);
     void onKeyUp(SDL_Event* e);
-    void onMouseButtonUp(SDL_Event& e);
-    void onMouseButtonDown(SDL_Event& e);
-    void onMouseMove(SDL_Event& e);
 private:
     std::vector<GameState*> gameStates;
 };

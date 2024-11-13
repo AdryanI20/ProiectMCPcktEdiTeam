@@ -37,9 +37,9 @@ void GameStateMachine::Update() {
     }
 }
 
-void GameStateMachine::Render() {
+void GameStateMachine::Render(SDL_Renderer* renderer) {
     if (!gameStates.empty()) {
-        gameStates.back()->Render();
+        gameStates.back()->Render(renderer);
     }
 }
 
@@ -52,23 +52,5 @@ void GameStateMachine::onKeyDown(SDL_Event* e) {
 void GameStateMachine::onKeyUp(SDL_Event* e) {
     if (!gameStates.empty()) {
         gameStates.back()->onKeyUp(e);
-    }
-}
-
-void GameStateMachine::onMouseButtonDown(SDL_Event& e) {
-    if (!gameStates.empty()) {
-        gameStates.back()->onMouseButtonDown(e);
-    }
-}
-
-void GameStateMachine::onMouseButtonUp(SDL_Event& e) {
-    if (!gameStates.empty()) {
-        gameStates.back()->onMouseButtonUp(e);
-    }
-}
-
-void GameStateMachine::onMouseMove(SDL_Event& e) {
-    if (!gameStates.empty()) {
-        gameStates.back()->onMouseMove(e);
     }
 }

@@ -2,6 +2,7 @@
 #include "SDL.h"
 
 class Game;
+class GameStateMachine;
 
 class InputHandle {
 public:
@@ -17,6 +18,6 @@ public:
 private:
     const uint8_t* m_keystates;
 
-    void onKeyDown(SDL_Event* event);
-    void onKeyUp(SDL_Event* event);
+    void onKeyDown(SDL_Event* event, GameStateMachine* gameStateMachine);
+    void onKeyUp(SDL_Event* event, GameStateMachine* gameStateMachine);
 };

@@ -1,7 +1,5 @@
 #include "MainMenuState.h"
 #include <iostream>
-#include "Game.h"
-#include "GameStateMachine.h"
 
 const std::string MainMenuState::menuID = "MENU";
 
@@ -9,38 +7,27 @@ std::string MainMenuState::getStateID() const {
     return menuID;
 }
 
-void MenuState::Update() {
+void MainMenuState::Update() {
 
 }
 
-void MenuState::Render() {
-
+void MainMenuState::Render(SDL_Renderer* renderer) {
+    SDL_SetRenderDrawColor(renderer, 30, 30, 30, 255);
 }
 
-bool MenuState::onEnter() {
+bool MainMenuState::onEnter() {
+    std::cout << "entering MainMenu" << std::endl;
     return true; //success
 }
 
-bool MenuState::onExit() {
+bool MainMenuState::onExit() {
+    std::cout << "exiting MainMenu" << std::endl;
     return true;
 }
 
-void MenuState::onKeyDown(SDL_Event* e) {
-
+void MainMenuState::onKeyDown(SDL_Event* e) {
 }
 
-void MenuState::onKeyUp(SDL_Event* e) {
-
-}
-
-void MenuState::onMouseButtonDown(SDL_Event& e) {
-
-}
-
-void MenuState::onMouseButtonUp(SDL_Event& e) {
-
-}
-
-void MenuState::onMouseMove(SDL_Event& e) {
+void MainMenuState::onKeyUp(SDL_Event* e) {
 
 }

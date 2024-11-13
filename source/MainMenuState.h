@@ -1,23 +1,21 @@
 #pragma once
 
 #include "GameState.h"
+#include "GameStateMachine.h"
 #include <string>
 
 class MainMenuState : public GameState {
 public:
-    virtual void Update();
-    virtual void Render();
+    void Update() override;
+    void Render(SDL_Renderer* renderer) override;
 
-    virtual bool onEnter();
-    virtual bool onExit();
+    bool onEnter() override;
+    bool onExit() override;
 
-    virtual void onKeyDown(SDL_Event* e);
-    virtual void onKeyUp(SDL_Event* e);
-    virtual void onMouseButtonUp(SDL_Event& e);
-    virtual void onMouseButtonDown(SDL_Event& e);
-    virtual void onMouseMove(SDL_Event& e);
+    void onKeyDown(SDL_Event* e) override;
+    void onKeyUp(SDL_Event* e) override;
 
-    virtual std::string getStateID() const;
+    std::string getStateID() const override;
 private:
     static const std::string menuID;
 };
