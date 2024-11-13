@@ -9,6 +9,7 @@ public:
 //    std::vector<std::vector<CellType>> getMap();
     std::string getMapString();
     void placePlayer(int playerId, int row, int col);
+
 private:
     int m_rows, m_cols;
     std::vector<std::vector<CellType>> m_grid;
