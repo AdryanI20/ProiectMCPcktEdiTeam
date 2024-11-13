@@ -5,10 +5,6 @@ void Bullet::isHit(bool hit)
 	m_isHit = hit;
 }
 
-void Bullet::updateSpeed()
-{
-	m_bulletSpeed = m_bulletSpeed * 2;
-}
 
 std::pair<int, int> Bullet::getPosition()
 {
@@ -42,22 +38,22 @@ void Bullet::update()
 {
 	if (m_facingDirection == 0)
 	{
-		m_floatPosition.first = m_floatPosition.first - m_bulletSpeed;
+		m_floatPosition.first = m_floatPosition.first - m_speed;
 		m_position.first =static_cast<int>(m_floatPosition.first);
 	}
 	if (m_facingDirection == 1)
 	{
-		m_floatPosition.second = m_floatPosition.second + m_bulletSpeed;
+		m_floatPosition.second = m_floatPosition.second + m_speed;
 		m_position.second = static_cast<int>(m_floatPosition.second);
 	}
 	if (m_facingDirection == 2)
 	{
-		m_floatPosition.first = m_floatPosition.first + m_bulletSpeed;
+		m_floatPosition.first = m_floatPosition.first + m_speed;
 		m_position.first = static_cast<int>(m_floatPosition.first);
 	}
 	if (m_facingDirection == 3)
 	{
-		m_floatPosition.second = m_floatPosition.second - m_bulletSpeed;
+		m_floatPosition.second = m_floatPosition.second - m_speed;
 		m_position.second = static_cast<int>(m_floatPosition.second);
 	}
 }

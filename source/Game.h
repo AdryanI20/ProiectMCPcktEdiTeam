@@ -31,7 +31,7 @@ private:
     InputHandle* m_inputhandler;
     TextureManager* m_texturemanager;
     Map* m_map;
-    std::vector<Character*> m_characters;
+    std::vector<Character> m_characters;
 
     bool m_running;
 };
