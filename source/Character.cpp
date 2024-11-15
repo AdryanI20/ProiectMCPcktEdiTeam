@@ -118,3 +118,24 @@ void Character::update()
 {
 	move(getFacingDirection());
 }
+
+void Character::aliveOrDead(bool lifeState)
+{
+	m_isAlive = lifeState;
+}
+
+void Character::dead()
+{
+	for (int i = 0; i < m_playerWeapon.getBulletsVector().size(); i++)
+	{
+		m_playerWeapon.getBulletsVector().erase(m_playerWeapon.getBulletsVector().begin()+i);
+	}
+	this->aliveOrDead(false);
+}
+
+void Character::respawn(float row, float col)
+{
+	m_position.first = row;
+	m_position.second = col;
+	this->aliveOrDead(true);
+}

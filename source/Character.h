@@ -20,6 +20,7 @@ private:
 	int m_lives;
 	int m_points;
 	int m_score;
+	bool m_isAlive;
 
 	int m_id;
 	int m_team;
@@ -42,6 +43,7 @@ public:
 	void setHealth(int value);
 	int getLives();
 	void setLives(int value);
+	void aliveOrDead(bool lifeState);
 
 	int getPoints();
 	void setPoints(int value);
@@ -53,4 +55,9 @@ public:
 	void setWeapon(float FireRateModifier);
 	void fire();
 	void update();
+	void move(int direction);
+	void rotateLeft();
+	void rotateRight();
+	void respawn(float row, float col);
+	void dead();
 };
