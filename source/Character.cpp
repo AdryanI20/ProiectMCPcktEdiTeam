@@ -69,26 +69,6 @@ void Character::setLives(int value)
 	m_lives = value;
 }
 
-int Character::getPoints()
-{
-	return m_points;
-}
-
-void Character::setPoints(int value)
-{
-	m_points = value;
-}
-
-int Character::getScore()
-{
-	return m_score;
-}
-
-void Character::setScore(int value)
-{
-	m_score = value;
-}
-
 std::pair<float, float> Character::getFloatPosition()
 {
 	return m_position;
