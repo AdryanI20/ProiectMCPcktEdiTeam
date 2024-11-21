@@ -15,7 +15,7 @@ void InputHandle::Init() {
 
 }
 
-void InputHandle::Update(Game *CurGame) {
+void InputHandle::Update(Game *game) {
     m_keystates = SDL_GetKeyboardState(nullptr);
 
     SDL_Event event;
@@ -25,15 +25,15 @@ void InputHandle::Update(Game *CurGame) {
         switch (event.type)
         {
             case SDL_QUIT:
-                CurGame->Quit();
+                game->Quit();
                 break;
 
             case SDL_KEYDOWN:
-                onKeyDown(&event, CurGame->getStateMachine());
+                onKeyDown(&event, game->getStateMachine());
                 break;
 
             case SDL_KEYUP:
-                onKeyUp(&event, CurGame->getStateMachine());
+                onKeyUp(&event, game->getStateMachine());
                 break;
 
             default:
@@ -47,12 +47,10 @@ void InputHandle::Clean() {
 }
 
 void InputHandle::onKeyDown(SDL_Event *event, GameStateMachine* gameStateMachine) {
-    std::cout << "Key Pressed: " << SDL_GetKeyName(event->key.keysym.sym) << std::endl;
     gameStateMachine->onKeyDown(event);
 }
 
 void InputHandle::onKeyUp(SDL_Event *event, GameStateMachine* gameStateMachine) {
-    std::cout << "Key Released: " << SDL_GetKeyName(event->key.keysym.sym) << std::endl;
     gameStateMachine->onKeyUp(event);
 }
 

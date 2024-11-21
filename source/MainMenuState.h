@@ -6,10 +6,11 @@
 
 class MainMenuState : public GameState {
 public:
+    MainMenuState(Game* game) : m_game(game) {};
     void Update() override;
-    void Render(TextureManager* textureManager, SDL_Renderer* renderer) override;
+    void Render() override;
 
-    bool onEnter(TextureManager* textureManager, SDL_Renderer* renderer) override;
+    bool onEnter() override;
     bool onExit() override;
 
     void onKeyDown(SDL_Event* e) override;
@@ -18,4 +19,5 @@ public:
     std::string getStateID() const override;
 private:
     static const std::string menuID;
+    Game* m_game;
 };

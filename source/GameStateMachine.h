@@ -3,18 +3,19 @@
 #include "GameState.h"
 #include <vector>
 #include "SDL.h"
+#include "InputHandle.h"
 
 class GameStateMachine {
 public:
     GameStateMachine() = default;
     ~GameStateMachine() = default;
 
-    void pushState(GameState* state, TextureManager* textureManager, SDL_Renderer* renderer);
-    void changeState(GameState* state, TextureManager* textureManager, SDL_Renderer* renderer);
+    void pushState(GameState* state);
+    void changeState(GameState* state);
     void popState();
 
     void Update();
-    void Render(TextureManager* textureManager, SDL_Renderer* renderer);
+    void Render();
 
     void onKeyDown(SDL_Event* e);
     void onKeyUp(SDL_Event* e);

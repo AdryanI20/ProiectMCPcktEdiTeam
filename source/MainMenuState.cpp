@@ -1,6 +1,7 @@
 #include "MainMenuState.h"
 #include <iostream>
 #include "TextureManager.h"
+#include "Game.h"
 
 const std::string MainMenuState::menuID = "MENU";
 
@@ -14,16 +15,16 @@ void MainMenuState::Update() {
     }
 }
 
-void MainMenuState::Render(TextureManager* textureManager, SDL_Renderer* renderer) {
-    SDL_SetRenderDrawColor(renderer, 30, 30, 30, 255);
-    if (textureManager->TextureExists("MainMenu"))
-        textureManager->Draw("MainMenu", 960/4, 100, 2, renderer);
+void MainMenuState::Render() {
+    SDL_SetRenderDrawColor(m_game->getRenderer(), 30, 30, 30, 255);
+    if (m_game->getTextureManager()->TextureExists("MainMenu"))
+        m_game->getTextureManager()->Draw("MainMenu", 960/4, 100, 2, m_game->getRenderer());
 }
 
-bool MainMenuState::onEnter(TextureManager* textureManager, SDL_Renderer* renderer) {
+bool MainMenuState::onEnter() {
     std::cout << "entering MainMenu" << std::endl;
 
-    textureManager->Load("Game Title", "MainMenu", renderer);
+    m_game->getTextureManager()->Load("Game Title", "MainMenu", m_game->getRenderer());
 
     return true; //success
 }
@@ -39,8 +40,12 @@ bool MainMenuState::onExit() {
 }
 
 void MainMenuState::onKeyDown(SDL_Event* e) {
+    //std::cout << "Key Pressed: " << SDL_GetKeyName(e->key.keysym.sym) << std::endl;
+    if (m_game->getInputHandler()->isKeyDown(SDL_SCANCODE_RETURN)) { //Enter;
+        m_game->getStateMachine()->changeState(new PlayState());
+    }
 }
 
 void MainMenuState::onKeyUp(SDL_Event* e) {
-
+    std::cout << "Key Released: " << SDL_GetKeyName(e->key.keysym.sym) << std::endl;
 }

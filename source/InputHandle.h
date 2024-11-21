@@ -10,7 +10,7 @@ public:
     ~InputHandle();
 
     void Init();
-    void Update(Game *CurGame);
+    void Update(Game *game);
     void Clean();
 
     bool isKeyDown(SDL_Scancode key);

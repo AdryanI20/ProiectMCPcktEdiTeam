@@ -23,12 +23,14 @@ public:
     void Clean();
     void Quit();
     bool isRunning();
-    void checkCollisions();
-    void updateBullets();
-    void checkPlayerState();
-    void showText(const std::string& content);
+    //void checkCollisions();
+    //void updateBullets();
+    //void checkPlayerState();
     //void showText(const std::string& content);
     GameStateMachine* getStateMachine();
+    InputHandle* getInputHandler();
+    TextureManager* getTextureManager();
+    SDL_Renderer* getRenderer();
 
 private:
     SDL_Window* m_window;
