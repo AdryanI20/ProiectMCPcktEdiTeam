@@ -118,3 +118,16 @@ void Map::placeCharactersInCorners(std::vector<Character>& characters) {
 //
 //    }
 }
+
+CellType Map::getPosition(int i, int j)
+{
+    return m_grid[i][j];
+}
+
+void Map::manageCollision(int i, int j)
+{
+    if (m_grid[i][j] == DESTRUCTIBIL_WALL)
+    {
+        m_grid[i][j] = FREE_SPACE;
+    }
+}

@@ -19,7 +19,8 @@ public:
 	int getLives();
 	void setLives(int value);
 	void aliveOrDead(bool lifeState);
-	std::vector<Bullet> getPlayerBullets();
+	std::vector<Bullet> &getPlayerBullets();
+	void deleteBullet(int pos);
 
 	std::pair<int, int> getIntPosition();
 	void setPosition(std::pair<float, float> position);

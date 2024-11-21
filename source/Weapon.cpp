@@ -25,7 +25,7 @@ void Weapon::bulletPush(Bullet b)
 	m_bullets.push_back(b);
 }
 
-std::vector<Bullet> Weapon::getBulletsVector()
+std::vector<Bullet>& Weapon::getBulletsVector()
 {
 	return m_bullets;
 }

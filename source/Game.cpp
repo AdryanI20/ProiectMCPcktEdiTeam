@@ -87,6 +87,22 @@ void Game::Update() {
 //    showText(m_map->getMapString());
 }
 
+void Game::checkCollisions()
+{
+    for (auto& character : m_characters)
+    {
+        auto& bullets = character.getPlayerBullets();
+        for (int i = 0; i < bullets.size(); i++)
+        {
+            if (m_map->getPosition(bullets[i].getPosition().first, bullets[i].getPosition().second) != FREE_SPACE)
+            {
+                m_map->manageCollision(m_map->getPosition(bullets[i].getPosition().first, bullets[i].getPosition().second);
+                character.deleteBullet(i);
+            }
+        }
+    }
+}
+
 void Game::showText(const std::string &content) {
     if (m_texturemanager->TextureExists("text"))
         m_texturemanager->clearFromTextureMap("text");

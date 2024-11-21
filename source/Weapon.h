@@ -13,7 +13,7 @@ public:
     void setWeaponStats(float fireRateModifier);
 	int getDamage();
 	float getfireRate();
-	std::vector<Bullet> getBulletsVector();
+	std::vector<Bullet>& getBulletsVector();
 	void isBulletFired(bool isFired); 
 	void shoot(int direction);
 	void bulletPush(Bullet b);
