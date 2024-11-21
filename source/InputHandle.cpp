@@ -11,10 +11,13 @@ InputHandle::~InputHandle() {
 }
 
 void InputHandle::Init() {
-
+    m_keystates = SDL_GetKeyboardState(nullptr);
+    m_OLDkeystates.resize(SDL_NUM_SCANCODES, 0);
 }
 
 void InputHandle::Update(Game *game) {
+    if (m_keystates)
+        std::copy(m_keystates, m_keystates + SDL_NUM_SCANCODES, m_OLDkeystates.begin());
     m_keystates = SDL_GetKeyboardState(nullptr);
 
     SDL_Event event;
@@ -54,13 +57,13 @@ void InputHandle::onKeyUp(SDL_Event *event, GameStateMachine* gameStateMachine) 
 }
 
 bool InputHandle::isKeyDown(SDL_Scancode key) {
-    if (m_keystates != nullptr) {
-        if (m_keystates[key] == 1) {
-            return true;
-        }
-        else {
-            return false;
-        }
+    return m_keystates != nullptr && m_keystates[key] == 1;
+}
+
+bool InputHandle::isKeyJustPressed(SDL_Scancode key) {
+    if (m_keystates) {
+        // Butonul este apasat acum dar nu a fost apasat ultima data
+        return m_keystates[key] == 1 && m_OLDkeystates[key] == 0;
     }
     return false;
 }

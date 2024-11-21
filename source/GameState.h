@@ -22,4 +22,4 @@ protected:
     Game* m_game;
 };
 
-typedef std::map<std::string, GameObject*>::iterator it_type;
+typedef std::map<std::string, GameObject*>::iterator objs_it;

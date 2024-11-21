@@ -10,9 +10,9 @@ std::string MainMenuState::getStateID() const {
 }
 
 void MainMenuState::Update() {
-    for (it_type iterator = gameObjects.begin(); iterator != gameObjects.end(); iterator++) {
-        iterator->second->Update();
-    }
+    //for (objs_it iterator = gameObjects.begin(); iterator != gameObjects.end(); iterator++) {
+        //iterator->second->Update(m_game->getInputHandler());
+    //}
 }
 
 void MainMenuState::Render() {
@@ -30,10 +30,10 @@ bool MainMenuState::onEnter() {
 }
 
 bool MainMenuState::onExit() {
-    for (it_type iterator = gameObjects.begin(); iterator != gameObjects.end(); iterator++) {
-        iterator->second->Clean();
-    }
-    gameObjects.clear();
+    //for (objs_it iterator = gameObjects.begin(); iterator != gameObjects.end(); iterator++) {
+        //iterator->second->Clean();
+    //}
+    //gameObjects.clear();
     m_game->getTextureManager()->clearFromTextureMap("Game Title");
     std::cout << "exiting MainMenu" << std::endl;
     return true;

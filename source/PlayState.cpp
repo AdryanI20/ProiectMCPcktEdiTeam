@@ -1,6 +1,7 @@
 #include "PlayState.h"
 //#include <iostream>
 #include "Game.h"
+#include "PlayerObject.h"
 
 const std::string PlayState::playID = "PLAY";
 
@@ -9,8 +10,8 @@ std::string PlayState::getStateID() const {
 }
 
 void PlayState::Update() {
-    for (it_type iterator = gameObjects.begin(); iterator != gameObjects.end(); iterator++) {
-        iterator->second->Update();
+    for (objs_it iterator = gameObjects.begin(); iterator != gameObjects.end(); iterator++) {
+        iterator->second->Update(m_game->getInputHandler());
     }
 }
 
@@ -26,7 +27,7 @@ void PlayState::Render() {
 bool PlayState::onEnter() {
     std::cout << "entering Play" << std::endl;
 
-    gameObjects.emplace("Player", new GameObject(0, 0));
+    gameObjects.emplace("Player", new PlayerObject(0, 0));
     m_plr = getObjectByID("Player");
     m_valBelowPlr = m_game->getMap()->getPositionValue(m_plr->getPos().getX(), m_plr->getPos().getY());
     m_game->getMap()->setPositionValue(m_plr->getPos().getX(), m_plr->getPos().getY(), CellType::PLAYER);
@@ -35,7 +36,7 @@ bool PlayState::onEnter() {
 }
 
 bool PlayState::onExit() {
-    for (it_type iterator = gameObjects.begin(); iterator != gameObjects.end(); iterator++) {
+    for (objs_it iterator = gameObjects.begin(); iterator != gameObjects.end(); iterator++) {
         iterator->second->Clean();
     }
     gameObjects.clear();
@@ -46,9 +47,6 @@ bool PlayState::onExit() {
 
 void PlayState::onKeyDown(SDL_Event* e) {
     //std::cout << "Key Pressed: " << SDL_GetKeyName(e->key.keysym.sym) << std::endl;
-    if (m_game->getInputHandler()->isKeyDown(SDL_SCANCODE_RIGHT)) {
-        
-    }
 }
 
 void PlayState::onKeyUp(SDL_Event* e) {

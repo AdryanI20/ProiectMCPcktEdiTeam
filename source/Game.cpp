@@ -36,6 +36,7 @@ bool Game::Init(const std::string& title, int x, int y, int width, int height, i
 
     m_texturemanager = new TextureManager();
     m_inputhandler = new InputHandle();
+    m_inputhandler->Init();
     m_map = new Map(30, 30);
     m_map->createRandomMap();
 
