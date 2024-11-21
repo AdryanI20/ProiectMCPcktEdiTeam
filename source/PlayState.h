@@ -1,5 +1,6 @@
 #pragma once
 
+#include "PlayerObject.h"
 #include "GameState.h"
 #include <string>
 #include "CellType.h"
@@ -17,12 +18,12 @@ public:
     void onKeyDown(SDL_Event* e) override;
     void onKeyUp(SDL_Event* e) override;
 
-    std::string getStateID() const override;// { return playID; }
+    std::string getStateID() const override;
 
 private:
     static const std::string playID;
     Game* m_game;
     CellType m_valBelowPlr;
-    GameObject* m_plr;
+    PlayerObject* m_plr;
 };
 

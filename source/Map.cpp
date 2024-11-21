@@ -146,3 +146,8 @@ CellType Map::getPositionValue(int X, int Y)
             return m_grid[X][Y];
     return CellType::VOID;
 }
+
+std::pair<int, int> Map::getSize()
+{
+    return { m_rows, m_cols };
+}

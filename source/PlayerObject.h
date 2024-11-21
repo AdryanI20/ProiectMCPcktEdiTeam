@@ -9,6 +9,7 @@ public:
 
     void Update(InputHandle* inputhandler) override;
     void Clean() override;
+    void setPos(int X, int Y);
 private:
 
 
