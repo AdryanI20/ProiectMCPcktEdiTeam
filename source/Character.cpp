@@ -49,16 +49,6 @@ void Character::move(int direction)
 	}
 }
 
-int Character::getHealth()
-{
-	return m_health;
-}
-
-void Character::setHealth(int value)
-{
-	m_health = value;
-}
-
 int Character::getLives()
 {
 	return m_lives;
@@ -111,11 +101,19 @@ void Character::dead()
 		m_playerWeapon.getBulletsVector().erase(m_playerWeapon.getBulletsVector().begin()+i);
 	}
 	this->aliveOrDead(false);
+	m_lives--;
 }
 
 void Character::respawn(float row, float col)
 {
+	if (m_lives == 0)
+		return;
 	m_position.first = row;
 	m_position.second = col;
 	this->aliveOrDead(true);
+}
+
+std::vector<Bullet> Character::getPlayerBullets()
+{
+	return m_playerWeapon.getBulletsVector();
 }
