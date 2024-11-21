@@ -15,6 +15,9 @@ public:
     void placeCharactersInCorners(std::vector<Character>& characters);
     CellType getPosition(int i, int j);
     void manageCollision(int i, int j);
+
+    void setPositionValue(int X, int Y, CellType value);
+    CellType getPositionValue(int X, int Y);
 private:
     int m_rows, m_cols;
     std::vector<std::vector<CellType>> m_grid;

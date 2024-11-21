@@ -10,7 +10,8 @@ enum CellType {
     FREE_SPACE,
     DESTRUCTIBIL_WALL,
     INDESTRUCTIBIL_WALL,
-    PLAYER
+    PLAYER,
+    VOID
 };
 
 

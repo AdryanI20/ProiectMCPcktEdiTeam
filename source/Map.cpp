@@ -34,10 +34,10 @@ std::string Map::getMapString() {
                         type = ' ';
                         break;
                     case DESTRUCTIBIL_WALL:
-                        type = 'W';
+                        type = 'c';
                         break;
                     case INDESTRUCTIBIL_WALL:
-                        type = 'I';
+                        type = 'w';
                         break;
                     case PLAYER:
                         type = '@';
@@ -130,4 +130,19 @@ void Map::manageCollision(int i, int j)
     {
         m_grid[i][j] = FREE_SPACE;
     }
+}
+
+void Map::setPositionValue(int X, int Y, CellType value)
+{
+    if (X >= 0 && X < m_grid.size())
+        if (Y >= 0 && Y < m_grid[X].size())
+            m_grid[X][Y] = value;
+}
+
+CellType Map::getPositionValue(int X, int Y)
+{
+    if (X >= 0 && X < m_grid.size())
+        if (Y >= 0 && Y < m_grid[X].size())
+            return m_grid[X][Y];
+    return CellType::VOID;
 }

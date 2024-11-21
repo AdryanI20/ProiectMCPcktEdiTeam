@@ -2,6 +2,7 @@
 
 #include "GameState.h"
 #include <string>
+#include "CellType.h"
 
 class PlayState : public GameState
 {
@@ -21,5 +22,7 @@ public:
 private:
     static const std::string playID;
     Game* m_game;
+    CellType m_valBelowPlr;
+    GameObject* m_plr;
 };
 
