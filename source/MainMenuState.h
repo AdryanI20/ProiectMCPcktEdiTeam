@@ -7,9 +7,9 @@
 class MainMenuState : public GameState {
 public:
     void Update() override;
-    void Render(SDL_Renderer* renderer) override;
+    void Render(TextureManager* textureManager, SDL_Renderer* renderer) override;
 
-    bool onEnter() override;
+    bool onEnter(TextureManager* textureManager, SDL_Renderer* renderer) override;
     bool onExit() override;
 
     void onKeyDown(SDL_Event* e) override;

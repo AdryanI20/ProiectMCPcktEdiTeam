@@ -1,11 +1,11 @@
 #include "GameStateMachine.h"
 
-void GameStateMachine::pushState(GameState *state) {
+void GameStateMachine::pushState(GameState* state, TextureManager* textureManager, SDL_Renderer* renderer) {
     gameStates.push_back(state);
-    gameStates.back()->onEnter();
+    gameStates.back()->onEnter(textureManager, renderer);
 }
 
-void GameStateMachine::changeState(GameState *state) {
+void GameStateMachine::changeState(GameState* state, TextureManager* textureManager, SDL_Renderer* renderer) {
     if (!gameStates.empty()) {
         if (gameStates.back()->getStateID() == state->getStateID()) {
             return;
@@ -20,7 +20,7 @@ void GameStateMachine::changeState(GameState *state) {
         }
     }
 
-    gameStates.back()->onEnter();
+    gameStates.back()->onEnter(textureManager, renderer);
 }
 
 void GameStateMachine::popState() {
@@ -37,9 +37,9 @@ void GameStateMachine::Update() {
     }
 }
 
-void GameStateMachine::Render(SDL_Renderer* renderer) {
+void GameStateMachine::Render(TextureManager* textureManager, SDL_Renderer* renderer) {
     if (!gameStates.empty()) {
-        gameStates.back()->Render(renderer);
+        gameStates.back()->Render(textureManager, renderer);
     }
 }
 

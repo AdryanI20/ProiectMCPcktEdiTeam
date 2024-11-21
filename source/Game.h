@@ -2,7 +2,7 @@
 #include "SDL.h"
 #include <iostream>
 #include <string>
-#include "Character.h"
+//#include "Character.h"
 
 class Map;
 class InputHandle;
@@ -27,6 +27,7 @@ public:
     void updateBullets();
     void checkPlayerState();
     void showText(const std::string& content);
+    //void showText(const std::string& content);
     GameStateMachine* getStateMachine();
 
 private:
@@ -36,7 +37,7 @@ private:
     InputHandle* m_inputhandler;
     TextureManager* m_texturemanager;
     Map* m_map;
-    std::vector<Character> m_characters;
+    //std::vector<Character> m_characters;
     GameStateMachine* m_gameStateMachine;
 
     bool m_running;

@@ -9,12 +9,12 @@ public:
     GameStateMachine() = default;
     ~GameStateMachine() = default;
 
-    void pushState(GameState* state);
-    void changeState(GameState* state);
+    void pushState(GameState* state, TextureManager* textureManager, SDL_Renderer* renderer);
+    void changeState(GameState* state, TextureManager* textureManager, SDL_Renderer* renderer);
     void popState();
 
     void Update();
-    void Render(SDL_Renderer* renderer);
+    void Render(TextureManager* textureManager, SDL_Renderer* renderer);
 
     void onKeyDown(SDL_Event* e);
     void onKeyUp(SDL_Event* e);

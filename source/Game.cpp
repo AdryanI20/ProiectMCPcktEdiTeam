@@ -42,14 +42,14 @@ bool Game::Init(const std::string& title, int x, int y, int width, int height, i
     m_map = new Map(30, 30);
     m_map->createRandomMap();
 
-    Weapon weapon_test;
-    Character character("Nume", std::make_pair<float, float>(0, 0), weapon_test);
-    m_characters.push_back(character);
+    //Weapon weapon_test;
+    //Character character("Nume", std::make_pair<float, float>(0, 0), weapon_test);
+    //m_characters.push_back(character);
 
     m_running = true;
 
     m_gameStateMachine = new GameStateMachine();
-    m_gameStateMachine->pushState(new MainMenuState());
+    m_gameStateMachine->pushState(new MainMenuState(), m_texturemanager, m_renderer);
     //TODO: MOVE ALL RELEVANT LOGIC FROM MAIN LOOP OF GAME TO DIFFERENT STATES
     return true;
 }
@@ -57,7 +57,7 @@ bool Game::Init(const std::string& title, int x, int y, int width, int height, i
 void Game::Render() {
     SDL_RenderClear(m_renderer);
 
-    m_gameStateMachine->Render(m_renderer);
+    m_gameStateMachine->Render(m_texturemanager, m_renderer);
 //    if (m_texturemanager->TextureExists("text"))
 //        m_texturemanager->Draw("text", 0, 0, 2, m_renderer);
     SDL_RenderPresent(m_renderer);
@@ -108,6 +108,11 @@ void Game::showText(const std::string &content) {
         m_texturemanager->clearFromTextureMap("text");
     m_texturemanager->Load(content, "text", m_renderer);
 }
+//void Game::showText(const std::string &content) {
+//    if (m_texturemanager->TextureExists("text"))
+//        m_texturemanager->clearFromTextureMap("text");
+//    m_texturemanager->Load(content, "text", m_renderer);
+//}
 
 GameStateMachine* Game::getStateMachine() {
     return m_gameStateMachine;
