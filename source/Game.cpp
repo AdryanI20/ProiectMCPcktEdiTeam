@@ -96,7 +96,7 @@ void Game::checkCollisions()
         {
             if (m_map->getPosition(bullets[i].getPosition().first, bullets[i].getPosition().second) != FREE_SPACE)
             {
-                m_map->manageCollision(m_map->getPosition(bullets[i].getPosition().first, bullets[i].getPosition().second);
+                m_map->manageCollision(bullets[i].getPosition().first, bullets[i].getPosition().second);
                 character.deleteBullet(i);
             }
         }
