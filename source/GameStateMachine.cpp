@@ -14,11 +14,11 @@ void GameStateMachine::changeState(GameState* state) {
 
     gameStates.push_back(state);
 
-    if (!gameStates.empty()) {
-        if (gameStates.back()->onExit()) {
+    //if (!gameStates.empty()) {
+        if (gameStates[gameStates.size() - 2]->onExit()) {
             gameStates.erase(gameStates.end() - 2);
         }
-    }
+    //}
 
     gameStates.back()->onEnter();
 }

@@ -1,7 +1,7 @@
 #include "MainMenuState.h"
-#include <iostream>
-#include "TextureManager.h"
+//#include <iostream>
 #include "Game.h"
+#include "PlayState.h"
 
 const std::string MainMenuState::menuID = "MENU";
 
@@ -34,7 +34,7 @@ bool MainMenuState::onExit() {
         iterator->second->Clean();
     }
     gameObjects.clear();
-
+    m_game->getTextureManager()->clearFromTextureMap("Game Title");
     std::cout << "exiting MainMenu" << std::endl;
     return true;
 }
@@ -42,10 +42,10 @@ bool MainMenuState::onExit() {
 void MainMenuState::onKeyDown(SDL_Event* e) {
     //std::cout << "Key Pressed: " << SDL_GetKeyName(e->key.keysym.sym) << std::endl;
     if (m_game->getInputHandler()->isKeyDown(SDL_SCANCODE_RETURN)) { //Enter;
-        m_game->getStateMachine()->changeState(new PlayState());
+        m_game->getStateMachine()->changeState(new PlayState(m_game));
     }
 }
 
 void MainMenuState::onKeyUp(SDL_Event* e) {
-    std::cout << "Key Released: " << SDL_GetKeyName(e->key.keysym.sym) << std::endl;
+    //std::cout << "Key Released: " << SDL_GetKeyName(e->key.keysym.sym) << std::endl;
 }

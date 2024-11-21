@@ -1,8 +1,5 @@
 #include "Game.h"
-#include "InputHandle.h"
-#include "TextureManager.h"
-#include "Map.h"
-#include "Weapon.h"
+//#include "Weapon.h"
 #include "MainMenuState.h"
 
 Game::Game() {
@@ -127,5 +124,10 @@ TextureManager* Game::getTextureManager()
 SDL_Renderer* Game::getRenderer()
 {
     return m_renderer;
+}
+
+Map* Game::getMap()
+{
+    return m_map;
 }
 

@@ -3,9 +3,10 @@
 #include "GameState.h"
 #include <string>
 
-class MainMenuState : public GameState {
+class PlayState : public GameState
+{
 public:
-    MainMenuState(Game* game) : m_game(game) {};
+    PlayState(Game* game) : m_game(game) {};
     void Update() override;
     void Render() override;
 
@@ -15,8 +16,10 @@ public:
     void onKeyDown(SDL_Event* e) override;
     void onKeyUp(SDL_Event* e) override;
 
-    std::string getStateID() const override;
+    std::string getStateID() const override;// { return playID; }
+
 private:
-    static const std::string menuID;
+    static const std::string playID;
     Game* m_game;
 };
+

@@ -14,8 +14,6 @@ public:
 
     void Draw(const std::string& id, int x, int y, double scale, SDL_Renderer* renderer, int w=-1, int h=-1);
 
-//    void drawFrame(std::string id, int x, int y, int w, int h, double scale, int currentRow, int currentFrame, SDL_Renderer* renderer);
-
     void clearFromTextureMap(const std::string& id);
 
     bool TextureExists(const std::string& id);

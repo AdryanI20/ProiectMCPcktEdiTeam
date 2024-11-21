@@ -2,12 +2,10 @@
 #include "SDL.h"
 #include <iostream>
 #include <string>
-//#include "Character.h"
-
-class Map;
-class InputHandle;
-class TextureManager;
-class GameStateMachine;
+#include "Map.h"
+#include "InputHandle.h"
+#include "TextureManager.h"
+#include "GameStateMachine.h"
 
 class Game {
 public:
@@ -31,6 +29,7 @@ public:
     InputHandle* getInputHandler();
     TextureManager* getTextureManager();
     SDL_Renderer* getRenderer();
+    Map* getMap();
 
 private:
     SDL_Window* m_window;

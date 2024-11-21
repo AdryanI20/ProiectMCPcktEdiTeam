@@ -1,7 +1,6 @@
 #include "InputHandle.h"
 #include "Game.h"
-#include <iostream>
-#include "GameStateMachine.h"
+//#include <iostream>
 
 InputHandle::InputHandle() {
 
