@@ -1,6 +1,21 @@
 #include "Player.h"
 #include "Character.h"
 
+int Player::getId()
+{
+	return m_id;
+}
+
+void Player::setTeam(int team)
+{
+	m_team = team;
+}
+
+int Player::getTeam()
+{
+	return m_team;
+}
+
 int Player::getPoints()
 {
 	return m_points;

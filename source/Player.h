@@ -10,6 +10,9 @@ public:
 		, m_character{ character }, m_name{ name }, m_points { 0 }, m_score{ 0 } {};
 	~Player() = default;
 
+	int getId();
+	void setTeam(int team);
+	int getTeam();
 	int getPoints();
 	void setPoints(int value);
 	int getScore();
