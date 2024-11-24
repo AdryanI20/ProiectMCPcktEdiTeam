@@ -2,6 +2,11 @@
 #include <string_view>
 #include <ctime>
 
+/*Character::~Character()
+{
+	
+}*/
+
 int Character::getFacingDirection()
 {
 	return m_facingDirection;

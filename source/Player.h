@@ -18,6 +18,8 @@ public:
 	int getScore();
 	void setScore(int value);
 	void setCharacter(Character* character);
+	void removeCharacter();
+	void checkCharacter();
 	void setName(std::string name);
 	std::string getName();
 

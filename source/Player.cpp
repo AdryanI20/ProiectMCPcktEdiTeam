@@ -36,9 +36,25 @@ void Player::setScore(int value)
 	m_score = value;
 }
 
+void Player::removeCharacter()
+{
+	delete m_character;
+	m_character = nullptr;
+}
+
 void Player::setCharacter(Character* character)
 {
+	removeCharacter();
 	m_character = character;
+}
+
+void Player::checkCharacter()
+{
+	if (m_character->getLives() == 0)
+	{
+		removeCharacter();
+		setTeam(-1);
+	}
 }
 
 void Player::setName(std::string name)
