@@ -2,11 +2,10 @@
 #include "SDL.h"
 #include <iostream>
 #include <string>
-#include "Character.h"
-
-class Map;
-class InputHandle;
-class TextureManager;
+#include "Map.h"
+#include "InputHandle.h"
+#include "TextureManager.h"
+#include "GameStateMachine.h"
 
 class Game {
 public:
@@ -22,7 +21,15 @@ public:
     void Clean();
     void Quit();
     bool isRunning();
-    void showText(const std::string& content);
+    //void checkCollisions();
+    //void updateBullets();
+    //void checkPlayerState();
+    //void showText(const std::string& content);
+    GameStateMachine* getStateMachine();
+    InputHandle* getInputHandler();
+    TextureManager* getTextureManager();
+    SDL_Renderer* getRenderer();
+    Map* getMap();
 
 private:
     SDL_Window* m_window;
@@ -31,7 +38,8 @@ private:
     InputHandle* m_inputhandler;
     TextureManager* m_texturemanager;
     Map* m_map;
-    std::vector<Character> m_characters;
+    //std::vector<Character> m_characters;
+    GameStateMachine* m_gameStateMachine;
 
     bool m_running;
 };

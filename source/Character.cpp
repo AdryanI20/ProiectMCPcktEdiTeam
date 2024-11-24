@@ -2,6 +2,12 @@
 #include <string_view>
 #include <ctime>
 
+Character::~Character()
+{
+	m_playerWeapon->deleteAllBullets();
+	delete m_playerWeapon;
+}
+
 int Character::getFacingDirection()
 {
 	return m_facingDirection;
@@ -49,16 +55,6 @@ void Character::move(int direction)
 	}
 }
 
-int Character::getHealth()
-{
-	return m_health;
-}
-
-void Character::setHealth(int value)
-{
-	m_health = value;
-}
-
 int Character::getLives()
 {
 	return m_lives;
@@ -67,26 +63,6 @@ int Character::getLives()
 void Character::setLives(int value)
 {
 	m_lives = value;
-}
-
-int Character::getPoints()
-{
-	return m_points;
-}
-
-void Character::setPoints(int value)
-{
-	m_points = value;
-}
-
-int Character::getScore()
-{
-	return m_score;
-}
-
-void Character::setScore(int value)
-{
-	m_score = value;
 }
 
 std::pair<float, float> Character::getFloatPosition()
@@ -106,15 +82,49 @@ void Character::setPosition(std::pair<float, float> position)
 
 void Character::setWeapon(float FireRateModifier)
 {
-	m_playerWeapon.setWeaponStats(FireRateModifier);
+	m_playerWeapon->setWeaponStats(FireRateModifier);
 }
 
 void Character::fire()
 {
-	m_playerWeapon.shoot(m_facingDirection);
+	m_playerWeapon->shoot(m_facingDirection);
 }
 
 void Character::update()
 {
 	move(getFacingDirection());
+}
+
+void Character::aliveOrDead(bool lifeState)
+{
+	m_isAlive = lifeState;
+}
+
+void Character::dead()
+{
+	for (int i = 0; i < m_playerWeapon->getBulletsVector().size(); i++)
+	{
+		m_playerWeapon->getBulletsVector().erase(m_playerWeapon->getBulletsVector().begin()+i);
+	}
+	this->aliveOrDead(false);
+	m_lives--;
+}
+
+void Character::respawn(float row, float col)
+{
+	if (m_lives == 0)
+		return;
+	m_position.first = row;
+	m_position.second = col;
+	this->aliveOrDead(true);
+}
+
+std::vector<Bullet*>& Character::getPlayerBullets()
+{
+	return m_playerWeapon->getBulletsVector();
+}
+
+void Character::deleteBullet(int pos)
+{
+	m_playerWeapon->deleteBullet(pos);
 }

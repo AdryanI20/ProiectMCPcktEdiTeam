@@ -120,12 +120,3 @@ void Map::placeCharactersInCorners(std::vector<Character>& characters) {
 
     }
 }
-void Map::clearSurroundingsAroundPlayers() {
-    std::vector<std::pair<int, int>> directions = {
-            {-1, 0}, // Sus
-            {1, 0},  // Jos
-            {0, -1}, // Stânga
-            {0, 1}   // Dreapta
-    };
-    
-}
