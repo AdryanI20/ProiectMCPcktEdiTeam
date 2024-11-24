@@ -128,5 +128,20 @@ void Map::clearSurroundingsAroundPlayers() {
             {0, 1}   // Dreapta
     };
 
+    for (int i = 0; i < m_rows; ++i) {
+        for (int j = 0; j < m_cols; ++j) {
+            if (m_grid[i][j] == PLAYER) {
+                for (const auto& dir : directions) {
+                    int newRow = i + dir.first;
+                    int newCol = j + dir.second;
 
+                    if (newRow >= 0 && newRow < m_rows && newCol >= 0 && newCol < m_cols) {
+                        if (m_grid[newRow][newCol] == INDESTRUCTIBIL_WALL) {
+                            m_grid[newRow][newCol] = FREE_SPACE;
+                        }
+                    }
+                }
+            }
+        }
+    }
 }
