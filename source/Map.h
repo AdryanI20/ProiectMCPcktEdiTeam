@@ -13,6 +13,7 @@ public:
     void placePlayer(int playerId, int row, int col);
     bool canMove(int row, int col, Direction direction) ;
     void placeCharactersInCorners(std::vector<Character>& characters);
+    void clearSurroundingsAroundPlayers();
 private:
     int m_rows, m_cols;
     std::vector<std::vector<CellType>> m_grid;
