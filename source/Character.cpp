@@ -119,7 +119,7 @@ void Character::respawn(float row, float col)
 	this->aliveOrDead(true);
 }
 
-std::vector<Bullet>& Character::getPlayerBullets()
+std::vector<Bullet*>& Character::getPlayerBullets()
 {
 	return m_playerWeapon->getBulletsVector();
 }

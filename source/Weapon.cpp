@@ -20,12 +20,12 @@ void Weapon::setWeaponStats(float fireRateModifier)
 	m_fireRate = m_fireRate*fireRateModifier;
 }
 
-void Weapon::bulletPush(Bullet b)
+void Weapon::bulletPush(Bullet* b)
 {
 	m_bullets.push_back(b);
 }
 
-std::vector<Bullet>& Weapon::getBulletsVector()
+std::vector<Bullet*>& Weapon::getBulletsVector()
 {
 	return m_bullets;
 }
@@ -43,23 +43,23 @@ void Weapon::setBulletSpeed()
 
 void Weapon::shoot(int direction)
 {
-	Bullet newBullet(m_speed);
-	newBullet.setDirection(direction);
+	Bullet* newBullet = new Bullet(m_speed);
+	newBullet->setDirection(direction);
 	if (direction == 0)
 	{
-		newBullet.setPosition(m_position.first-1, m_position.second);
+		newBullet->setPosition(m_position.first-1, m_position.second);
 	}
 	if (direction == 1)
 	{
-		newBullet.setPosition(m_position.first, m_position.second+1);
+		newBullet->setPosition(m_position.first, m_position.second+1);
 	}
 	if (direction == 2)
 	{
-		newBullet.setPosition(m_position.first+1, m_position.second);
+		newBullet->setPosition(m_position.first+1, m_position.second);
 	}
 	if (direction == 3)
 	{
-		newBullet.setPosition(m_position.first, m_position.second -1);
+		newBullet->setPosition(m_position.first, m_position.second -1);
 	}
 
 	this->bulletPush(newBullet);
@@ -74,6 +74,6 @@ void Weapon::deleteAllBullets()
 {
 	for (auto bullet : m_bullets)
 	{
-		//delete bullet;
+		delete bullet;
 	}
 }
