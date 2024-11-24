@@ -8,7 +8,7 @@ class Player
 public:
 	Player(int id, int team, Character* character, std::string name) : m_id{ id }, m_team{ team }
 		, m_character{ character }, m_name{ name }, m_points { 0 }, m_score{ 0 } {};
-	~Player() = default;
+	~Player();
 
 	int getId();
 	void setTeam(int team);

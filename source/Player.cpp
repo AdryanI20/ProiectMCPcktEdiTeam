@@ -1,6 +1,11 @@
 #include "Player.h"
 #include "Character.h"
 
+Player::~Player()
+{
+	removeCharacter();
+}
+
 int Player::getId()
 {
 	return m_id;

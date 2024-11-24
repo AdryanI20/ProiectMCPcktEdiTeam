@@ -2,10 +2,11 @@
 #include <string_view>
 #include <ctime>
 
-/*Character::~Character()
+Character::~Character()
 {
-	
-}*/
+	m_playerWeapon->deleteAllBullets();
+	delete m_playerWeapon;
+}
 
 int Character::getFacingDirection()
 {
@@ -81,12 +82,12 @@ void Character::setPosition(std::pair<float, float> position)
 
 void Character::setWeapon(float FireRateModifier)
 {
-	m_playerWeapon.setWeaponStats(FireRateModifier);
+	m_playerWeapon->setWeaponStats(FireRateModifier);
 }
 
 void Character::fire()
 {
-	m_playerWeapon.shoot(m_facingDirection);
+	m_playerWeapon->shoot(m_facingDirection);
 }
 
 void Character::update()
@@ -101,9 +102,9 @@ void Character::aliveOrDead(bool lifeState)
 
 void Character::dead()
 {
-	for (int i = 0; i < m_playerWeapon.getBulletsVector().size(); i++)
+	for (int i = 0; i < m_playerWeapon->getBulletsVector().size(); i++)
 	{
-		m_playerWeapon.getBulletsVector().erase(m_playerWeapon.getBulletsVector().begin()+i);
+		m_playerWeapon->getBulletsVector().erase(m_playerWeapon->getBulletsVector().begin()+i);
 	}
 	this->aliveOrDead(false);
 	m_lives--;
@@ -120,10 +121,10 @@ void Character::respawn(float row, float col)
 
 std::vector<Bullet>& Character::getPlayerBullets()
 {
-	return m_playerWeapon.getBulletsVector();
+	return m_playerWeapon->getBulletsVector();
 }
 
 void Character::deleteBullet(int pos)
 {
-	m_playerWeapon.deleteBullet(pos);
+	m_playerWeapon->deleteBullet(pos);
 }

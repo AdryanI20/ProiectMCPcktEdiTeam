@@ -10,7 +10,7 @@
 class Character
 {
 public:
-	Character(std::pair<float, float> startPosition, Weapon weapon)
+	Character(std::pair<float, float> startPosition, Weapon* weapon)
 		: m_startPosition(startPosition), m_playerWeapon(weapon), m_lives(3), m_points(0), m_score(0), 
 		  m_speed(1), m_facingDirection(0), m_position(m_startPosition) {}
 	//~Character();
@@ -36,7 +36,7 @@ public:
 	void dead();
 
 private:
-	Weapon m_playerWeapon;
+	Weapon* m_playerWeapon;
 
 	int m_lives;
 	int m_points;

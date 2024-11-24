@@ -70,4 +70,10 @@ void Weapon::deleteBullet(int position)
 	m_bullets.erase(m_bullets.begin()+position-1);
 }
 
-
+void Weapon::deleteAllBullets()
+{
+	for (auto bullet : m_bullets)
+	{
+		//delete bullet;
+	}
+}

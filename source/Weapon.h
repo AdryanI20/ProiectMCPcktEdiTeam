@@ -20,6 +20,7 @@ public:
 	void setPosition(int i, int j);
 	void setBulletSpeed();
 	void deleteBullet(int position);
+	void deleteAllBullets();
 	
 private:
 	std::vector<Bullet> m_bullets;
