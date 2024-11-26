@@ -1,5 +1,5 @@
 #include "PlayerObject.h"
-//#include <iostream>
+#include <iostream>
 
 PlayerObject::PlayerObject(int X, int Y) : GameObject(X, Y) {}
 
@@ -10,9 +10,8 @@ void PlayerObject::Update(InputHandle* inputhandler) {
 
     m_pos += m_vel;
 
-    //std::cout << m_pos.getX() << " " << m_pos.getY() << "\n";
+    //std::cout << m_vel.getX() << " " << m_vel.getY() << "\n";
 }
-
 void PlayerObject::Clean() {
 
 }

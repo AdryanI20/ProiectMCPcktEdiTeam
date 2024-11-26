@@ -4,9 +4,6 @@
 #include <string>
 #include "SDL.h"
 
-class TextureManager;
-class Game;
-
 class GameState {
 public:
     virtual void Update() = 0;

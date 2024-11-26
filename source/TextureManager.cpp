@@ -56,6 +56,7 @@ void TextureManager::Draw(const std::string& id, int x, int y, double scale, SDL
 
 void TextureManager::clearFromTextureMap(const std::string& id)
 {
+    SDL_DestroyTexture(std::get<0>(m_textureMap[id]));
     m_textureMap.erase(id);
 }
 

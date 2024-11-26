@@ -34,7 +34,7 @@ bool MainMenuState::onExit() {
         //iterator->second->Clean();
     //}
     //gameObjects.clear();
-    m_game->getTextureManager()->clearFromTextureMap("Game Title");
+    m_game->getTextureManager()->clearFromTextureMap("MainMenu");
     std::cout << "exiting MainMenu" << std::endl;
     return true;
 }

@@ -24,10 +24,12 @@ void PlayState::Update() {
 void PlayState::Render() {
     SDL_SetRenderDrawColor(m_game->getRenderer(), 33, 149, 199, 255);
 
-    m_game->getTextureManager()->Load(m_game->getMap()->getMapString(), "Map", m_game->getRenderer());
-
     if (m_game->getTextureManager()->TextureExists("Map"))
-        m_game->getTextureManager()->Draw("Map", 0, 0, 2, m_game->getRenderer());
+        m_game->getTextureManager()->clearFromTextureMap("Map");
+
+    m_game->getTextureManager()->Load(m_game->getMap()->getMapString(), "Map", m_game->getRenderer());
+    
+    m_game->getTextureManager()->Draw("Map", 0, 0, 2, m_game->getRenderer());
 }
 
 bool PlayState::onEnter() {
@@ -46,7 +48,10 @@ bool PlayState::onExit() {
         iterator->second->Clean();
     }
     gameObjects.clear();
-    m_game->getTextureManager()->clearFromTextureMap("Map");
+
+    if (m_game->getTextureManager()->TextureExists("Map"))
+        m_game->getTextureManager()->clearFromTextureMap("Map");
+
     std::cout << "exiting Play" << std::endl;
     return true;
 }
