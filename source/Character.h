@@ -3,15 +3,14 @@
 #include <cstdint>
 #include <string>
 #include <string_view>
-
-#include "Weapon.h"
-#include "Bullet.h"
+#include "BulletObject.h"
+#include <vector>
 
 class Character
 {
 public:
-	Character(std::pair<float, float> startPosition, Weapon* weapon)
-		: m_startPosition(startPosition), m_playerWeapon(weapon), m_lives(3), m_points(0), m_score(0), 
+	Character(std::pair<float, float> startPosition)
+		: m_startPosition(startPosition), m_lives(3), m_points(0), m_score(0), 
 		  m_speed(1), m_facingDirection(0), m_position(m_startPosition) {}
 	~Character();
 
@@ -20,14 +19,10 @@ public:
 	int getLives();
 	void setLives(int value);
 	void aliveOrDead(bool lifeState);
-	std::vector<Bullet*> &getPlayerBullets();
-	void deleteBullet(int pos);
 
 	std::pair<int, int> getIntPosition();
 	void setPosition(std::pair<float, float> position);
 	std::pair<float, float> getFloatPosition();
-	void setWeapon(float FireRateModifier);
-	void fire();
 	void update();
 	void move(int direction);
 	void rotateLeft();
@@ -36,7 +31,6 @@ public:
 	void dead();
 
 private:
-	Weapon* m_playerWeapon;
 
 	int m_lives;
 	int m_points;

@@ -10,6 +10,9 @@ void PlayerObject::Update(InputHandle* inputhandler) {
 
     m_pos += m_vel;
 
+   // if (keyjuspress(SDL_SCANCODE_SPACE))
+     //   gameObjects.emplace("Player", new BulletObjec(0, 0));
+
     //std::cout << m_vel.getX() << " " << m_vel.getY() << "\n";
 }
 void PlayerObject::Clean() {
