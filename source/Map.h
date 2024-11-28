@@ -8,6 +8,7 @@ class Map {
 public:
     Map(int rows,int cols);
     void createRandomMap();
+    void createPath(std::pair<int, int> start, std::pair<int, int> finish);
 //    std::vector<std::vector<CellType>> getMap();
     std::string getMapString();
     void placePlayer(int playerId, int row, int col);

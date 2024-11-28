@@ -12,7 +12,7 @@ public:
 	Character(std::pair<float, float> startPosition)
 		: m_startPosition(startPosition), m_lives(3), m_points(0), m_score(0), 
 		  m_speed(1), m_facingDirection(0), m_position(m_startPosition) {}
-	~Character();
+	//~Character();
 
 	int getFacingDirection();
 	void setFacingDirection(int direction);

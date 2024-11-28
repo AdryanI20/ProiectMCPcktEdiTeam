@@ -6,19 +6,64 @@
 #include <vector>
 #include <algorithm>
 #include <random>
+#include <ctime>
 
 Map::Map(int rows,int cols): m_rows(rows), m_cols(cols){
     m_grid.resize(rows, std::vector<CellType>(cols, FREE_SPACE));
 }
 
 void Map::createRandomMap() {
+    srand(time(NULL));
+    std::vector<int> cellTypeChanse = {20, 50, 30};
+
     for (int i = 0; i < m_rows; i++) {
         for (int j = 0; j < m_cols; j++) {
-            int randValue = rand() % 3;
-            m_grid[i][j] = static_cast<CellType>(randValue);
+            int randValue = rand() % 100;
+            
+            if (randValue < cellTypeChanse[0])
+                m_grid[i][j] = static_cast<CellType>(0);
+            else if (randValue < cellTypeChanse[0] + cellTypeChanse[1])
+                m_grid[i][j] = static_cast<CellType>(1);
+            else
+                m_grid[i][j] = static_cast<CellType>(2);
+
+            //m_grid[i][j] = static_cast<CellType>(randValue);
         }
     }
+
+    createPath(std::make_pair(m_rows / 2, m_cols / 2), std::make_pair(0, 0));
+    createPath(std::make_pair(m_rows / 2, m_cols / 2), std::make_pair(0, m_cols - 1));
+    createPath(std::make_pair(m_rows / 2, m_cols / 2), std::make_pair(m_rows - 1, 0));
+    createPath(std::make_pair(m_rows / 2, m_cols / 2), std::make_pair(m_rows - 1, m_cols - 1));
 }
+
+void Map::createPath(std::pair<int, int> start, std::pair<int, int> finish)
+{
+    std::pair<int, int> currentPosition = start;
+
+    while (currentPosition != finish)
+    {
+        m_grid[currentPosition.first][currentPosition.second] = static_cast<CellType>(0);
+
+        if (rand() % 2 == 0)
+        {
+            if (currentPosition.first != finish.first)
+                currentPosition.first += static_cast<int>(currentPosition.first < finish.first) * 2 - 1;
+            else
+                currentPosition.second += static_cast<int>(currentPosition.second < finish.second) * 2 - 1;
+        }
+        else
+        {
+            if (currentPosition.second != finish.second)
+                currentPosition.second += static_cast<int>(currentPosition.second < finish.second) * 2 - 1;
+            else
+                currentPosition.first += static_cast<int>(currentPosition.first < finish.first) * 2 - 1;
+        }
+    }
+
+    m_grid[currentPosition.first][currentPosition.second] = static_cast<CellType>(0);
+}
+
 std::string Map::getMapString() {
     std::string MapOutput;
     //    for (int j = 0; j < m_cols + 2; j++) {
