@@ -32,11 +32,32 @@ void Bullet::Update(Game* game) {
             map->setPositionValue(m_pos.getX(), m_pos.getY(), CellType::FREE_SPACE);
             Clean();
             break;
-        case BOMB_WALL:
+        case BOMB_WALL: {
             map->setPositionValue(newPos.getX(), newPos.getY(), CellType::FREE_SPACE);
             map->setPositionValue(m_pos.getX(), m_pos.getY(), CellType::FREE_SPACE);
+
+            int centerX = newPos.getX();
+            int centerY = newPos.getY();
+            for (int offsetY = -1; offsetY <= 1; offsetY++)
+            {
+                for (int offsetX = -1; offsetX <= 1; offsetX++)
+                {
+                    int neighborY = centerY + offsetY;
+                    int neighborX = centerX + offsetX;
+                    if (neighborX >= 0 && neighborX < map->getSize().first &&
+                        neighborY >= 0 && neighborY < map->getSize().second) {
+
+                        if (map->getPositionValue(neighborX, neighborY) == CellType::DESTRUCTIBIL_WALL) {
+                            map->setPositionValue(neighborX, neighborY, CellType::FREE_SPACE);
+                        }
+                    }
+                    
+                }
+            }
+
             Clean();
             break;
+        }
         case BULLET:
             map->setPositionValue(newPos.getX(), newPos.getY(), CellType::FREE_SPACE);
             map->setPositionValue(m_pos.getX(), m_pos.getY(), CellType::FREE_SPACE);
