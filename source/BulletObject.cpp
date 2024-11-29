@@ -1,53 +1,66 @@
 #include "BulletObject.h"
+#include <cmath>
+#include "Game.h"
 
-Bullet::Bullet(int X, int Y, float speed, int direction)
-    : GameObject(X, Y), m_speed(speed), m_facingDirection(direction), m_isHit(false) {}
+Bullet::Bullet(Vector2D pos, float speed, Vector2D direction, CellType valBelow)
+    : GameObject(pos), m_speed(speed), m_direction(direction), m_valBelow(valBelow), m_destroyed(false) {}
+//TODO: IF BULLET IS SPAWNED INSIDE OF AN OBJECT APPLY THE RELEVANT LOGIC
 
 void Bullet::Update(Game* game) {
-    //if (!m_isHit) {
-    //    switch (m_facingDirection) {
-    //    case 0:
-    //        m_pos.setX(m_pos.getX() - m_speed);
-    //        break;
-    //    case 1:
-    //        m_pos.setY(m_pos.getY() + m_speed);
-    //        break;
-    //    case 2:
-    //        m_pos.setX(m_pos.getX() + m_speed);
-    //        break;
-    //    case 3:
-    //        m_pos.setY(m_pos.getY() - m_speed);
-    //        break;
-    //    default:
-    //        break;
-    //    }
-    //}
+    Map* map = game->getMap();
+
+    m_vel += m_direction * m_speed;
+
+    Vector2D newPos = Vector2D(floor((m_pos + m_vel).getX()), floor((m_pos + m_vel).getY()));
+
+    if (newPos != m_pos) {
+        m_vel = Vector2D(0, 0);
+        switch (map->getPositionValue(newPos.getX(), newPos.getY()) )
+        {
+        case FREE_SPACE:
+            map->setPositionValue(m_pos.getX(), m_pos.getY(), m_valBelow);
+            m_valBelow = map->getPositionValue(m_pos.getX(), m_pos.getY());
+            map->setPositionValue(newPos.getX(), newPos.getY(), CellType::BULLET);
+            m_pos = newPos;
+            break;
+        case DESTRUCTIBIL_WALL:
+            map->setPositionValue(newPos.getX(), newPos.getY(), CellType::FREE_SPACE);
+            map->setPositionValue(m_pos.getX(), m_pos.getY(), CellType::FREE_SPACE);
+            Clean();
+            break;
+        case INDESTRUCTIBIL_WALL:
+            map->setPositionValue(m_pos.getX(), m_pos.getY(), CellType::FREE_SPACE);
+            Clean();
+            break;
+        case BOMB_WALL:
+            map->setPositionValue(newPos.getX(), newPos.getY(), CellType::FREE_SPACE);
+            map->setPositionValue(m_pos.getX(), m_pos.getY(), CellType::FREE_SPACE);
+            Clean();
+            break;
+        case BULLET:
+            map->setPositionValue(newPos.getX(), newPos.getY(), CellType::FREE_SPACE);
+            map->setPositionValue(m_pos.getX(), m_pos.getY(), CellType::FREE_SPACE);
+            Clean();
+            break;
+        case PLAYER:
+            map->setPositionValue(newPos.getX(), newPos.getY(), CellType::FREE_SPACE);
+            map->setPositionValue(m_pos.getX(), m_pos.getY(), CellType::FREE_SPACE);
+            Clean();
+            break;
+        case VOID:
+            map->setPositionValue(m_pos.getX(), m_pos.getY(), CellType::FREE_SPACE);
+            Clean();
+            break;
+        }
+    }
+
 }
 
 void Bullet::Clean() {
+    m_destroyed = true;
 }
 
-void Bullet::setDirection(int direction) {
-    m_facingDirection = direction;
-}
-
-int Bullet::getDirection() const {
-    return m_facingDirection;
-}
-
-Vector2D Bullet::getPosition() const {
-    return m_pos;
-}
-
-void Bullet::setPosition(int X, int Y) {
-    m_pos.setX(X);
-    m_pos.setY(Y);
-}
-
-bool Bullet::isHit() const {
-    return m_isHit;
-}
-
-void Bullet::setHit(bool hitStatus) {
-    m_isHit = hitStatus;
+bool Bullet::shouldDestroy()
+{
+    return m_destroyed;
 }

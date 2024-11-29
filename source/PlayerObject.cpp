@@ -2,7 +2,8 @@
 #include <iostream>
 #include "Game.h"
 
-PlayerObject::PlayerObject(int X, int Y, CellType valBelow, int mapping) : GameObject(X, Y), m_facing(3), m_valBelowPlr(valBelow), inputMap(mapping) {}
+PlayerObject::PlayerObject(int X, int Y, CellType valBelow, int mapping)
+    : GameObject(X, Y), m_facing(-1, 0), m_valBelow(valBelow), inputMap(mapping), m_shot(nullptr) {}
 
 void PlayerObject::Update(Game* game) {
     InputHandle* inputHandler = game->getInputHandler();
@@ -37,18 +38,12 @@ void PlayerObject::Update(Game* game) {
     if (map->getPositionValue(newPos.getX(), newPos.getY()) == CellType::FREE_SPACE)
         m_pos = newPos;
 
-    if (m_vel.getX() == -1 && m_vel.getY() == 0)
-        m_facing = 0; //UP
-    else if (m_vel.getX() == 0 && m_vel.getY() == 1)
-        m_facing = 1; //DOWN
-    else if (m_vel.getX() == 0 && m_vel.getY() == -1)
-        m_facing = 2; //LEFT
-    else if (m_vel.getX() == 1 && m_vel.getY() == 0)
-        m_facing = 3; //RIGHT
+    if (m_vel.getX() != 0 || m_vel.getY() != 0)
+        m_facing = m_vel;
 
     if (m_pos != oldPos) {
-        map->setPositionValue(oldPos.getX(), oldPos.getY(), m_valBelowPlr);
-        m_valBelowPlr = map->getPositionValue(m_pos.getX(), m_pos.getY());
+        map->setPositionValue(oldPos.getX(), oldPos.getY(), m_valBelow);
+        m_valBelow = map->getPositionValue(m_pos.getX(), m_pos.getY());
         map->setPositionValue(m_pos.getX(), m_pos.getY(), CellType::PLAYER);
     }
 
@@ -73,10 +68,36 @@ void PlayerObject::Update(Game* game) {
         break;
     }
 
-    if (shoot) {
-        std::map<std::string, GameObject*>& objs = game->getStateMachine()->getCurrentState()->getGameObjects();
-        objs.emplace("Bullet" + std::to_string(objs.size()), new Bullet(0, 0, 1, m_facing));
+    if (shoot && m_shot == nullptr) {
+        GameState* STATE = game->getStateMachine()->getCurrentState();
+        STATE->getGameObjects().emplace("Bullet" + std::to_string(STATE->getGameObjects().size()), new Bullet(
+            m_pos + m_facing,
+            0.08,
+            m_facing,
+            map->getPositionValue( (m_pos + m_facing).getX(), (m_pos + m_facing).getY() )
+        ));
+        m_shot = dynamic_cast<Bullet*>(
+            STATE->getObjectByID( "Bullet" + std::to_string(STATE->getGameObjects().size() - 1) )
+            );
     }
+
+    if (m_shot) {
+        std::map<std::string, GameObject*>& gameObjects = game->getStateMachine()->getCurrentState()->getGameObjects();
+        for (objs_it iterator = gameObjects.begin(); iterator != gameObjects.end(); iterator++) {
+            if (iterator->second == m_shot && m_shot->shouldDestroy()) {
+                m_shot = nullptr;
+                delete iterator->second;
+                gameObjects.erase(iterator);
+                break;
+            }
+        }
+    }
+
+        //auto objs = game->getStateMachine()->getCurrentState(); //->getGameObjects();
+        //if (m_shot->shouldDestroy()) {
+        //    delete m_shot;
+        //    STATE->getGameObjects().erase();
+        //}
 }
 
 void PlayerObject::Clean() {

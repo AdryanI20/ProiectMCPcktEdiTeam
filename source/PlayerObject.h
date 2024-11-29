@@ -11,8 +11,8 @@ public:
     void Clean() override;
     void setPos(int X, int Y);
 private:
-    int m_facing;
-    CellType m_valBelowPlr;
+    Vector2D m_facing;
+    CellType m_valBelow;
     int inputMap;
-    //std::vector<Bullet*> shots;
+    Bullet* m_shot;
 };

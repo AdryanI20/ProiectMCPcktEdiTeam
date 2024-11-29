@@ -9,6 +9,8 @@ class GameObject
 {
 public:
 	GameObject(int X, int Y);
+	GameObject(Vector2D pos);
+	virtual ~GameObject() = default;
 
 	//virtual void draw();
 	virtual void Update(Game* game);
@@ -17,6 +19,5 @@ public:
 	Vector2D& getPos();
 
 protected:
-	virtual ~GameObject() = default;
 	Vector2D m_pos, m_vel;
 };

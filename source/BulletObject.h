@@ -1,26 +1,20 @@
 #pragma once
 #include "GameObject.h"
+#include "CellType.h"
 
 class Bullet : public GameObject {
 public:
-    Bullet(int X, int Y, float speed, int direction);
+    Bullet(Vector2D pos, float speed, Vector2D direction, CellType valBelow);
 
     void Update(Game* game) override;
     void Clean() override;
 
-    void setDirection(int direction);
-    int getDirection() const;
-
-    Vector2D getPosition() const;
-    void setPosition(int X, int Y);
-
-    bool isHit() const;
-    void setHit(bool hitStatus);
-
+    bool shouldDestroy();
 private:
     float m_speed; 
-    int m_facingDirection; 
-    bool m_isHit;          
+    Vector2D m_direction;
+    CellType m_valBelow;
+    bool m_destroyed;
 };
 
 
