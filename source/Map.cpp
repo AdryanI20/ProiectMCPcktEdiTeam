@@ -1,11 +1,7 @@
 #include "Map.h"
-#include "CellType.h"
-#include "Direction.h"
-#include "Character.h"
 #include <iostream>
 #include <vector>
 #include <algorithm>
-#include <random>
 #include <ctime>
 
 Map::Map(int rows,int cols): m_rows(rows), m_cols(cols){
@@ -31,10 +27,10 @@ void Map::createRandomMap() {
         }
     }
 
-    createPath(std::make_pair(m_rows / 2, m_cols / 2), std::make_pair(0, 0));
-    createPath(std::make_pair(m_rows / 2, m_cols / 2), std::make_pair(0, m_cols - 1));
-    createPath(std::make_pair(m_rows / 2, m_cols / 2), std::make_pair(m_rows - 1, 0));
-    createPath(std::make_pair(m_rows / 2, m_cols / 2), std::make_pair(m_rows - 1, m_cols - 1));
+    createPath({ m_rows / 2, m_cols / 2 }, { 0, 0 });
+    createPath({ m_rows / 2, m_cols / 2 }, { 0, m_cols - 1 });
+    createPath({ m_rows / 2, m_cols / 2 }, { m_rows - 1, 0 });
+    createPath({ m_rows / 2, m_cols / 2 }, { m_rows - 1, m_cols - 1 });
 }
 
 void Map::createPath(std::pair<int, int> start, std::pair<int, int> finish)
@@ -64,129 +60,55 @@ void Map::createPath(std::pair<int, int> start, std::pair<int, int> finish)
     m_grid[currentPosition.first][currentPosition.second] = static_cast<CellType>(0);
 }
 
+std::vector<CellType> Map::getNeighboursVal(int X, int Y)
+{
+    std::vector<CellType> neighbours;
+    if (X + 1 < m_grid.size()) //RIGHT
+        neighbours.push_back(m_grid[X + 1][Y]); //emplace_back(X + 1, Y);
+    if (X - 1 >= 0) //LEFT
+        neighbours.push_back(m_grid[X - 1][Y]); //.emplace_back(X - 1, Y);
+    if (Y + 1 < m_grid[X].size()) //DOWN
+        neighbours.push_back(m_grid[X][Y + 1]); //.emplace_back(X, Y + 1);
+    if (Y - 1 >= 0) //UP
+        neighbours.push_back(m_grid[X][Y - 1]); //.emplace_back(X, Y - 1);
+    return neighbours;
+}
+
 std::string Map::getMapString() {
     std::string MapOutput;
-    //    for (int j = 0; j < m_cols + 2; j++) {
-    //        MapOutput += ' ';
-    //    }
-    //    MapOutput += '\n';
-    //        MapOutput += ' ';/
     for (int i = 0; i < m_rows; ++i) {
         for (int j = 0; j < m_cols; ++j) {
-            char type;
+            char TileType;
             switch (m_grid[i][j]) {
             case FREE_SPACE:
-                type = ' ';
+                TileType = ' ';
                 break;
             case DESTRUCTIBIL_WALL:
-                type = 'c';
+                TileType = 'M';
                 break;
             case INDESTRUCTIBIL_WALL:
-                type = 'w';
+                TileType = 'W';
+                break;
+            case BOMB_WALL:
+                TileType = 'B';
                 break;
             case PLAYER:
-                type = '@';
+                TileType = '@';
                 break;
             }
-            MapOutput += type;
+            MapOutput += TileType;
         }
-        //            MapOutput += ' ';
         MapOutput += "\n";
-        //            for (int j = 0; j < m_cols + 2; ++j)
-        //                MapOutput += ' ';
     }
-    //        MapOutput += "\n";
+    //
+    //for (int i = 0; i < m_rows; ++i) {
+        //for (int j = 0; j < m_cols; ++j) {
+            //std::cout << m_grid[i][j] << " ";
+        //}
+        //std::cout << "\n";
+    //}
+    //
     return MapOutput;
-}
-
-void Map::placePlayer(int playerId, int row, int col) {
-    if (row < 0 || row >= m_rows || col < 0 || col >= m_cols) {
-        std::cerr << "Pozitia (" << row << ", " << col << ") este in afara limitei hartii!\n";
-        return;
-    }
-    if (m_grid[row][col] == FREE_SPACE) {
-        m_grid[row][col] = PLAYER;
-        std::cout << "Playerul " << playerId << " a fost plasat la (" << row << ", " << col << ")\n";
-    } else {
-        std::cerr << "Nu se poate plasa playerul " << playerId << " la (" << row << ", " << col << ") deoarece celula este ocupată!\n";
-    }
-}
-bool Map::canMove(int row, int col, Direction direction)  {
-    int newRow = row;
-    int newCol = col;
-
-    switch (direction) {
-        case Direction::UP:
-            newRow -= 1;
-            break;
-        case Direction::DOWN:
-            newRow += 1;
-            break;
-        case Direction::LEFT:
-            newCol -= 1;
-            break;
-        case Direction::RIGHT:
-            newCol += 1;
-            break;
-    }
-    if (newRow < 0 || newRow >= m_rows || newCol < 0 || newCol >= m_cols) {
-        return false;
-    }
-    if (m_grid[newRow][newCol] == FREE_SPACE) {
-        return true;
-    }
-    return false;
-}
-void Map::placeCharactersInCorners(std::vector<Character>& characters) {
-    if (characters.size() < 2 || characters.size() > 4) {
-        std::cerr << "Număr invalid de jucători. Trebuie să fie între 2 și 4.\n";
-        return;
-    }
-
-    std::vector<std::pair<int, int>> corners = {
-            {0, 0},                          // Stânga sus
-            {0, m_cols - 1},                 // Dreapta sus
-            {m_rows - 1, 0},                 // Stânga jos
-            {m_rows - 1, m_cols - 1}         // Dreapta jos
-    };
-
-    std::random_device rd;
-    std::mt19937 g(rd());
-    std::shuffle(corners.begin(), corners.end(), g);
-
-    for (size_t i = 0; i < characters.size(); ++i) {
-        int row = corners[i].first;
-        int col = corners[i].second;
-
-        characters[i].setPosition({static_cast<float>(row), static_cast<float>(col)});
-        m_grid[row][col] = PLAYER;
-
-    }
-}
-void Map::clearSurroundingsAroundPlayers() {
-    std::vector<std::pair<int, int>> directions = {
-            {-1, 0}, // Sus
-            {1, 0},  // Jos
-            {0, -1}, // Stânga
-            {0, 1}   // Dreapta
-    };
-
-    for (int i = 0; i < m_rows; ++i) {
-        for (int j = 0; j < m_cols; ++j) {
-            if (m_grid[i][j] == PLAYER) {
-                for (const auto& dir : directions) {
-                    int newRow = i + dir.first;
-                    int newCol = j + dir.second;
-
-                    if (newRow >= 0 && newRow < m_rows && newCol >= 0 && newCol < m_cols) {
-                        if (m_grid[newRow][newCol] == INDESTRUCTIBIL_WALL) {
-                            m_grid[newRow][newCol] = FREE_SPACE;
-                        }
-                    }
-                }
-            }
-        }
-    }
 }
 
 void Map::setPositionValue(int X, int Y, CellType value)
