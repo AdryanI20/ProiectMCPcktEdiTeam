@@ -23,7 +23,6 @@ public:
 private:
     static const std::string playID;
     Game* m_game;
-    CellType m_valBelowPlr;
     PlayerObject* m_plr;
 };
 

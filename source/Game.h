@@ -21,10 +21,6 @@ public:
     void Clean();
     void Quit();
     bool isRunning();
-    //void checkCollisions();
-    //void updateBullets();
-    //void checkPlayerState();
-    //void showText(const std::string& content);
     GameStateMachine* getStateMachine();
     InputHandle* getInputHandler();
     TextureManager* getTextureManager();
@@ -38,7 +34,6 @@ private:
     InputHandle* m_inputhandler;
     TextureManager* m_texturemanager;
     Map* m_map;
-    //std::vector<Character> m_characters;
     GameStateMachine* m_gameStateMachine;
 
     bool m_running;
