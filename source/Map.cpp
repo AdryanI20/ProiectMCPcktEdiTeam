@@ -10,20 +10,23 @@ Map::Map(int rows,int cols): m_rows(rows), m_cols(cols){
 
 void Map::createRandomMap() {
     srand(time(NULL));
-    std::vector<int> cellTypeChanse = {20, 50, 30};
+    std::vector<int> CellChance = {40, 40, 10, 10};
+    int total = 0;
+    for (int weight : CellChance)
+        total += weight;
 
-    for (int i = 0; i < m_rows; i++) {
-        for (int j = 0; j < m_cols; j++) {
-            int randValue = rand() % 100;
+    for (int x = 0; x < m_rows; ++x) {
+        for (int y = 0; y < m_cols; ++y) {
+            int randValue = rand() % total + 1;
             
-            if (randValue < cellTypeChanse[0])
-                m_grid[i][j] = static_cast<CellType>(0);
-            else if (randValue < cellTypeChanse[0] + cellTypeChanse[1])
-                m_grid[i][j] = static_cast<CellType>(1);
-            else
-                m_grid[i][j] = static_cast<CellType>(2);
-
-            //m_grid[i][j] = static_cast<CellType>(randValue);
+            int choice = 0;
+            for (int i = 0; i < CellChance.size(); ++i) {
+                choice += CellChance[i];
+                if (choice >= randValue) {
+                    m_grid[x][y] = static_cast<CellType>(i);
+                    break;
+                }
+            }
         }
     }
 
@@ -57,7 +60,7 @@ void Map::createPath(std::pair<int, int> start, std::pair<int, int> finish)
         }
     }
 
-    m_grid[currentPosition.first][currentPosition.second] = static_cast<CellType>(0);
+    m_grid[currentPosition.first][currentPosition.second] = FREE_SPACE;
 }
 
 std::vector<CellType> Map::getNeighboursVal(int X, int Y)
