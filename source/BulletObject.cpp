@@ -11,7 +11,7 @@ void Bullet::Update(Game* game) {
 
     m_vel += m_direction * m_speed;
 
-    Vector2D newPos = Vector2D(floor((m_pos + m_vel).getX()), floor((m_pos + m_vel).getY()));
+    Vector2D newPos = Vector2D(round((m_pos + m_vel).getX()), round((m_pos + m_vel).getY()));
 
     if (newPos != m_pos) {
         m_vel = Vector2D(0, 0);
