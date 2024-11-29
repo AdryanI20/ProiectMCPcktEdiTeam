@@ -43,6 +43,11 @@ Vector2D Vector2D::operator/(float scalar) {
     return Vector2D(m_x / scalar, m_y / scalar);
 }
 
+bool Vector2D::operator==(const Vector2D& v2) const
+{
+    return m_x == v2.getX() && m_y == v2.getY();
+}
+
 Vector2D& Vector2D::operator/=(float scalar) {
     m_x /= scalar;
     m_y /= scalar;
