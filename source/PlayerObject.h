@@ -1,6 +1,7 @@
 #pragma once
 #include "GameObject.h"
 #include "CellType.h"
+#include "BulletObject.h"
 
 class PlayerObject : public GameObject {
 public:
@@ -13,4 +14,5 @@ private:
     int m_facing;
     CellType m_valBelowPlr;
     int inputMap;
+    //std::vector<Bullet*> shots;
 };

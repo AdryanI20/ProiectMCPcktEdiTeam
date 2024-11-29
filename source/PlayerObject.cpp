@@ -51,6 +51,32 @@ void PlayerObject::Update(Game* game) {
         m_valBelowPlr = map->getPositionValue(m_pos.getX(), m_pos.getY());
         map->setPositionValue(m_pos.getX(), m_pos.getY(), CellType::PLAYER);
     }
+
+    bool shoot = false;
+    switch (inputMap)
+    {
+    case 0:
+        if (inputHandler->isKeyJustPressed(SDL_SCANCODE_Z))
+            shoot = true;
+        break;
+    case 1:
+        if (inputHandler->isKeyJustPressed(SDL_SCANCODE_X))
+            shoot = true;
+        break;
+    case 2:
+        if (inputHandler->isKeyJustPressed(SDL_SCANCODE_C))
+            shoot = true;
+        break;
+    case 3:
+        if (inputHandler->isKeyJustPressed(SDL_SCANCODE_V))
+            shoot = true;
+        break;
+    }
+
+    if (shoot) {
+        std::map<std::string, GameObject*>& objs = game->getStateMachine()->getCurrentState()->getGameObjects();
+        objs.emplace("Bullet" + std::to_string(objs.size()), new Bullet(0, 0, 1, m_facing));
+    }
 }
 
 void PlayerObject::Clean() {

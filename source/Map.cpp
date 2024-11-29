@@ -95,6 +95,9 @@ std::string Map::getMapString() {
             case PLAYER:
                 TileType = '@';
                 break;
+            case BULLET:
+                TileType = '.';
+                break;
             }
             MapOutput += TileType;
         }
