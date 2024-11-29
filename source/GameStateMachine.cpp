@@ -54,3 +54,9 @@ void GameStateMachine::onKeyUp(SDL_Event* e) {
         gameStates.back()->onKeyUp(e);
     }
 }
+
+GameState* GameStateMachine::getCurrentState() const {
+    if (!gameStates.empty()) 
+        return gameStates.back();
+    return nullptr;
+}

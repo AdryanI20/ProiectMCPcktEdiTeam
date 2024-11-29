@@ -19,6 +19,7 @@ public:
 
     void onKeyDown(SDL_Event* e);
     void onKeyUp(SDL_Event* e);
+    GameState* getCurrentState() const;
 private:
     std::vector<GameState*> gameStates;
 };

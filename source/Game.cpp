@@ -1,5 +1,4 @@
 #include "Game.h"
-//#include "Weapon.h"
 #include "MainMenuState.h"
 
 Game::Game() {
