@@ -32,17 +32,11 @@ bool Game::Init(const std::string& title, int x, int y, int width, int height, i
         return false;
     }
 
-    //SDL_SetRenderDrawColor(m_renderer, 0, 0, 0, 255);
-
     m_texturemanager = new TextureManager();
     m_inputhandler = new InputHandle();
     m_inputhandler->Init();
-    m_map = new Map(12, 20);
+    m_map = new Map(30, 30);
     m_map->createRandomMap();
-
-    //Weapon weapon_test;
-    //Character character("Nume", std::make_pair<float, float>(0, 0), weapon_test);
-    //m_characters.push_back(character);
 
     m_running = true;
 
@@ -56,8 +50,7 @@ void Game::Render() {
     SDL_RenderClear(m_renderer);
 
     m_gameStateMachine->Render();
-//    if (m_texturemanager->TextureExists("text"))
-//        m_texturemanager->Draw("text", 0, 0, 2, m_renderer);
+
     SDL_RenderPresent(m_renderer);
 }
 
@@ -82,31 +75,7 @@ bool Game::isRunning() {
 
 void Game::Update() {
     m_gameStateMachine->Update();
-//    showText(m_map->getMapString());
 }
-
-//void Game::checkCollisions()
-//{
-//    for (auto& character : m_characters)
-//    {
-//        auto& bullets = character.getPlayerBullets();
-//        for (int i = 0; i < bullets.size(); i++)
-//        {
-//            if (m_map->getPosition(bullets[i].getPosition().first, bullets[i].getPosition().second) != FREE_SPACE)
-//            {
-//                m_map->manageCollision(bullets[i].getPosition().first, bullets[i].getPosition().second);
-//                character.deleteBullet(i);
-//            }
-//        }
-//    }
-//}
-
-
-//void Game::showText(const std::string &content) {
-//    if (m_texturemanager->TextureExists("text"))
-//        m_texturemanager->clearFromTextureMap("text");
-//    m_texturemanager->Load(content, "text", m_renderer);
-//}
 
 GameStateMachine* Game::getStateMachine() {
     return m_gameStateMachine;

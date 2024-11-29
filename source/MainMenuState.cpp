@@ -9,6 +9,8 @@ std::string MainMenuState::getStateID() const {
     return menuID;
 }
 
+MainMenuState::MainMenuState(Game* game) : m_game(game) {}
+
 void MainMenuState::Update() {
     //for (objs_it iterator = gameObjects.begin(); iterator != gameObjects.end(); iterator++) {
         //iterator->second->Update(m_game->getInputHandler());
