@@ -23,6 +23,5 @@ public:
 private:
     static const std::string playID;
     Game* m_game;
-    PlayerObject* m_plr;
 };
 

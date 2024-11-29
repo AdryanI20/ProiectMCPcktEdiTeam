@@ -2,17 +2,37 @@
 #include <iostream>
 #include "Game.h"
 
-PlayerObject::PlayerObject(int X, int Y, CellType valBelow) : GameObject(X, Y), m_facing(3), m_valBelowPlr(valBelow) {}
+PlayerObject::PlayerObject(int X, int Y, CellType valBelow, int mapping) : GameObject(X, Y), m_facing(3), m_valBelowPlr(valBelow), inputMap(mapping) {}
 
 void PlayerObject::Update(Game* game) {
     InputHandle* inputHandler = game->getInputHandler();
     Map* map = game->getMap();
     Vector2D oldPos = m_pos;
 
-    m_vel = Vector2D(
-        inputHandler->isKeyJustPressed(SDL_SCANCODE_DOWN) - inputHandler->isKeyJustPressed(SDL_SCANCODE_UP),
-        inputHandler->isKeyJustPressed(SDL_SCANCODE_RIGHT) - inputHandler->isKeyJustPressed(SDL_SCANCODE_LEFT));
-
+    switch (inputMap)
+    {
+    case 0:
+        m_vel = Vector2D(
+            inputHandler->isKeyJustPressed(SDL_SCANCODE_DOWN) - inputHandler->isKeyJustPressed(SDL_SCANCODE_UP),
+            inputHandler->isKeyJustPressed(SDL_SCANCODE_RIGHT) - inputHandler->isKeyJustPressed(SDL_SCANCODE_LEFT));
+        break;
+    case 1:
+        m_vel = Vector2D(
+            inputHandler->isKeyJustPressed(SDL_SCANCODE_S) - inputHandler->isKeyJustPressed(SDL_SCANCODE_W),
+            inputHandler->isKeyJustPressed(SDL_SCANCODE_D) - inputHandler->isKeyJustPressed(SDL_SCANCODE_A));
+        break;
+    case 2:
+        m_vel = Vector2D(
+            inputHandler->isKeyJustPressed(SDL_SCANCODE_G) - inputHandler->isKeyJustPressed(SDL_SCANCODE_T),
+            inputHandler->isKeyJustPressed(SDL_SCANCODE_H) - inputHandler->isKeyJustPressed(SDL_SCANCODE_F));
+        break;
+    case 3:
+        m_vel = Vector2D(
+            inputHandler->isKeyJustPressed(SDL_SCANCODE_K) - inputHandler->isKeyJustPressed(SDL_SCANCODE_I),
+            inputHandler->isKeyJustPressed(SDL_SCANCODE_L) - inputHandler->isKeyJustPressed(SDL_SCANCODE_J));
+        break;
+    }
+    
     Vector2D newPos = m_pos + m_vel;
     if (map->getPositionValue(newPos.getX(), newPos.getY()) == CellType::FREE_SPACE)
         m_pos = newPos;
@@ -28,6 +48,7 @@ void PlayerObject::Update(Game* game) {
 
     if (m_pos != oldPos) {
         map->setPositionValue(oldPos.getX(), oldPos.getY(), m_valBelowPlr);
+        m_valBelowPlr = map->getPositionValue(m_pos.getX(), m_pos.getY());
         map->setPositionValue(m_pos.getX(), m_pos.getY(), CellType::PLAYER);
     }
 }

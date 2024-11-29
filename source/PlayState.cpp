@@ -22,15 +22,43 @@ void PlayState::Render() {
 
     m_game->getTextureManager()->Load(m_game->getMap()->getMapString(), "Map", m_game->getRenderer());
     
-    m_game->getTextureManager()->Draw("Map", 0, 0, 2, m_game->getRenderer());
+    m_game->getTextureManager()->Draw("Map", 0, 0, 1, m_game->getRenderer());
 }
 
 bool PlayState::onEnter() {
     std::cout << "entering Play" << std::endl;
 
-    gameObjects.emplace("Player", new PlayerObject(0, 0, m_game->getMap()->getPositionValue(0, 0)) );
-    m_plr = dynamic_cast<PlayerObject*>(getObjectByID("Player"));
-    m_game->getMap()->setPositionValue(m_plr->getPos().getX(), m_plr->getPos().getY(), CellType::PLAYER);
+    gameObjects.emplace("Player1", 
+        new PlayerObject(
+            0, 
+            0, 
+            m_game->getMap()->getPositionValue(0, 0),
+            0
+        ));
+    gameObjects.emplace("Player2", 
+        new PlayerObject(
+            m_game->getMap()->getSize().first-1, 
+            0, 
+            m_game->getMap()->getPositionValue(m_game->getMap()->getSize().first-1, 0),
+            1
+        ));
+    gameObjects.emplace("Player3", 
+        new PlayerObject(
+            0,
+            m_game->getMap()->getSize().second-1,
+            m_game->getMap()->getPositionValue(0, m_game->getMap()->getSize().second-1),
+            2
+        ));
+    gameObjects.emplace("Player4", 
+        new PlayerObject(
+            m_game->getMap()->getSize().first-1, 
+            m_game->getMap()->getSize().second-1,
+            m_game->getMap()->getPositionValue(m_game->getMap()->getSize().first-1, m_game->getMap()->getSize().second-1),
+            3
+        ));
+    for (objs_it iterator = gameObjects.begin(); iterator != gameObjects.end(); iterator++) {
+        m_game->getMap()->setPositionValue(iterator->second->getPos().getX(), iterator->second->getPos().getY(), CellType::PLAYER);
+    }
 
     return true; //success
 }

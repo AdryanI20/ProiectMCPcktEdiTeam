@@ -4,7 +4,7 @@
 
 class PlayerObject : public GameObject {
 public:
-    PlayerObject(int X, int Y, CellType valBelow);
+    PlayerObject(int X, int Y, CellType valBelow, int mapping);
 
     void Update(Game* game) override;
     void Clean() override;
@@ -12,4 +12,5 @@ public:
 private:
     int m_facing;
     CellType m_valBelowPlr;
+    int inputMap;
 };

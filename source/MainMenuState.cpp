@@ -20,7 +20,7 @@ void MainMenuState::Update() {
 void MainMenuState::Render() {
     SDL_SetRenderDrawColor(m_game->getRenderer(), 30, 30, 30, 255);
     if (m_game->getTextureManager()->TextureExists("MainMenu"))
-        m_game->getTextureManager()->Draw("MainMenu", 960/4, 100, 2, m_game->getRenderer());
+        m_game->getTextureManager()->Draw("MainMenu", 740/4, 100, 2, m_game->getRenderer());
 }
 
 bool MainMenuState::onEnter() {
