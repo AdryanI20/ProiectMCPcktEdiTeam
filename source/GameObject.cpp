@@ -7,8 +7,8 @@ Vector2D& GameObject::getPos() {
 	return m_pos;
 }
 
-void GameObject::Update(InputHandle* inputhandler) {
-    m_pos += m_vel;
+void GameObject::Update(Game* game) {
+
 }
 
 void GameObject::Clean() {

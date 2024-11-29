@@ -3,25 +3,25 @@
 Bullet::Bullet(int X, int Y, float speed, int direction)
     : GameObject(X, Y), m_speed(speed), m_facingDirection(direction), m_isHit(false) {}
 
-void Bullet::Update(InputHandle* inputhandler) {
-    if (!m_isHit) {
-        switch (m_facingDirection) {
-        case 0:
-            m_pos.setX(m_pos.getX() - m_speed);
-            break;
-        case 1:
-            m_pos.setY(m_pos.getY() + m_speed);
-            break;
-        case 2:
-            m_pos.setX(m_pos.getX() + m_speed);
-            break;
-        case 3:
-            m_pos.setY(m_pos.getY() - m_speed);
-            break;
-        default:
-            break;
-        }
-    }
+void Bullet::Update(Game* game) {
+    //if (!m_isHit) {
+    //    switch (m_facingDirection) {
+    //    case 0:
+    //        m_pos.setX(m_pos.getX() - m_speed);
+    //        break;
+    //    case 1:
+    //        m_pos.setY(m_pos.getY() + m_speed);
+    //        break;
+    //    case 2:
+    //        m_pos.setX(m_pos.getX() + m_speed);
+    //        break;
+    //    case 3:
+    //        m_pos.setY(m_pos.getY() - m_speed);
+    //        break;
+    //    default:
+    //        break;
+    //    }
+    //}
 }
 
 void Bullet::Clean() {

@@ -1,14 +1,15 @@
 #pragma once
-
 #include "GameObject.h"
+#include "CellType.h"
 
 class PlayerObject : public GameObject {
 public:
-    PlayerObject(int X, int Y);
+    PlayerObject(int X, int Y, CellType valBelow);
 
-    void Update(InputHandle* inputhandler) override;
+    void Update(Game* game) override;
     void Clean() override;
     void setPos(int X, int Y);
 private:
-
+    int m_facing;
+    CellType m_valBelowPlr;
 };

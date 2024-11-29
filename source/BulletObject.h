@@ -1,12 +1,11 @@
 #pragma once
-
 #include "GameObject.h"
 
 class Bullet : public GameObject {
 public:
     Bullet(int X, int Y, float speed, int direction);
 
-    void Update(InputHandle* inputhandler) override;
+    void Update(Game* game) override;
     void Clean() override;
 
     void setDirection(int direction);
