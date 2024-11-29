@@ -72,7 +72,7 @@ void PlayerObject::Update(Game* game) {
         GameState* STATE = game->getStateMachine()->getCurrentState();
         STATE->getGameObjects().emplace("Bullet" + std::to_string(STATE->getGameObjects().size()), new Bullet(
             m_pos + m_facing,
-            0.08,
+            0.11,
             m_facing,
             map->getPositionValue( (m_pos + m_facing).getX(), (m_pos + m_facing).getY() )
         ));
@@ -92,12 +92,6 @@ void PlayerObject::Update(Game* game) {
             }
         }
     }
-
-        //auto objs = game->getStateMachine()->getCurrentState(); //->getGameObjects();
-        //if (m_shot->shouldDestroy()) {
-        //    delete m_shot;
-        //    STATE->getGameObjects().erase();
-        //}
 }
 
 void PlayerObject::Clean() {
