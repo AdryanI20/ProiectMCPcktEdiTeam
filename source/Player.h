@@ -1,13 +1,10 @@
 #pragma once
 #include <string>
 
-#include "Character.h"
-
 class Player
 {
 public:
-	Player(int id, int team, Character* character, std::string name) : m_id{ id }, m_team{ team }
-		, m_character{ character }, m_name{ name }, m_points { 0 }, m_score{ 0 } {};
+	Player(int id, int team, std::string name);
 	~Player();
 
 	int getId();
@@ -17,9 +14,6 @@ public:
 	void setPoints(int value);
 	int getScore();
 	void setScore(int value);
-	void setCharacter(Character* character);
-	void removeCharacter();
-	void checkCharacter();
 	void setName(std::string name);
 	std::string getName();
 
@@ -29,6 +23,4 @@ private:
 	int m_points;
 	int m_score;
 	std::string m_name;
-
-	Character* m_character;
 };

@@ -130,7 +130,6 @@
   <ItemGroup>
     <ClInclude Include="source\BulletObject.h" />
     <ClInclude Include="source\CellType.h" />
-    <ClInclude Include="source\Character.h" />
     <ClInclude Include="source\Game.h" />
     <ClInclude Include="source\GameObject.h" />
     <ClInclude Include="source\GameState.h" />
@@ -146,7 +145,6 @@
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="source\BulletObject.cpp" />
-    <ClCompile Include="source\Character.cpp" />
     <ClCompile Include="source\Game.cpp" />
     <ClCompile Include="source\GameObject.cpp" />
     <ClCompile Include="source\GameStateMachine.cpp" />

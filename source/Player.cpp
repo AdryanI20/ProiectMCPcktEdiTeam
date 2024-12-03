@@ -1,10 +1,9 @@
 #include "Player.h"
-#include "Character.h"
 
-Player::~Player()
-{
-	removeCharacter();
-}
+Player::Player(int id, int team, std::string name) : m_id{ id }, m_team{ team }
+, m_name{ name }, m_points{ 0 }, m_score{ 0 } {}
+
+Player::~Player() {}
 
 int Player::getId()
 {
@@ -39,27 +38,6 @@ int Player::getScore()
 void Player::setScore(int value)
 {
 	m_score = value;
-}
-
-void Player::removeCharacter()
-{
-	delete m_character;
-	m_character = nullptr;
-}
-
-void Player::setCharacter(Character* character)
-{
-	removeCharacter();
-	m_character = character;
-}
-
-void Player::checkCharacter()
-{
-	if (m_character->getLives() == 0)
-	{
-		removeCharacter();
-		setTeam(-1);
-	}
 }
 
 void Player::setName(std::string name)
