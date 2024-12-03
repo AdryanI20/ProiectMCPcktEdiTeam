@@ -34,6 +34,8 @@ bool Game::Init(const std::string& title, int x, int y, int width, int height, i
         std::cout << "Error creating renderer: " << SDL_GetError() << std::endl;
         return false;
     }
+    SDL_RenderSetLogicalSize(m_renderer, 1930, 1930);
+
 
     m_texturemanager = new TextureManager();
     m_inputhandler = new InputHandle();
