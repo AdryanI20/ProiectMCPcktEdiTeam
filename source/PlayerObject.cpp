@@ -2,8 +2,8 @@
 #include <iostream>
 #include "Game.h"
 
-PlayerObject::PlayerObject(int X, int Y, CellType valBelow, int mapping)
-    : GameObject(X, Y), m_facing(-1, 0), m_valBelow(valBelow), inputMap(mapping), m_shot(nullptr) {}
+PlayerObject::PlayerObject(int X, int Y, CellType valBelow, int mapping, const std::string& TEX_ID)
+    : GameObject(X, Y, TEX_ID), m_facing(-1, 0), m_valBelow(valBelow), inputMap(mapping), m_shot(nullptr) {}
 
 void PlayerObject::Update(Game* game) {
     InputHandle* inputHandler = game->getInputHandler();
@@ -74,7 +74,8 @@ void PlayerObject::Update(Game* game) {
             m_pos + m_facing,
             0.11,
             m_facing,
-            map->getPositionValue( (m_pos + m_facing).getX(), (m_pos + m_facing).getY() )
+            map->getPositionValue( (m_pos + m_facing).getX(), (m_pos + m_facing).getY() ),
+            ""
         ));
         m_shot = dynamic_cast<Bullet*>(
             STATE->getObjectByID( "Bullet" + std::to_string(STATE->getGameObjects().size() - 1) )
@@ -96,6 +97,10 @@ void PlayerObject::Update(Game* game) {
 
 void PlayerObject::Clean() {
 
+}
+
+void PlayerObject::Draw(TextureManager* textureManager, SDL_Renderer* renderer) {
+    textureManager->Draw(m_textureID, m_pos.getY()*30, m_pos.getX()*30, 1, renderer, 0);
 }
 
 void PlayerObject::setPos(int X, int Y) {

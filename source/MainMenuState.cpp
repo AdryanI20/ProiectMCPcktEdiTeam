@@ -21,12 +21,17 @@ void MainMenuState::Render() {
     SDL_SetRenderDrawColor(m_game->getRenderer(), 30, 30, 30, 255);
     if (m_game->getTextureManager()->TextureExists("MainMenu"))
         m_game->getTextureManager()->Draw("MainMenu", 740/4, 100, 2, m_game->getRenderer());
+
+    //for (objs_it iterator = gameObjects.begin(); iterator != gameObjects.end(); iterator++)
+    //{
+        //iterator->second->draw();
+    //}
 }
 
 bool MainMenuState::onEnter() {
     std::cout << "entering MainMenu" << std::endl;
 
-    m_game->getTextureManager()->Load("Game Title", "MainMenu", m_game->getRenderer());
+    m_game->getTextureManager()->LoadText("Game Title", "MainMenu", m_game->getRenderer());
 
     return true; //success
 }

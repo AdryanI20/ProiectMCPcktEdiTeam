@@ -2,8 +2,8 @@
 #include <cmath>
 #include "Game.h"
 
-Bullet::Bullet(Vector2D pos, float speed, Vector2D direction, CellType valBelow)
-    : GameObject(pos), m_speed(speed), m_direction(direction), m_valBelow(valBelow), m_destroyed(false) {}
+Bullet::Bullet(Vector2D pos, float speed, Vector2D direction, CellType valBelow, const std::string& TEX_ID)
+    : GameObject(pos, TEX_ID), m_speed(speed), m_direction(direction), m_valBelow(valBelow), m_destroyed(false) {}
 //TODO: IF BULLET IS SPAWNED INSIDE OF AN OBJECT APPLY THE RELEVANT LOGIC
 
 void Bullet::Update(Game* game) {
@@ -81,6 +81,9 @@ void Bullet::Update(Game* game) {
 
 void Bullet::Clean() {
     m_destroyed = true;
+}
+
+void Bullet::Draw(TextureManager* textureManager, SDL_Renderer* renderer) {
 }
 
 bool Bullet::shouldDestroy()
