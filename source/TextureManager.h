@@ -1,5 +1,6 @@
 #pragma once
 #include "SDL_ttf.h"
+#include "SDL_image.h"
 #include "SDL.h"
 #include <map>
 #include <string>
@@ -10,9 +11,10 @@ public:
     TextureManager();
     ~TextureManager();
 
-    bool Load(const std::string& input, const std::string& id, SDL_Renderer* renderer);
+    bool LoadText(const std::string& input, const std::string& id, SDL_Renderer* renderer);
+    bool LoadImage(const std::string& fileName, const std::string& id, SDL_Renderer* renderer);
 
-    void Draw(const std::string& id, int x, int y, double scale, SDL_Renderer* renderer, int w=-1, int h=-1);
+    void Draw(const std::string& id, int x, int y, double scale, SDL_Renderer* renderer,int angle=0, int w=-1, int h=-1);
 
     void clearFromTextureMap(const std::string& id);
 

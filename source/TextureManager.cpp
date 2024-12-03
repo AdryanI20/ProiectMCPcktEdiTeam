@@ -11,7 +11,7 @@ TextureManager::~TextureManager() {
     TTF_CloseFont(m_font);
 }
 
-bool TextureManager::Load(const std::string& input, const std::string& id, SDL_Renderer* renderer)
+bool TextureManager::LoadText(const std::string& input, const std::string& id, SDL_Renderer* renderer)
 {
     if (m_font == nullptr) {
         m_font = TTF_OpenFont("resources/kongtext.ttf", 24);
@@ -33,11 +33,36 @@ bool TextureManager::Load(const std::string& input, const std::string& id, SDL_R
         return false;
     }
 
-    m_textureMap[id] = std::make_tuple(texture, textW, textH);
+    m_textureMap.emplace(id, std::make_tuple(texture, textW, textH)); //[id] = std::make_tuple(texture, textW, textH);
     return true;
 }
 
-void TextureManager::Draw(const std::string& id, int x, int y, double scale, SDL_Renderer* renderer, int w, int h) {
+bool TextureManager::LoadImage(const std::string& fileName, const std::string& id, SDL_Renderer* renderer)
+{
+    SDL_Surface* tempSurf = IMG_Load(fileName.c_str());
+
+    if (tempSurf == nullptr) {
+        std::cout << "could not load image named: '" << fileName.c_str() << "'!!!" << std::endl;
+        return false;
+    }
+
+    SDL_Texture* texture = SDL_CreateTextureFromSurface(renderer, tempSurf);
+    int textW = tempSurf->w;
+    int textH = tempSurf->h;
+    SDL_FreeSurface(tempSurf);
+
+    if (texture != nullptr)
+    {
+        std::cout << "Texture loaded successfully... ('" << fileName.c_str() << "')" << std::endl;
+        m_textureMap.emplace(id, std::make_tuple(texture, textW, textH)); //[id] = std::make_tuple(texture, textW, textH); texture;
+        return true;
+    }
+
+    std::cout << "Could not create texture from surface!!! ('" << fileName.c_str() << "')" << std::endl;
+    return false;
+}
+
+void TextureManager::Draw(const std::string& id, int x, int y, double scale, SDL_Renderer* renderer, int angle,int w, int h) {
     SDL_Rect srcRect, destRect;
 
     srcRect.x = 0;
@@ -54,7 +79,7 @@ void TextureManager::Draw(const std::string& id, int x, int y, double scale, SDL
     destRect.w *= scale;
     destRect.h *= scale;
 
-    SDL_RenderCopy(renderer, std::get<0>(m_textureMap[id]), &srcRect, &destRect);
+    SDL_RenderCopyEx(renderer, std::get<0>(m_textureMap[id]), &srcRect, &destRect, angle, NULL, SDL_FLIP_NONE);
 }
 
 void TextureManager::clearFromTextureMap(const std::string& id)
