@@ -5,7 +5,7 @@
 
 class Game;
 class TextureManager;
-class SDL_Renderer;
+struct SDL_Renderer;
 
 class GameObject
 {
