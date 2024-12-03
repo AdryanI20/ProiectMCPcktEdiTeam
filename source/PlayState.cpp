@@ -1,5 +1,5 @@
 #include "PlayState.h"
-//#include <iostream>
+#include <iostream>
 #include "Game.h"
 
 const std::string PlayState::playID = "PLAY";
@@ -22,8 +22,12 @@ void PlayState::Render() {
 
     m_game->getTextureManager()->LoadText(m_game->getMap()->getMapString(), "Map", m_game->getRenderer());
     
-    //m_game->getTextureManager()->Draw("test", 50, 50, 1, m_game->getRenderer(), );
     m_game->getTextureManager()->Draw("Map", 0, 0, 1, m_game->getRenderer());
+
+    //
+    //m_game->getTextureManager()->Draw("Wall1", 0, 0, 1, m_game->getRenderer());
+    //m_game->getTextureManager()->Draw("Wall2", 128, 128, 1, m_game->getRenderer());
+    //
 
     for (objs_it iterator = gameObjects.begin(); iterator != gameObjects.end(); iterator++)
     {
@@ -33,6 +37,12 @@ void PlayState::Render() {
 
 bool PlayState::onEnter() {
     std::cout << "entering Play" << std::endl;
+
+    m_game->getTextureManager()->LoadImage("resources/cannonBall.png", "Bullet", m_game->getRenderer());
+
+    m_game->getTextureManager()->LoadImage("resources/water.png", "Wall0", m_game->getRenderer());
+    m_game->getTextureManager()->LoadImage("resources/brick_red.png", "Wall1", m_game->getRenderer());
+    m_game->getTextureManager()->LoadImage("resources/brick_grey.png", "Wall2", m_game->getRenderer());
 
     m_game->getTextureManager()->LoadImage("resources/ship1.png", "Player1", m_game->getRenderer());
     m_game->getTextureManager()->LoadImage("resources/ship2.png", "Player2", m_game->getRenderer());

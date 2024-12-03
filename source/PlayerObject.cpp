@@ -72,14 +72,14 @@ void PlayerObject::Update(Game* game) {
         GameState* STATE = game->getStateMachine()->getCurrentState();
         STATE->getGameObjects().emplace("Bullet" + std::to_string(STATE->getGameObjects().size()), new Bullet(
             m_pos + m_facing,
-            0.11,
+            0.2,
             m_facing,
-            map->getPositionValue( (m_pos + m_facing).getX(), (m_pos + m_facing).getY() ),
-            ""
+            "Bullet"
         ));
         m_shot = dynamic_cast<Bullet*>(
             STATE->getObjectByID( "Bullet" + std::to_string(STATE->getGameObjects().size() - 1) )
             );
+        m_shot->CollideLogic(map, Vector2D(-1, -1), m_pos + m_facing);
     }
 
     if (m_shot) {
@@ -100,7 +100,7 @@ void PlayerObject::Clean() {
 }
 
 void PlayerObject::Draw(TextureManager* textureManager, SDL_Renderer* renderer) {
-    textureManager->Draw(m_textureID, m_pos.getY()*30, m_pos.getX()*30, 1, renderer, 0);
+    //textureManager->Draw(m_textureID, m_pos.getY()*128, m_pos.getX()*128, 1, renderer, 0);
 }
 
 void PlayerObject::setPos(int X, int Y) {
