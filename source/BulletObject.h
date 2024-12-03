@@ -10,6 +10,8 @@ public:
     void Clean() override;
 
     bool shouldDestroy();
+
+    void explodeBombWall(Game* game, Vector2D pos);
 private:
     float m_speed; 
     Vector2D m_direction;
