@@ -15,19 +15,37 @@ void PlayState::Update() {
 }
 
 void PlayState::Render() {
-    SDL_SetRenderDrawColor(m_game->getRenderer(), 33, 149, 199, 255);
+    int img_size = 64;
+    SDL_Renderer* renderer = m_game->getRenderer();
+    SDL_SetRenderDrawColor(renderer, 33, 149, 199, 255);
 
-    if (m_game->getTextureManager()->TextureExists("Map"))
-        m_game->getTextureManager()->clearFromTextureMap("Map");
-
-    m_game->getTextureManager()->LoadText(m_game->getMap()->getMapString(), "Map", m_game->getRenderer());
-    
-    m_game->getTextureManager()->Draw("Map", 0, 0, 1, m_game->getRenderer());
-
-    //
-    //m_game->getTextureManager()->Draw("Wall1", 0, 0, 1, m_game->getRenderer());
-    //m_game->getTextureManager()->Draw("Wall2", 128, 128, 1, m_game->getRenderer());
-    //
+    TextureManager* textureManager = m_game->getTextureManager();
+    std::pair<int, int> mapSize = m_game->getMap()->getSize();
+    const std::vector<std::vector<CellType>>& mapData = m_game->getMap()->getMap();
+    for (int i = 0; i < mapSize.first; ++i) {
+        for (int j = 0; j < mapSize.second; ++j) {
+            switch (mapData[i][j]) {
+            case FREE_SPACE:
+                textureManager->Draw("Wall0", j * img_size, i * img_size, 1, renderer);
+                break;
+            case PLAYER:
+                textureManager->Draw("Wall0", j * img_size, i * img_size, 1, renderer);
+                break;
+            case BULLET:
+                textureManager->Draw("Wall0", j * img_size, i * img_size, 1, renderer);
+                break;
+            case DESTRUCTIBIL_WALL:
+                textureManager->Draw("Wall1", j * img_size, i * img_size, 1, renderer);
+                break;
+            case INDESTRUCTIBIL_WALL:
+                textureManager->Draw("Wall2", j * img_size, i * img_size, 1, renderer);
+                break;
+            case BOMB_WALL:
+                textureManager->Draw("Wall1", j * img_size, i * img_size, 1, renderer);
+                break;
+            }
+        }
+    }
 
     for (objs_it iterator = gameObjects.begin(); iterator != gameObjects.end(); iterator++)
     {
@@ -38,16 +56,16 @@ void PlayState::Render() {
 bool PlayState::onEnter() {
     std::cout << "entering Play" << std::endl;
 
-    m_game->getTextureManager()->LoadImage("resources/cannonBall.png", "Bullet", m_game->getRenderer());
+    m_game->getTextureManager()->LoadImage("resources/cannonBall_small.png", "Bullet", m_game->getRenderer());
 
-    m_game->getTextureManager()->LoadImage("resources/water.png", "Wall0", m_game->getRenderer());
-    m_game->getTextureManager()->LoadImage("resources/brick_red.png", "Wall1", m_game->getRenderer());
-    m_game->getTextureManager()->LoadImage("resources/brick_grey.png", "Wall2", m_game->getRenderer());
+    m_game->getTextureManager()->LoadImage("resources/water_small.png", "Wall0", m_game->getRenderer());
+    m_game->getTextureManager()->LoadImage("resources/brick_red_small.png", "Wall1", m_game->getRenderer());
+    m_game->getTextureManager()->LoadImage("resources/brick_grey_small.png", "Wall2", m_game->getRenderer());
 
-    m_game->getTextureManager()->LoadImage("resources/ship1.png", "Player1", m_game->getRenderer());
-    m_game->getTextureManager()->LoadImage("resources/ship2.png", "Player2", m_game->getRenderer());
-    m_game->getTextureManager()->LoadImage("resources/ship3.png", "Player3", m_game->getRenderer());
-    m_game->getTextureManager()->LoadImage("resources/ship4.png", "Player4", m_game->getRenderer());
+    m_game->getTextureManager()->LoadImage("resources/ship1_small.png", "Player1", m_game->getRenderer());
+    m_game->getTextureManager()->LoadImage("resources/ship2_small.png", "Player2", m_game->getRenderer());
+    m_game->getTextureManager()->LoadImage("resources/ship3_small.png", "Player3", m_game->getRenderer());
+    m_game->getTextureManager()->LoadImage("resources/ship4_small.png", "Player4", m_game->getRenderer());
 
     gameObjects.emplace("Player1", 
         new PlayerObject(
@@ -94,8 +112,8 @@ bool PlayState::onExit() {
     }
     gameObjects.clear();
 
-    if (m_game->getTextureManager()->TextureExists("Map"))
-        m_game->getTextureManager()->clearFromTextureMap("Map");
+    //if (m_game->getTextureManager()->TextureExists("Map"))
+        //m_game->getTextureManager()->clearFromTextureMap("Map");
 
     std::cout << "exiting Play" << std::endl;
     return true;

@@ -30,6 +30,8 @@ void Bullet::Clean() {
 }
 
 void Bullet::Draw(TextureManager* textureManager, SDL_Renderer* renderer) {
+    int img_size = 64;
+    textureManager->Draw(m_textureID, m_pos.getY() * img_size, m_pos.getX() * img_size, 1, renderer, 0);
 }
 
 bool Bullet::shouldDestroy()
@@ -102,10 +104,11 @@ void Bullet::CollideLogic(Map* map, Vector2D oldPos, Vector2D newPos) {
         Clean();
         break;
         //TODO: obtine obiectul care glontul a distrus
-        //cumva conectam pozitia de pe harta cu un GameObject
+        //cumva conectam pozitia de pe harta cu un GameObject pentru a putea sa il stergem din memorie
     case PLAYER:
         map->setPositionValue(oldPos.getX(), oldPos.getY(), CellType::FREE_SPACE);
         map->setPositionValue(newPos.getX(), newPos.getY(), CellType::FREE_SPACE);
+        //ASTA FUNCTIONEAZA DAR JUCATORUL ESTE INCA IN MEMORIE
         Clean();
         break;
     case VOID:

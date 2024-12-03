@@ -68,11 +68,12 @@ void PlayerObject::Update(Game* game) {
         break;
     }
 
+    //TODO: id-urile care incerc sa le dau la gloante cateodata se intalnesc si atunci un glont care tocmai ce a fost distrus primeste o functie de rulat din cauza conflictului de ID si el este nullptr
     if (shoot && m_shot == nullptr) {
         GameState* STATE = game->getStateMachine()->getCurrentState();
         STATE->getGameObjects().emplace("Bullet" + std::to_string(STATE->getGameObjects().size()), new Bullet(
             m_pos + m_facing,
-            0.2,
+            0.11,
             m_facing,
             "Bullet"
         ));
@@ -100,7 +101,17 @@ void PlayerObject::Clean() {
 }
 
 void PlayerObject::Draw(TextureManager* textureManager, SDL_Renderer* renderer) {
-    //textureManager->Draw(m_textureID, m_pos.getY()*128, m_pos.getX()*128, 1, renderer, 0);
+    int img_size = 64;
+    int angle = 0;
+    if (m_facing == Vector2D(-1, 0))
+        angle = 180;
+    else if (m_facing == Vector2D(1, 0))
+        angle = 0;
+    else if(m_facing == Vector2D(0, 1))
+        angle = 270;
+    else if(m_facing == Vector2D(0, -1))
+        angle = 90;
+    textureManager->Draw(m_textureID, m_pos.getY() * img_size, m_pos.getX() * img_size, 1, renderer, angle);
 }
 
 void PlayerObject::setPos(int X, int Y) {
