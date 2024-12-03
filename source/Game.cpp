@@ -18,6 +18,10 @@ bool Game::Init(const std::string& title, int x, int y, int width, int height, i
         std::cout << "Error intializing SDL_ttf: " << TTF_GetError() << std::endl;
         return false;
     }
+    if (IMG_Init(IMG_INIT_PNG) == 0) {
+        std::cout << "Error intializing SDL_image: " << IMG_GetError() << std::endl;
+        return false;
+    }
 
     m_window = SDL_CreateWindow(title.c_str(), x, y, width, height, flags);
     if (!m_window) {
@@ -61,6 +65,7 @@ void Game::Clean() {
     SDL_DestroyWindow(m_window);
     SDL_DestroyRenderer(m_renderer);
     TTF_Quit();
+    IMG_Quit();
     SDL_Quit();
 }
 
