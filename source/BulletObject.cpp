@@ -36,7 +36,9 @@ void Bullet::Update(Game* game) {
             map->setPositionValue(newPos.getX(), newPos.getY(), CellType::FREE_SPACE);
             map->setPositionValue(m_pos.getX(), m_pos.getY(), CellType::FREE_SPACE);
 
-            int centerX = newPos.getX();
+            explodeBombWall(game, newPos);
+
+            /*int centerX = newPos.getX();
             int centerY = newPos.getY();
             for (int offsetY = -1; offsetY <= 1; offsetY++)
             {
@@ -53,7 +55,7 @@ void Bullet::Update(Game* game) {
                     }
                     
                 }
-            }
+            }*/
 
             Clean();
             break;
@@ -84,4 +86,39 @@ void Bullet::Clean() {
 bool Bullet::shouldDestroy()
 {
     return m_destroyed;
+}
+
+void Bullet::explodeBombWall(Game* game, Vector2D pos)
+{
+    Map* map = game->getMap();
+
+    for (int offsetY = -1; offsetY <= 1; offsetY++)
+    {
+        for (int offsetX = -1; offsetX <= 1; offsetX++)
+        {
+            if (offsetX != 0 || offsetY != 0)
+            {
+                int neighborY = pos.getY() + offsetY;
+                int neighborX = pos.getX() + offsetX;
+
+                if (neighborX >= 0 && neighborX < map->getSize().first &&
+                    neighborY >= 0 && neighborY < map->getSize().second) {
+
+                    switch (map->getPositionValue(neighborX, neighborY))
+                    {
+                    case DESTRUCTIBIL_WALL:
+                    case PLAYER:
+                        map->setPositionValue(neighborX, neighborY, CellType::FREE_SPACE);
+                        Clean();
+                        break;
+                    case BOMB_WALL:
+                        map->setPositionValue(neighborX, neighborY, CellType::FREE_SPACE);
+                        Vector2D bombWallPos = Vector2D(neighborX, neighborY);
+                        explodeBombWall(game, bombWallPos);
+                        break;
+                    }
+                }
+            }
+        }
+    }
 }
