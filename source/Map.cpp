@@ -1,4 +1,4 @@
-#include "Map.h"
+﻿#include "Map.h"
 #include <iostream>
 #include <vector>
 #include <algorithm>
@@ -139,4 +139,18 @@ CellType Map::getPositionValue(int X, int Y)
 std::pair<int, int> Map::getSize()
 {
     return { m_rows, m_cols };
+}
+void Map::placeRandomSpecialItem() {
+    std::srand(std::time(nullptr)); // Inițializează generatorul de numere aleatoare
+
+    while (true) {
+        int randomX = std::rand() % getSize().first;
+        int randomY = std::rand() % getSize().second;
+
+        // Plasează item-ul doar pe celule libere
+        if (getPositionValue(randomX, randomY) == FREE_SPACE) {
+            setPositionValue(randomX, randomY, CellType::SPECIAL_ITEM);
+            break;
+        }
+    }
 }

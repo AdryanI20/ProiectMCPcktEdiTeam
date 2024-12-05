@@ -13,6 +13,7 @@ public:
     void setPositionValue(int X, int Y, CellType value);
     CellType getPositionValue(int X, int Y);
     std::pair<int, int> getSize();
+    void placeRandomSpecialItem();
 private:
     int m_rows, m_cols;
     std::vector<std::vector<CellType>> m_grid;

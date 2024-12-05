@@ -11,7 +11,8 @@ enum CellType {
     BOMB_WALL,
     PLAYER,
     VOID,
-    BULLET
+    BULLET,
+    SPECIAL_ITEM
 };
 
 

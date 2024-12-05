@@ -87,8 +87,12 @@ void Bullet::CollideLogic(Map* map, Vector2D oldPos, Vector2D newPos) {
         break;
     case INDESTRUCTIBIL_WALL:
         map->setPositionValue(oldPos.getX(), oldPos.getY(), CellType::FREE_SPACE);
+        if (m_isSpecial) {
+            map->setPositionValue(newPos.getX(), newPos.getY(), CellType::FREE_SPACE); // Distruge peretele
+        }
         Clean();
         break;
+
     case BOMB_WALL: {
         map->setPositionValue(oldPos.getX(), oldPos.getY(), CellType::FREE_SPACE);
         map->setPositionValue(newPos.getX(), newPos.getY(), CellType::FREE_SPACE);
@@ -98,7 +102,6 @@ void Bullet::CollideLogic(Map* map, Vector2D oldPos, Vector2D newPos) {
         Clean();
         break;
     }
-    case BULLET:
     case BULLET:
         // elimina ambele gloanțe
         map->setPositionValue(oldPos.getX(), oldPos.getY(), CellType::FREE_SPACE);
