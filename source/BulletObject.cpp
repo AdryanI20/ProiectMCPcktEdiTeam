@@ -1,4 +1,4 @@
-#include "BulletObject.h"
+﻿#include "BulletObject.h"
 #include <cmath>
 #include "Game.h"
 
@@ -99,12 +99,18 @@ void Bullet::CollideLogic(Map* map, Vector2D oldPos, Vector2D newPos) {
         break;
     }
     case BULLET:
-        map->setPositionValue(newPos.getX(), newPos.getY(), CellType::FREE_SPACE);
+    case BULLET:
+        // elimina ambele gloanțe
         map->setPositionValue(oldPos.getX(), oldPos.getY(), CellType::FREE_SPACE);
-        Clean();
+        map->setPositionValue(newPos.getX(), newPos.getY(), CellType::FREE_SPACE);
+        m_destroyed = true;
+
+        //eliminarea glonțului aflat deja la noua poziție
+        Bullet* otherBullet = game->getBulletAtPosition(newPos); // returnează glonțul la această poziție
+        if (otherBullet) {
+            otherBullet->Clean();
+        }
         break;
-        //TODO: obtine obiectul care glontul a distrus
-        //cumva conectam pozitia de pe harta cu un GameObject pentru a putea sa il stergem din memorie
     case PLAYER:
         map->setPositionValue(oldPos.getX(), oldPos.getY(), CellType::FREE_SPACE);
         map->setPositionValue(newPos.getX(), newPos.getY(), CellType::FREE_SPACE);
