@@ -13,7 +13,7 @@ public:
     void Draw(TextureManager* textureManager, SDL_Renderer* renderer) override;
     bool shouldDestroy();
 
-    void CollideLogic(Map* map, Vector2D oldPos, Vector2D newPos);
+    void CollideLogic(Map* map, Vector2D oldPos, Vector2D newPos,Game game);
 
     Bullet(Vector2D pos, float speed, Vector2D direction, const std::string& TEX_ID, bool isSpecial = false)
         : GameObject(pos, TEX_ID), m_speed(speed), m_direction(direction), m_destroyed(false), m_oldPos(pos), m_isSpecial(isSpecial) {

@@ -108,11 +108,6 @@ void Bullet::CollideLogic(Map* map, Vector2D oldPos, Vector2D newPos) {
         map->setPositionValue(newPos.getX(), newPos.getY(), CellType::FREE_SPACE);
         m_destroyed = true;
 
-        //eliminarea glonțului aflat deja la noua poziție
-        Bullet* otherBullet = game->getBulletAtPosition(newPos); // returnează glonțul la această poziție
-        if (otherBullet) {
-            otherBullet->Clean();
-        }
         break;
     case PLAYER:
         map->setPositionValue(oldPos.getX(), oldPos.getY(), CellType::FREE_SPACE);

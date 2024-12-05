@@ -107,13 +107,3 @@ Map* Game::getMap()
 {
     return m_map;
 }
-// am pus aceasta f. pentru a găsi glonțul la o anumită poziție
-Bullet* Game::getBulletAtPosition(Vector2D pos) {
-    for (GameObject* obj : m_gameObjects) {
-        Bullet* bullet = dynamic_cast<Bullet*>(obj);
-        if (bullet && bullet->getPosition() == pos && !bullet->shouldDestroy()) {
-            return bullet;
-        }
-    }
-    return nullptr;
-}
