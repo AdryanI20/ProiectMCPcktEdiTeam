@@ -38,6 +38,11 @@ void PlayerObject::Update(Game* game) {
     if (map->getPositionValue(newPos.getX(), newPos.getY()) == CellType::FREE_SPACE)
         m_pos = newPos;
 
+    if (map->getPositionValue(m_pos.getX(), m_pos.getY()) == CellType::SPECIAL_ITEM) {
+        map->setPositionValue(m_pos.getX(), m_pos.getY(), CellType::FREE_SPACE);
+        m_hasSpecialBullet = true; // Jucătorul primește glonțul special
+    }
+
     if (m_vel.getX() != 0 || m_vel.getY() != 0)
         m_facing = m_vel;
 

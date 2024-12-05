@@ -49,16 +49,4 @@ std::string Player::getName()
 {
 	return m_name;
 }
-void Player::Update(Game* game) {
-	// Actualizarea poziției jucătorului (deja existentă)
-	Vector2D currentPosition = Vector2D(round(m_pos.getX()), round(m_pos.getY()));
 
-	Map* map = game->getMap();
-	if (map->getPositionValue(currentPosition.getX(), currentPosition.getY()) == CellType::SPECIAL_ITEM) {
-		// Jucătorul colectează item-ul
-		map->setPositionValue(currentPosition.getX(), currentPosition.getY(), CellType::FREE_SPACE);
-
-		// Jucătorul primește glonțul special
-		m_hasSpecialBullet = true; // Variabilă nouă în Player
-	}
-}
