@@ -2,8 +2,14 @@
 #include <iostream>
 #include "Game.h"
 
+
+
 PlayerObject::PlayerObject(int X, int Y, CellType valBelow, int mapping, const std::string& TEX_ID)
-    : GameObject(X, Y, TEX_ID), m_facing(-1, 0), m_valBelow(valBelow), inputMap(mapping), m_shot(nullptr) {}
+    : GameObject(X, Y, TEX_ID), m_facing(-1, 0), m_valBelow(valBelow), inputMap(mapping), m_shot(nullptr), m_lives(3), m_alive(true)
+{
+    m_spawnPoint.first = X;
+    m_spawnPoint.second = Y;
+}
 
 void PlayerObject::Update(Game* game) {
     InputHandle* inputHandler = game->getInputHandler();
@@ -122,3 +128,25 @@ void PlayerObject::Draw(TextureManager* textureManager, SDL_Renderer* renderer) 
 void PlayerObject::setPos(int X, int Y) {
     m_pos = Vector2D(X, Y);
 }
+
+int PlayerObject::getLives()
+{
+    return m_lives;
+}
+
+bool PlayerObject::isAlive()
+{
+    return m_alive;
+}
+
+void PlayerObject::setLivingState(bool state)
+{
+    m_alive = state;
+}
+
+void PlayerObject::decreaseLives()
+{
+    if (m_lives > 0)
+        m_lives--;
+}
+

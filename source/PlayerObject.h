@@ -13,10 +13,18 @@ public:
     void setPos(int X, int Y);
     bool hasSpecialBullet() const { return m_hasSpecialBullet; }
     void useSpecialBullet() { m_hasSpecialBullet = false; } // Consumă glonțul special
+
+    int getLives();
+    bool isAlive();
+    void setLivingState(bool state);
+    void decreaseLives();
 private:
     Vector2D m_facing;
     CellType m_valBelow;
     int inputMap;
     Bullet* m_shot;
+    std::pair<int, int> m_spawnPoint;
+    int m_lives;
+    bool m_alive;
     bool m_hasSpecialBullet = false; // Indică dacă jucătorul are glonțul special
 };
