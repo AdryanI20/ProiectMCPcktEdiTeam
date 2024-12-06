@@ -1,7 +1,3 @@
-//
-// Created by norri on 10/30/2024.
-//
-
 #pragma once
 
 enum CellType {
@@ -14,7 +10,3 @@ enum CellType {
     BULLET,
     SPECIAL_ITEM
 };
-
-
-#endif //PROIECTMC_CELLTYPE_H
-//

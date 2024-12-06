@@ -3,7 +3,7 @@
 #include "Game.h"
 
 Bullet::Bullet(Vector2D pos, float speed, Vector2D direction, const std::string& TEX_ID)
-    : GameObject(pos, TEX_ID), m_speed(speed), m_direction(direction), m_destroyed(false), m_oldPos(pos)
+    : GameObject(pos, TEX_ID), m_speed(speed), m_direction(direction), m_destroyed(false), m_oldPos(pos), m_isSpecial(false)
 {
     m_vel = m_direction * m_speed;
 }
@@ -120,4 +120,8 @@ void Bullet::CollideLogic(Map* map, Vector2D oldPos, Vector2D newPos) {
         Clean();
         break;
     }
+}
+
+bool Bullet::isSpecial() const {
+    return m_isSpecial; 
 }
