@@ -10,8 +10,9 @@ Map::Map(int rows,int cols): m_rows(rows), m_cols(cols){
 
 void Map::createRandomMap() {
     srand(time(NULL));
-    std::vector<int> CellChance = {40, 40, 10, 10};
+    std::vector<int> CellChance = {40, 45, 15};
     int total = 0;
+    int bombWalls = 0;
     for (int weight : CellChance)
         total += weight;
 
@@ -23,7 +24,13 @@ void Map::createRandomMap() {
             for (int i = 0; i < CellChance.size(); ++i) {
                 choice += CellChance[i];
                 if (choice >= randValue) {
-                    m_grid[x][y] = static_cast<CellType>(i);
+                    if (i == 1 && bombWalls < 3 && rand() % 100 == 0) {
+                        m_grid[x][y] = static_cast<CellType>(3);
+                        bombWalls++;
+                    }
+                    else {
+                        m_grid[x][y] = static_cast<CellType>(i);
+                    }
                     break;
                 }
             }

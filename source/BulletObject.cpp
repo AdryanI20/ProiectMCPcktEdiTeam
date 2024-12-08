@@ -41,9 +41,9 @@ bool Bullet::shouldDestroy()
 
 void Bullet::explodeBombWall(Map* map, Vector2D pos)
 {
-    for (int offsetY = -1; offsetY <= 1; offsetY++)
+    for (int offsetY = -10; offsetY <= 10; offsetY++)
     {
-        for (int offsetX = -1; offsetX <= 1; offsetX++)
+        for (int offsetX = -10; offsetX <= 10; offsetX++)
         {
             if (offsetX != 0 || offsetY != 0)
             {
