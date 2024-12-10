@@ -20,7 +20,7 @@
   </ItemGroup>
   <PropertyGroup Label="Globals">
     <VCProjectVersion>17.0</VCProjectVersion>
-    <ProjectGuid>{D8E6242A-73EF-4278-95B8-AD9B86FD9E09}</ProjectGuid>
+    <ProjectGuid>{B9C0042A-19ED-41C6-8242-765EE31748C6}</ProjectGuid>
     <Keyword>Win32Proj</Keyword>
     <WindowsTargetPlatformVersion>10.0</WindowsTargetPlatformVersion>
   </PropertyGroup>
@@ -90,13 +90,10 @@
       <PreprocessorDefinitions>_DEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <WarningLevel>Level3</WarningLevel>
       <LanguageStandard>stdcpp20</LanguageStandard>
-      <AdditionalIncludeDirectories>$(ProjectDir)ThirdParty\SDL2_ttf\include;$(ProjectDir)ThirdParty\SDL2_image\include;$(ProjectDir)ThirdParty\SDL2\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <GenerateDebugInformation>true</GenerateDebugInformation>
       <SubSystem>Console</SubSystem>
-      <AdditionalLibraryDirectories>$(ProjectDir)ThirdParty\SDL2_ttf\lib\x64;$(ProjectDir)ThirdParty\SDL2_image\lib\x64;$(ProjectDir)ThirdParty\SDL2\lib\x64;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
-      <AdditionalDependencies>SDL2.lib;SDL2main.lib;SDL2_ttf.lib;SDL2_image.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
@@ -116,47 +113,16 @@
       <PreprocessorDefinitions>NDEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <WarningLevel>Level3</WarningLevel>
       <LanguageStandard>stdcpp20</LanguageStandard>
-      <AdditionalIncludeDirectories>$(ProjectDir)ThirdParty\SDL2_ttf\include;$(ProjectDir)ThirdParty\SDL2_image\include;$(ProjectDir)ThirdParty\SDL2\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <GenerateDebugInformation>true</GenerateDebugInformation>
-      <SubSystem>Windows</SubSystem>
+      <SubSystem>Console</SubSystem>
       <EnableCOMDATFolding>true</EnableCOMDATFolding>
       <OptimizeReferences>true</OptimizeReferences>
-      <AdditionalLibraryDirectories>$(ProjectDir)ThirdParty\SDL2_ttf\lib\x64;$(ProjectDir)ThirdParty\SDL2_image\lib\x64;$(ProjectDir)ThirdParty\SDL2\lib\x64;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
-      <AdditionalDependencies>SDL2.lib;SDL2main.lib;SDL2_ttf.lib;SDL2_image.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClInclude Include="source\BulletObject.h" />
-    <ClInclude Include="source\CellType.h" />
-    <ClInclude Include="source\Game.h" />
-    <ClInclude Include="source\GameObject.h" />
-    <ClInclude Include="source\GameState.h" />
-    <ClInclude Include="source\GameStateMachine.h" />
-    <ClInclude Include="source\InputHandle.h" />
-    <ClInclude Include="source\MainMenuState.h" />
-    <ClInclude Include="source\Map.h" />
-    <ClInclude Include="source\Player.h" />
-    <ClInclude Include="source\PlayerObject.h" />
-    <ClInclude Include="source\PlayState.h" />
-    <ClInclude Include="source\TextureManager.h" />
-    <ClInclude Include="source\Vector2D.h" />
-  </ItemGroup>
-  <ItemGroup>
-    <ClCompile Include="source\BulletObject.cpp" />
-    <ClCompile Include="source\Game.cpp" />
-    <ClCompile Include="source\GameObject.cpp" />
-    <ClCompile Include="source\GameStateMachine.cpp" />
-    <ClCompile Include="source\InputHandle.cpp" />
     <ClCompile Include="source\main.cpp" />
-    <ClCompile Include="source\MainMenuState.cpp" />
-    <ClCompile Include="source\Map.cpp" />
-    <ClCompile Include="source\Player.cpp" />
-    <ClCompile Include="source\PlayerObject.cpp" />
-    <ClCompile Include="source\PlayState.cpp" />
-    <ClCompile Include="source\TextureManager.cpp" />
-    <ClCompile Include="source\Vector2D.cpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
