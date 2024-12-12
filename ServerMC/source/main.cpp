@@ -1,40 +1,28 @@
-#include "Game.h"
+#include <crow.h>
+//using namespace http;
+
+struct Player {
+    int x, y;
+    Player(int x, int y) : x(x), y(y) {}
+};
 
 int main(int argc, char* args[])
 {
-    //
-    const int FPS = 60;
-    const float DELAY_TIME = 1000.0f / FPS;
-    uint32_t frameStart, frameTime;
-    //
+    uint16_t clientIDCounter = 0;
+    std::unordered_map<int, Player> Clients;
+    crow::SimpleApp app;
 
-    Game *MainGame = new Game();
-    if (!MainGame->Init("SDL Game", SDL_WINDOWPOS_CENTERED, SDL_WINDOWPOS_CENTERED, 1000, 1000, SDL_WINDOW_SHOWN)) {
-        std::cout << "game init failed" << SDL_GetError() << std::endl;
-        MainGame->Clean();
-        return EXIT_FAILURE;
-    }
+    CROW_ROUTE(app, "/join_game")
+        ([&Clients]() {
+        static int clientIDCounter = 0;
+        int clientID = clientIDCounter++;
+        Clients[clientID] = Player(0, 0);
+        crow::json::wvalue response;
+        response["clientID"] = clientID;
+        return response;
+            });
 
-    while (MainGame->isRunning()) {
-        frameStart = SDL_GetTicks();
-        MainGame->Update();
-        MainGame->HandleEvents();
-        MainGame->Render();
-
-        //TODO: Put this piece of code somewhere more relevant, as all it does is cap the game to 60 FPS
-        frameTime = SDL_GetTicks() - frameStart;
-        if (frameTime < DELAY_TIME)
-        {
-            SDL_Delay((int)(DELAY_TIME - frameTime));
-        }
-        else
-        {
-            SDL_Delay((int)DELAY_TIME);
-        }
-        //
-    }
-
-    MainGame->Clean();
+    app.port(18080).multithreaded().run();
 
     return 0;
 }

@@ -128,35 +128,22 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClCompile Include="source\BulletObject.cpp" />
     <ClCompile Include="source\Game.cpp" />
-    <ClCompile Include="source\GameObject.cpp" />
     <ClCompile Include="source\GameStateMachine.cpp" />
     <ClCompile Include="source\InputHandle.cpp" />
     <ClCompile Include="source\main.cpp" />
     <ClCompile Include="source\MainMenuState.cpp" />
-    <ClCompile Include="source\Map.cpp" />
-    <ClCompile Include="source\Player.cpp" />
-    <ClCompile Include="source\PlayerObject.cpp" />
     <ClCompile Include="source\PlayState.cpp" />
     <ClCompile Include="source\TextureManager.cpp" />
-    <ClCompile Include="source\Vector2D.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="source\BulletObject.h" />
-    <ClInclude Include="source\CellType.h" />
     <ClInclude Include="source\Game.h" />
-    <ClInclude Include="source\GameObject.h" />
     <ClInclude Include="source\GameState.h" />
     <ClInclude Include="source\GameStateMachine.h" />
     <ClInclude Include="source\InputHandle.h" />
     <ClInclude Include="source\MainMenuState.h" />
-    <ClInclude Include="source\Map.h" />
-    <ClInclude Include="source\Player.h" />
-    <ClInclude Include="source\PlayerObject.h" />
     <ClInclude Include="source\PlayState.h" />
     <ClInclude Include="source\TextureManager.h" />
-    <ClInclude Include="source\Vector2D.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

@@ -41,14 +41,13 @@ bool Game::Init(const std::string& title, int x, int y, int width, int height, i
     m_texturemanager = new TextureManager();
     m_inputhandler = new InputHandle();
     m_inputhandler->Init();
-    m_map = new Map(30, 30);
-    m_map->createRandomMap();
+    //m_map = new Map(30, 30); move to server
+    //m_map->createRandomMap();
 
     m_running = true;
 
     m_gameStateMachine = new GameStateMachine();
     m_gameStateMachine->pushState(new MainMenuState(this));
-    //TODO: MOVE ALL RELEVANT LOGIC FROM MAIN LOOP OF GAME TO DIFFERENT STATES
     return true;
 }
 
@@ -103,7 +102,12 @@ SDL_Renderer* Game::getRenderer()
     return m_renderer;
 }
 
-Map* Game::getMap()
+uint16_t Game::getclientID()
 {
-    return m_map;
+    return m_clientID;
+}
+
+void Game::setclientID(uint16_t newID)
+{
+    m_clientID = newID;
 }

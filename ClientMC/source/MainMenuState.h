@@ -16,6 +16,8 @@ public:
     void onKeyUp(SDL_Event* e) override;
 
     std::string getStateID() const override;
+
+    bool joinGame();
 private:
     static const std::string menuID;
     Game* m_game;

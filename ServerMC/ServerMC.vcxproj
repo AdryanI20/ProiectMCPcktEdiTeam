@@ -122,7 +122,25 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="source\BulletObject.cpp" />
+    <ClCompile Include="source\GameObject.cpp" />
     <ClCompile Include="source\main.cpp" />
+    <ClCompile Include="source\Map.cpp" />
+    <ClCompile Include="source\PlayerObject.cpp" />
+    <ClCompile Include="source\routing.cpp" />
+    <ClCompile Include="source\Source.cpp" />
+    <ClCompile Include="source\utils.cpp" />
+    <ClCompile Include="source\utils.cppm" />
+    <ClCompile Include="source\Vector2D.cpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="source\BulletObject.h" />
+    <ClInclude Include="source\CellType.h" />
+    <ClInclude Include="source\GameObject.h" />
+    <ClInclude Include="source\Map.h" />
+    <ClInclude Include="source\PlayerObject.h" />
+    <ClInclude Include="source\routing.h" />
+    <ClInclude Include="source\Vector2D.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

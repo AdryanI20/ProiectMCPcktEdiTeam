@@ -1,9 +1,6 @@
 #pragma once
-
-#include "PlayerObject.h"
 #include "GameState.h"
 #include <string>
-#include "CellType.h"
 
 class PlayState : public GameState
 {
