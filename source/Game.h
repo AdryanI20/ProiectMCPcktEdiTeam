@@ -27,6 +27,7 @@ public:
     SDL_Renderer* getRenderer();
     Map* getMap();
 
+
 private:
     SDL_Window* m_window;
     SDL_Renderer* m_renderer;

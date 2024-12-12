@@ -4,6 +4,8 @@
 #include "GameState.h"
 #include <string>
 #include "CellType.h"
+#include <vector>
+#include "PlayerObject.h"
 
 class PlayState : public GameState
 {
@@ -19,6 +21,7 @@ public:
     void onKeyUp(SDL_Event* e) override;
 
     std::string getStateID() const override;
+
 
 private:
     static const std::string playID;

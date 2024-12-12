@@ -1,6 +1,7 @@
 ﻿#include "BulletObject.h"
 #include <cmath>
 #include "Game.h"
+#include "PlayerObject.h"
 
 Bullet::Bullet(Vector2D pos, float speed, Vector2D direction, const std::string& TEX_ID)
     : GameObject(pos, TEX_ID), m_speed(speed), m_direction(direction), m_destroyed(false), m_oldPos(pos), m_isSpecial(false)
