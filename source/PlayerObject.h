@@ -18,6 +18,7 @@ public:
     bool isAlive();
     void setLivingState(bool state);
     void decreaseLives();
+    void Respawn();
 private:
     Vector2D m_facing;
     CellType m_valBelow;

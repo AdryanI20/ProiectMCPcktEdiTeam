@@ -91,7 +91,7 @@ void PlayerObject::Update(Game* game) {
         m_shot = dynamic_cast<Bullet*>(
             STATE->getObjectByID( "Bullet" + std::to_string(STATE->getGameObjects().size() - 1) )
             );
-        m_shot->CollideLogic(map, Vector2D(-1, -1), m_pos + m_facing);
+        m_shot->CollideLogic(map, Vector2D(-1, -1), m_pos + m_facing, game);
     }
 
     if (m_shot) {
@@ -150,3 +150,7 @@ void PlayerObject::decreaseLives()
         m_lives--;
 }
 
+void PlayerObject::Respawn()
+{
+    this->setPos(m_spawnPoint.first, m_spawnPoint.second);
+}

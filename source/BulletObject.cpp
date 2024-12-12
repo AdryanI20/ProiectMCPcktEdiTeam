@@ -20,7 +20,8 @@ void Bullet::Update(Game* game) {
     if (newPos == m_oldPos)
         return;
 
-    CollideLogic(map, m_oldPos, newPos);
+
+    CollideLogic(map, m_oldPos, newPos, game);
 
     m_oldPos = newPos;
 }
@@ -37,6 +38,24 @@ void Bullet::Draw(TextureManager* textureManager, SDL_Renderer* renderer) {
 bool Bullet::shouldDestroy()
 {
     return m_destroyed;
+}
+
+void Bullet::KillPlayer(Game* game, Vector2D pos)
+{
+    std::map<std::string, GameObject*>& gameObjects = game->getStateMachine()->getCurrentState()->getGameObjects();
+
+    for (auto& obj : gameObjects)
+    {
+        if (auto* player = dynamic_cast<PlayerObject*>(obj.second))
+        {
+            if (player->getPos() == pos)
+            {
+                player->decreaseLives();
+                player->Respawn();
+                break;
+            }
+        }
+    }
 }
 
 void Bullet::explodeBombWall(Map* map, Vector2D pos)
@@ -72,7 +91,8 @@ void Bullet::explodeBombWall(Map* map, Vector2D pos)
     }
 }
 
-void Bullet::CollideLogic(Map* map, Vector2D oldPos, Vector2D newPos) {
+
+void Bullet::CollideLogic(Map* map, Vector2D oldPos, Vector2D newPos, Game* game) {
     switch (map->getPositionValue(newPos.getX(), newPos.getY()))
     {
     case FREE_SPACE:
@@ -109,12 +129,16 @@ void Bullet::CollideLogic(Map* map, Vector2D oldPos, Vector2D newPos) {
         m_destroyed = true;
 
         break;
-    case PLAYER:
+    case PLAYER: {
         map->setPositionValue(oldPos.getX(), oldPos.getY(), CellType::FREE_SPACE);
         map->setPositionValue(newPos.getX(), newPos.getY(), CellType::FREE_SPACE);
+
+        KillPlayer(game, newPos);
         //ASTA FUNCTIONEAZA DAR JUCATORUL ESTE INCA IN MEMORIE
+
         Clean();
         break;
+    }
     case VOID:
         map->setPositionValue(oldPos.getX(), oldPos.getY(), CellType::FREE_SPACE);
         Clean();
