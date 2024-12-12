@@ -144,13 +144,30 @@ void PlayerObject::setLivingState(bool state)
     m_alive = state;
 }
 
-void PlayerObject::decreaseLives()
+std::string PlayerObject::getID()
 {
-    if (m_lives > 0)
-        m_lives--;
+    return m_textureID;
 }
 
-void PlayerObject::Respawn()
+void PlayerObject::Respawn(Game* game)
 {
-    this->setPos(m_spawnPoint.first, m_spawnPoint.second);
+    if (m_lives > 0) 
+    {
+        m_lives--;
+        this->setPos(m_spawnPoint.first, m_spawnPoint.second);
+    }
+    else
+    {
+        this->setLivingState(false);
+        std::map<std::string, GameObject*>& gameObjects = game->getStateMachine()->getCurrentState()->getGameObjects();
+        for (auto& obj : gameObjects)
+        {
+            std::string ID = obj.first;
+            if (auto* player = dynamic_cast<PlayerObject*>(obj.second))
+            {
+                if (player->getID() == this->getID())
+                    gameObjects.erase(ID); return;
+            }
+        }
+    }
 }

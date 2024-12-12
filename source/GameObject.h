@@ -17,6 +17,7 @@ public:
 	virtual void Draw(TextureManager* textureManager, SDL_Renderer* renderer);
 	virtual void Update(Game* game);
 	virtual void Clean();
+	virtual std::string getID() { return m_textureID; }
 
 	Vector2D& getPos();
 

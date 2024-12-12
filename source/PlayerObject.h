@@ -16,9 +16,9 @@ public:
 
     int getLives();
     bool isAlive();
+    std::string getID() override;
     void setLivingState(bool state);
-    void decreaseLives();
-    void Respawn();
+    void Respawn(Game* game);
 private:
     Vector2D m_facing;
     CellType m_valBelow;

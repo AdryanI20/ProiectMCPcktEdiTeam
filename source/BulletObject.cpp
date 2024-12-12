@@ -51,8 +51,7 @@ void Bullet::KillPlayer(Game* game, Vector2D pos)
         {
             if (player->getPos() == pos)
             {
-                player->decreaseLives();
-                player->Respawn();
+                player->Respawn(game);
                 break;
             }
         }
@@ -149,4 +148,9 @@ void Bullet::CollideLogic(Map* map, Vector2D oldPos, Vector2D newPos, Game* game
 
 bool Bullet::isSpecial() const {
     return m_isSpecial; 
+}
+
+std::string Bullet::getID()
+{
+    return m_textureID;
 }

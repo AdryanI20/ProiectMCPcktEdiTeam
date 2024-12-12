@@ -9,6 +9,7 @@ public:
     Bullet(Vector2D pos, float speed, Vector2D direction, const std::string& TEX_ID);
 
     void Update(Game* game) override;
+    std::string getID() override;
     void Clean() override;
     void Draw(TextureManager* textureManager, SDL_Renderer* renderer) override;
     bool shouldDestroy();
