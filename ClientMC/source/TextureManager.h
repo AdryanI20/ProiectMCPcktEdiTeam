@@ -11,8 +11,8 @@ public:
     TextureManager();
     ~TextureManager();
 
-    bool LoadText(const std::string& input, const std::string& id, SDL_Renderer* renderer);
-    bool LoadImage(const std::string& fileName, const std::string& id, SDL_Renderer* renderer);
+    bool TextLoad(const std::string& input, const std::string& id, SDL_Renderer* renderer);
+    bool ImageLoad(const std::string& fileName, const std::string& id, SDL_Renderer* renderer);
 
     void Draw(const std::string& id, int x, int y, double scale, SDL_Renderer* renderer,int angle=0, int w=-1, int h=-1);
 

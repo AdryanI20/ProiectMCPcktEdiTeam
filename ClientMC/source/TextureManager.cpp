@@ -11,7 +11,7 @@ TextureManager::~TextureManager() {
     TTF_CloseFont(m_font);
 }
 
-bool TextureManager::LoadText(const std::string& input, const std::string& id, SDL_Renderer* renderer)
+bool TextureManager::TextLoad(const std::string& input, const std::string& id, SDL_Renderer* renderer)
 {
     if (m_font == nullptr) {
         m_font = TTF_OpenFont("resources/kongtext.ttf", 24);
@@ -37,7 +37,7 @@ bool TextureManager::LoadText(const std::string& input, const std::string& id, S
     return true;
 }
 
-bool TextureManager::LoadImage(const std::string& fileName, const std::string& id, SDL_Renderer* renderer)
+bool TextureManager::ImageLoad(const std::string& fileName, const std::string& id, SDL_Renderer* renderer)
 {
     SDL_Surface* tempSurf = IMG_Load(fileName.c_str());
 

@@ -30,35 +30,14 @@
     <ClCompile Include="source\MainMenuState.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="source\Map.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="source\Player.cpp">
+    <ClCompile Include="source\PlayState.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="source\TextureManager.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="source\Vector2D.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="source\GameObject.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="source\PlayState.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="source\PlayerObject.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="source\BulletObject.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="source\CellType.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="source\Game.h">
       <Filter>Header Files</Filter>
     </ClInclude>
@@ -74,28 +53,10 @@
     <ClInclude Include="source\MainMenuState.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="source\Map.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="source\Player.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="source\TextureManager.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="source\Vector2D.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="source\GameObject.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="source\PlayState.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="source\PlayerObject.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="source\BulletObject.h">
+    <ClInclude Include="source\TextureManager.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

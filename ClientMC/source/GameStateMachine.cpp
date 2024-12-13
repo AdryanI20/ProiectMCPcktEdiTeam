@@ -1,4 +1,5 @@
 #include "GameStateMachine.h"
+#include "GameState.h"
 
 void GameStateMachine::pushState(GameState* state) {
     gameStates.push_back(state);

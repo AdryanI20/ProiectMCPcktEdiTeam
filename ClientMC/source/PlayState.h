@@ -1,11 +1,11 @@
 #pragma once
-
 #include "GameState.h"
 #include <string>
 
-class MainMenuState : public GameState {
+class PlayState : public GameState
+{
 public:
-    MainMenuState(Game* game);
+    PlayState(Game* game) : m_game(game) {};
     void Update() override;
     void Render() override;
 
@@ -16,7 +16,10 @@ public:
     void onKeyUp(SDL_Event* e) override;
 
     std::string getStateID() const override;
+
+
 private:
-    static const std::string menuID;
+    static const std::string playID;
     Game* m_game;
 };
+
