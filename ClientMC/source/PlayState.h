@@ -15,6 +15,8 @@ public:
     void onKeyDown(SDL_Event* e) override;
     void onKeyUp(SDL_Event* e) override;
 
+    int getMap();
+
     std::string getStateID() const override;
 
 

@@ -67,6 +67,8 @@ bool PlayState::onEnter() {
     m_game->getTextureManager()->ImageLoad("resources/ship3_small.png", "Player3", m_game->getRenderer());
     m_game->getTextureManager()->ImageLoad("resources/ship4_small.png", "Player4", m_game->getRenderer());
 
+    getMap();
+
     return true; //success
 }
 
@@ -86,4 +88,22 @@ void PlayState::onKeyDown(SDL_Event* e) {
 
 void PlayState::onKeyUp(SDL_Event* e) {
     //std::cout << "Key Released: " << SDL_GetKeyName(e->key.keysym.sym) << std::endl;
+}
+
+int PlayState::getMap() {
+    cpr::Response response = cpr::Get(cpr::Url{ "http://localhost:18080/get_map" });
+
+    if (response.status_code == 200) {
+        size_t index = 0;
+        for (int i = 0; i < 30; ++i) {
+            for (int j = 0; j < 30; ++j) {
+                std::cout << static_cast<int>(response.text[index++]) << " ";
+            }
+            std::cout << "\n";
+        }
+        return 1;
+    }
+    else {
+        throw std::runtime_error("Failed to fetch map. HTTP Status: " + std::to_string(response.status_code));
+    }
 }

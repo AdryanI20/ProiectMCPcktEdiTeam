@@ -58,10 +58,9 @@ bool MainMenuState::onExit() {
 //TODO: IMPLEMENT MOUSE LOGIC, GUI BUTTONS
 void MainMenuState::onKeyDown(SDL_Event* e) {
     //std::cout << "Key Pressed: " << SDL_GetKeyName(e->key.keysym.sym) << std::endl;
-    if (m_game->getInputHandler()->isKeyDown(SDL_SCANCODE_RETURN)) { //Enter;
+    if (m_game->getInputHandler()->isKeyJustPressed(SDL_SCANCODE_RETURN)) { //Enter;
         if (joinGame()) {
-            std::cerr << m_game->getclientID() << std::endl;
-            //m_game->getStateMachine()->changeState(new PlayState(m_game));
+            m_game->getStateMachine()->changeState(new PlayState(m_game));
         }
         else {
             std::cerr << "Couldn't join game" << std::endl;
