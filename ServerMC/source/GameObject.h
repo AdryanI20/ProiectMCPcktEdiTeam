@@ -1,5 +1,4 @@
 #pragma once
-#include "SDL.h"
 #include "Vector2D.h"
 #include <string>
 
@@ -14,8 +13,7 @@ public:
 	GameObject(Vector2D pos, const std::string& TEX_ID = "");
 	virtual ~GameObject() = default;
 
-	virtual void Draw(TextureManager* textureManager, SDL_Renderer* renderer);
-	virtual void Update(Game* game);
+	virtual void Update();
 	virtual void Clean();
 	virtual std::string getID() { return m_textureID; }
 
