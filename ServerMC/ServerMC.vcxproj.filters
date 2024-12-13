@@ -33,9 +33,6 @@
     <ClCompile Include="source\routing.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="source\Source.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="source\utils.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
