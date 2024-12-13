@@ -1,12 +1,12 @@
 #pragma once
 
-enum CellType {
+enum CellType : uint8_t {
     FREE_SPACE,
     DESTRUCTIBIL_WALL,
     INDESTRUCTIBIL_WALL,
     BOMB_WALL,
     PLAYER,
-    VOID,
+    EMPTY_SPACE,
     BULLET,
     SPECIAL_ITEM
 };
