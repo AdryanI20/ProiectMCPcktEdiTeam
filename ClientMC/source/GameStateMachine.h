@@ -1,9 +1,9 @@
 #pragma once
-
-#include "GameState.h"
 #include <vector>
 #include "SDL.h"
 #include "InputHandle.h"
+
+class GameState;
 
 class GameStateMachine {
 public:

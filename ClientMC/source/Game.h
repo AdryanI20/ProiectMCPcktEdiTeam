@@ -2,10 +2,11 @@
 #include "SDL.h"
 #include <iostream>
 #include <string>
-#include "Map.h"
 #include "InputHandle.h"
 #include "TextureManager.h"
 #include "GameStateMachine.h"
+#include <cpr/cpr.h>
+#include <crow.h>
 
 class Game {
 public:
@@ -25,7 +26,8 @@ public:
     InputHandle* getInputHandler();
     TextureManager* getTextureManager();
     SDL_Renderer* getRenderer();
-    Map* getMap();
+    uint16_t getclientID();
+    void setclientID(uint16_t newID);
 
 
 private:
@@ -34,8 +36,8 @@ private:
 
     InputHandle* m_inputhandler;
     TextureManager* m_texturemanager;
-    Map* m_map;
     GameStateMachine* m_gameStateMachine;
 
     bool m_running;
+    uint16_t m_clientID;
 };

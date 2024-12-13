@@ -1,16 +1,11 @@
 #pragma once
 
-#include "PlayerObject.h"
 #include "GameState.h"
 #include <string>
-#include "CellType.h"
-#include <vector>
-#include "PlayerObject.h"
 
-class PlayState : public GameState
-{
+class MainMenuState : public GameState {
 public:
-    PlayState(Game* game) : m_game(game) {};
+    MainMenuState(Game* game);
     void Update() override;
     void Render() override;
 
@@ -22,9 +17,8 @@ public:
 
     std::string getStateID() const override;
 
-
+    bool joinGame();
 private:
-    static const std::string playID;
+    static const std::string menuID;
     Game* m_game;
 };
-
