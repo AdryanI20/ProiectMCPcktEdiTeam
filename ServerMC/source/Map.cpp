@@ -140,13 +140,14 @@ CellType Map::getPositionValue(int X, int Y)
     if (X >= 0 && X < m_grid.size())
         if (Y >= 0 && Y < m_grid[X].size())
             return m_grid[X][Y];
-    return CellType::VOID;
+    return CellType::EMPTY_SPACE;
 }
 
 std::pair<int, int> Map::getSize()
 {
     return { m_rows, m_cols };
 }
+
 void Map::placeRandomSpecialItem() {
     std::srand(std::time(nullptr)); // Inițializează generatorul de numere aleatoare
 
