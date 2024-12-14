@@ -83,6 +83,7 @@ bool PlayState::onExit() {
 }
 
 void PlayState::onKeyDown(SDL_Event* e) {
+    //trimite input catre server
     //std::cout << "Key Pressed: " << SDL_GetKeyName(e->key.keysym.sym) << std::endl;
 }
 

@@ -7,7 +7,7 @@ typedef std::map<std::string, GameObject*>::iterator objs_it;
 
 int main(int argc, char* args[])
 {
-    std::map<std::string, GameObject*> gameObjects;
+    std::map<std::string, GameObject*> gameObjects; //same for players and their objects
 
     Map* cur_map = new Map(30, 30);
     cur_map->createRandomMap();
@@ -16,10 +16,16 @@ int main(int argc, char* args[])
     crow::SimpleApp app;
 
     //Change to account verification
+    //CROW_ROUTE(app, "/login").methods(crow::HTTPMethod::PUT)(
+        //[]() {
+            //if 
+
+        //});
+
     CROW_ROUTE(app, "/join_game")
         ([&Clients, &gameObjects, cur_map, &clientIDCounter]() {
         uint16_t clientID = clientIDCounter++;
-        Clients.push_back(clientID);//[clientID] = clientID;
+        Clients.push_back(clientID); //[clientID] = clientID;
         crow::json::wvalue response;
         response["clientID"] = clientID;
 
