@@ -20,6 +20,40 @@ void PlayState::Render() {
     SDL_SetRenderDrawColor(renderer, 33, 149, 199, 255);
 
     TextureManager* textureManager = m_game->getTextureManager();
+
+    //
+    cpr::Response response = cpr::Get(cpr::Url{ "http://localhost:18080/get_map" });
+
+    if (response.status_code == 200) {
+        size_t index = 0;
+        for (int i = 0; i < 30; ++i) {
+            for (int j = 0; j < 30; ++j) {
+                switch (static_cast<int>(response.text[index++])) {
+                case 0://FREE_SPACE
+                    textureManager->Draw("Wall0", j * img_size, i * img_size, 1, renderer);
+                    break;
+                case 4://PLAYER
+                    textureManager->Draw("Wall0", j * img_size, i * img_size, 1, renderer);
+                    break;
+                case 6://BULLET
+                    textureManager->Draw("Wall0", j * img_size, i * img_size, 1, renderer);
+                    break;
+                case 1://DESTRUCTIBIL_WALL
+                    textureManager->Draw("Wall1", j * img_size, i * img_size, 1, renderer);
+                    break;
+                case 2://INDESTRUCTIBIL_WALL
+                    textureManager->Draw("Wall2", j * img_size, i * img_size, 1, renderer);
+                    break;
+                case 3://BOMB_WALL
+                    textureManager->Draw("Wall1", j * img_size, i * img_size, 1, renderer);
+                    break;
+                }
+                //std::cout << static_cast<int>(response.text[index++]) << " ";
+            }
+        }
+    }
+    //
+
     //std::pair<int, int> mapSize = m_game->getMap()->getSize();
     //const std::vector<std::vector<CellType>>& mapData = m_game->getMap()->getMap();
     //for (int i = 0; i < mapSize.first; ++i) {
@@ -67,7 +101,7 @@ bool PlayState::onEnter() {
     m_game->getTextureManager()->ImageLoad("resources/ship3_small.png", "Player3", m_game->getRenderer());
     m_game->getTextureManager()->ImageLoad("resources/ship4_small.png", "Player4", m_game->getRenderer());
 
-    getMap();
+    //getMap();
 
     return true; //success
 }
@@ -89,22 +123,4 @@ void PlayState::onKeyDown(SDL_Event* e) {
 
 void PlayState::onKeyUp(SDL_Event* e) {
     //std::cout << "Key Released: " << SDL_GetKeyName(e->key.keysym.sym) << std::endl;
-}
-
-int PlayState::getMap() {
-    cpr::Response response = cpr::Get(cpr::Url{ "http://localhost:18080/get_map" });
-
-    if (response.status_code == 200) {
-        size_t index = 0;
-        for (int i = 0; i < 30; ++i) {
-            for (int j = 0; j < 30; ++j) {
-                std::cout << static_cast<int>(response.text[index++]) << " ";
-            }
-            std::cout << "\n";
-        }
-        return 1;
-    }
-    else {
-        throw std::runtime_error("Failed to fetch map. HTTP Status: " + std::to_string(response.status_code));
-    }
 }
