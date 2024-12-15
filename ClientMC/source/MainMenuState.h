@@ -17,8 +17,9 @@ public:
 
     std::string getStateID() const override;
 
-    bool joinGame();
 private:
+    bool joinGame();
+
     static const std::string menuID;
     Game* m_game;
 };

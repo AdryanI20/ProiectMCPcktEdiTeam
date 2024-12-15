@@ -1,7 +1,9 @@
 #include <crow.h>
 #include "Map.h"
 #include "PlayerObject.h"
-//using namespace http;
+#include <algorithm>
+import utils;
+using namespace http;
 
 typedef std::map<std::string, GameObject*>::iterator objs_it;
 
@@ -53,7 +55,22 @@ int main(int argc, char* args[])
         }
 
         return crow::response(binary_map);
-        });
+    });
+
+    CROW_ROUTE(app, "/leave_game").methods(crow::HTTPMethod::PUT) ([&Clients](const crow::request& req) {
+        auto bodyArgs = parseUrlArgs(req.body);
+        auto end = bodyArgs.end();
+        auto clientIter = bodyArgs.find("clientID");
+        uint16_t curClientID;
+        if (clientIter != end) {
+            curClientID = std::stoi(clientIter->second);
+            auto ClientsIt = std::find(Clients.begin(), Clients.end(), curClientID);
+            if (ClientsIt != Clients.end())
+                Clients.erase(ClientsIt);
+        }
+
+        return crow::response(204);
+    });
 
     app.port(18080).multithreaded().run();
 

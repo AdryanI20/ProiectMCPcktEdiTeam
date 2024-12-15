@@ -1,5 +1,6 @@
 ﻿#include "Game.h"
 #include "MainMenuState.h"
+#include <iostream>
 
 Game::Game() {
 
@@ -72,6 +73,7 @@ void Game::Clean() {
 }
 
 void Game::Quit() {
+    leaveGame();
     m_running = false;
 }
 
@@ -110,4 +112,12 @@ uint16_t Game::getclientID()
 void Game::setclientID(uint16_t newID)
 {
     m_clientID = newID;
+}
+
+void Game::leaveGame()
+{
+    cpr::Response r = cpr::Put(cpr::Url{ "http://localhost:18080/leave_game" },
+        cpr::Payload{
+            {"clientID", std::to_string(m_clientID)}
+        });
 }

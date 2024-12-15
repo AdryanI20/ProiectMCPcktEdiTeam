@@ -1,6 +1,5 @@
 #pragma once
 #include "SDL.h"
-#include <iostream>
 #include <string>
 #include "InputHandle.h"
 #include "TextureManager.h"
@@ -31,6 +30,8 @@ public:
 
 
 private:
+    void leaveGame();
+
     SDL_Window* m_window;
     SDL_Renderer* m_renderer;
 
