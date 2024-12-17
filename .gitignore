@@ -413,3 +413,5 @@ FodyWeavers.xsd
 cmake-build-debug/
 CMakeLists.txt
 cmake/
+
+!ClientMC/ThirdParty/**
