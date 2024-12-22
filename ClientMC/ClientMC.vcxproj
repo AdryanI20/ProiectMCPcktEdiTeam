@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
+﻿<?xml version="1.0" encoding="utf-8"?>
 <Project DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <ItemGroup Label="ProjectConfigurations">
     <ProjectConfiguration Include="Debug|Win32">
@@ -135,6 +135,7 @@
     <ClCompile Include="source\MainMenuState.cpp" />
     <ClCompile Include="source\PlayState.cpp" />
     <ClCompile Include="source\TextureManager.cpp" />
+    <ClCompile Include="source\Vector2D.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="source\Game.h" />
@@ -144,6 +145,7 @@
     <ClInclude Include="source\MainMenuState.h" />
     <ClInclude Include="source\PlayState.h" />
     <ClInclude Include="source\TextureManager.h" />
+    <ClInclude Include="source\Vector2D.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
