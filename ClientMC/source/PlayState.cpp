@@ -124,3 +124,15 @@ void PlayState::onKeyDown(SDL_Event* e) {
 void PlayState::onKeyUp(SDL_Event* e) {
     //std::cout << "Key Released: " << SDL_GetKeyName(e->key.keysym.sym) << std::endl;
 }
+
+void PlayState::onMouseButtonUp(SDL_Event* e) {
+
+}
+
+void PlayState::onMouseButtonDown(SDL_Event* e) {
+
+}
+
+void PlayState::onMouseMove(SDL_Event* e) {
+
+}

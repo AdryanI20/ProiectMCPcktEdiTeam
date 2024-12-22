@@ -71,3 +71,15 @@ void MainMenuState::onKeyDown(SDL_Event* e) {
 void MainMenuState::onKeyUp(SDL_Event* e) {
     //std::cout << "Key Released: " << SDL_GetKeyName(e->key.keysym.sym) << std::endl;
 }
+
+void MainMenuState::onMouseButtonUp(SDL_Event* e) {
+
+}
+
+void MainMenuState::onMouseButtonDown(SDL_Event* e) {
+
+}
+
+void MainMenuState::onMouseMove(SDL_Event* e) {
+
+}

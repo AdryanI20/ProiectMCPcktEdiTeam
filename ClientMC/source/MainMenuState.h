@@ -14,6 +14,9 @@ public:
 
     void onKeyDown(SDL_Event* e) override;
     void onKeyUp(SDL_Event* e) override;
+    void onMouseButtonUp(SDL_Event* e) override;
+    void onMouseButtonDown(SDL_Event* e) override;
+    void onMouseMove(SDL_Event* e) override;
 
     std::string getStateID() const override;
 
