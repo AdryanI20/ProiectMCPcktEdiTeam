@@ -14,6 +14,7 @@ public:
     bool hasSpecialBullet() const { return m_hasSpecialBullet; }
     void useSpecialBullet() { m_hasSpecialBullet = false; } // Consumă glonțul special
     void givePowerUp(int powerUp);
+    void activatePowerUp(PowerUpType powerUp);
 
     int getLives();
     bool isAlive();
@@ -31,4 +32,6 @@ private:
     bool m_alive;
     bool m_hasSpecialBullet = false; // Indică dacă jucătorul are glonțul special
     PowerUpType m_powerUp;
+    int m_fireRate;
+    float m_powerUpTimer;
 };

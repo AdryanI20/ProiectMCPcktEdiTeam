@@ -52,7 +52,7 @@ bool Bullet::shouldDestroy()
 //    }
 //}
 
-void Bullet::explodeBombWall(Map* map, Vector2D pos)
+/*void Bullet::explodeBombWall(Map* map, Vector2D pos)
 {
     for (int offsetY = -6; offsetY <= 6; offsetY++)
     {
@@ -88,7 +88,7 @@ void Bullet::explodeBombWall(Map* map, Vector2D pos)
             }
         }
     }
-}
+}*/
 
 
 //void Bullet::CollideLogic(Map* map, Vector2D oldPos, Vector2D newPos, Game* game) {

@@ -1,7 +1,6 @@
 ﻿#pragma once
 #include "GameObject.h"
 #include "CellType.h"
-#include "Map.h"
 
 class Map;
 
@@ -16,9 +15,8 @@ public:
 
     //void CollideLogic(Map* map, Vector2D oldPos, Vector2D newPos, Game* game);
     
-
     bool isSpecial() const;
-    void explodeBombWall(Map* map, Vector2D pos);
+    //void explodeBombWall(Map* map, Vector2D pos);
 
 private:
     //void KillPlayer(Game* game, Vector2D pos);

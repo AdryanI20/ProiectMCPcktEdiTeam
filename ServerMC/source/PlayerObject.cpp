@@ -139,6 +139,31 @@ void PlayerObject::givePowerUp(int powerUp)
     m_powerUp = static_cast<PowerUpType>(powerUp);
 }
 
+void PlayerObject::activatePowerUp(PowerUpType powerUp)
+{
+    m_powerUpTimer = 3;
+
+    switch (powerUp)
+    {
+    case NO_POWERUP:
+        break;
+    case FIRE_RATE:
+        m_fireRate /= 2;
+        break;
+    case BULLET_SPEED:
+        break;
+    case EXTRA_LIFE:
+        m_lives++;
+        break;
+    case INVINCIBLE:
+        break;
+    case INVISIBLE:
+        break;
+    default:
+        break;
+    }
+}
+
 void PlayerObject::respawn(Map* map)
 {
     map->setPositionValue(m_pos.getX(), m_pos.getY(), FREE_SPACE);
