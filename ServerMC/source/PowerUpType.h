@@ -1,7 +1,7 @@
 #pragma once
 
 enum PowerUpType : uint8_t {
-    NO_POWERUP
+    NO_POWERUP,
     FIRE_RATE,
     BULLET_SPEED,
     EXTRA_LIFE,

@@ -52,38 +52,43 @@ bool Bullet::shouldDestroy()
 //    }
 //}
 
-//void Bullet::explodeBombWall(Map* map, Vector2D pos)
-//{
-//    for (int offsetY = -10; offsetY <= 10; offsetY++)
-//    {
-//        for (int offsetX = -10; offsetX <= 10; offsetX++)
-//        {
-//            if (offsetX != 0 || offsetY != 0)
-//            {
-//                int neighborY = pos.getY() + offsetY;
-//                int neighborX = pos.getX() + offsetX;
-//
-//                if (neighborX >= 0 && neighborX < map->getSize().first &&
-//                    neighborY >= 0 && neighborY < map->getSize().second) {
-//
-//                    switch (map->getPositionValue(neighborX, neighborY))
-//                    {
-//                    case DESTRUCTIBIL_WALL:
-//                    case PLAYER:
-//                        map->setPositionValue(neighborX, neighborY, CellType::FREE_SPACE);
-//                        Clean();
-//                        break;
-//                    case BOMB_WALL:
-//                        map->setPositionValue(neighborX, neighborY, CellType::FREE_SPACE);
-//                        Vector2D bombWallPos = Vector2D(neighborX, neighborY);
-//                        explodeBombWall(map, bombWallPos);
-//                        break;
-//                    }
-//                }
-//            }
-//        }
-//    }
-//}
+void Bullet::explodeBombWall(Map* map, Vector2D pos)
+{
+    for (int offsetY = -6; offsetY <= 6; offsetY++)
+    {
+        for (int offsetX = -6; offsetX <= 6; offsetX++)
+        {
+            if (offsetX != 0 || offsetY != 0)
+            {
+                int neighborY = pos.getY() + offsetY;
+                int neighborX = pos.getX() + offsetX;
+
+                if (neighborX >= 0 && neighborX < map->getSize().first &&
+                    neighborY >= 0 && neighborY < map->getSize().second) {
+
+                    switch (map->getPositionValue(neighborX, neighborY))
+                    {
+                    case DESTRUCTIBIL_WALL:
+                        map->setPositionValue(neighborX, neighborY, CellType::FREE_SPACE);
+                        Clean();
+                        break;
+                    case PLAYER:
+                        // Player killed
+                        Clean();
+                        break;
+                    case BOMB_WALL:
+                        map->setPositionValue(neighborX, neighborY, CellType::FREE_SPACE);
+                        Vector2D bombWallPos = Vector2D(neighborX, neighborY);
+                        explodeBombWall(map, bombWallPos);
+                        break;
+                    default:
+                        break;
+                    }
+                }
+            }
+        }
+    }
+}
 
 
 //void Bullet::CollideLogic(Map* map, Vector2D oldPos, Vector2D newPos, Game* game) {
