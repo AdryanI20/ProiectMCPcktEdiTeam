@@ -9,7 +9,7 @@ int main(int argc, char* args[])
     //
 
     Game *MainGame = new Game();
-    if (!MainGame->Init("SDL Game", SDL_WINDOWPOS_CENTERED, SDL_WINDOWPOS_CENTERED, 1000, 1000, SDL_WINDOW_SHOWN)) {
+    if (!MainGame->Init("SDL Game", SDL_WINDOWPOS_CENTERED, SDL_WINDOWPOS_CENTERED, 800, 800, SDL_WINDOW_SHOWN)) {
         std::cout << "game init failed" << SDL_GetError() << std::endl;
         MainGame->Clean();
         return EXIT_FAILURE;

@@ -132,6 +132,13 @@ std::string PlayerObject::getID()
     return m_textureID;
 }
 
+void PlayerObject::Respawn()
+{
+    m_lives--;
+    _sleep(500);
+    this->setPos(m_spawnPoint.first, m_spawnPoint.second);
+}
+
 //void PlayerObject::Respawn(Game* game)
 //{
 //    if (m_lives > 0) 
