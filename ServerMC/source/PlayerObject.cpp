@@ -134,7 +134,12 @@ std::string PlayerObject::getID()
     return m_textureID;
 }
 
-void PlayerObject::Respawn(Map* map)
+void PlayerObject::givePowerUp(int powerUp)
+{
+    m_powerUp = static_cast<PowerUpType>(powerUp);
+}
+
+void PlayerObject::respawn(Map* map)
 {
     map->setPositionValue(m_pos.getX(), m_pos.getY(), FREE_SPACE);
     _sleep(500);
@@ -142,18 +147,19 @@ void PlayerObject::Respawn(Map* map)
     map->setPositionValue(m_pos.getX(), m_pos.getY(), PLAYER);
 }
 
-void PlayerObject::Killed(Map* map)
+void PlayerObject::killed(Map* map)
 {
     m_lives--;
 
     if (m_lives > 0)
     {
-        Respawn(map);
+        respawn(map);
     }
     else
     {
         setLivingState(false);
         map->setPositionValue(m_pos.getX(), m_pos.getY(), FREE_SPACE);
+        Clean();
     }
 }
 
@@ -179,3 +185,4 @@ void PlayerObject::Killed(Map* map)
 //        }
 //    }
 //}
+

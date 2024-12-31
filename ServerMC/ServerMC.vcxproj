@@ -138,6 +138,7 @@
     <ClInclude Include="source\GameObject.h" />
     <ClInclude Include="source\Map.h" />
     <ClInclude Include="source\PlayerObject.h" />
+    <ClInclude Include="source\PowerUpType.h" />
     <ClInclude Include="source\routing.h" />
     <ClInclude Include="source\Vector2D.h" />
   </ItemGroup>

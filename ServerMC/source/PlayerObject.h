@@ -2,6 +2,7 @@
 #include "GameObject.h"
 #include "CellType.h"
 #include "BulletObject.h"
+#include "PowerUpType.h"
 
 class PlayerObject : public GameObject {
 public:
@@ -12,13 +13,14 @@ public:
     void setPos(int X, int Y);
     bool hasSpecialBullet() const { return m_hasSpecialBullet; }
     void useSpecialBullet() { m_hasSpecialBullet = false; } // Consumă glonțul special
+    void givePowerUp(int powerUp);
 
     int getLives();
     bool isAlive();
     std::string getID() override;
     void setLivingState(bool state);
-    void Respawn(Map* map);
-    void Killed(Map* map);
+    void respawn(Map* map);
+    void killed(Map* map);
 private:
     Vector2D m_facing;
     CellType m_valBelow;
@@ -28,4 +30,5 @@ private:
     int m_lives;
     bool m_alive;
     bool m_hasSpecialBullet = false; // Indică dacă jucătorul are glonțul special
+    PowerUpType m_powerUp;
 };
