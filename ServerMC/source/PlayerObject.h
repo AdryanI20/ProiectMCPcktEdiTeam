@@ -17,7 +17,8 @@ public:
     bool isAlive();
     std::string getID() override;
     void setLivingState(bool state);
-    void Respawn();
+    void Respawn(Map* map);
+    void Killed(Map* map);
 private:
     Vector2D m_facing;
     CellType m_valBelow;

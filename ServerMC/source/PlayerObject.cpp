@@ -1,4 +1,6 @@
 #include "PlayerObject.h"
+#include "Map.h"
+#include "CellType.h"
 #include <iostream>
 
 PlayerObject::PlayerObject(int X, int Y, CellType valBelow, int mapping, const std::string& TEX_ID)
@@ -132,11 +134,27 @@ std::string PlayerObject::getID()
     return m_textureID;
 }
 
-void PlayerObject::Respawn()
+void PlayerObject::Respawn(Map* map)
 {
-    m_lives--;
+    map->setPositionValue(m_pos.getX(), m_pos.getY(), FREE_SPACE);
     _sleep(500);
     this->setPos(m_spawnPoint.first, m_spawnPoint.second);
+    map->setPositionValue(m_pos.getX(), m_pos.getY(), PLAYER);
+}
+
+void PlayerObject::Killed(Map* map)
+{
+    m_lives--;
+
+    if (m_lives > 0)
+    {
+        Respawn(map);
+    }
+    else
+    {
+        setLivingState(false);
+        map->setPositionValue(m_pos.getX(), m_pos.getY(), FREE_SPACE);
+    }
 }
 
 //void PlayerObject::Respawn(Game* game)
