@@ -18,7 +18,10 @@ bool MainMenuState::joinGame() {
     return false;
 }
 
-MainMenuState::MainMenuState(Game* game) : m_game(game) {}
+MainMenuState::MainMenuState(Game* game)
+    : m_game(game), m_playButton(500, 500, 200, 200, "Play") {  // Define position and size of the button
+    // Constructor code
+}
 
 void MainMenuState::Update() {
     //for (objs_it iterator = gameObjects.begin(); iterator != gameObjects.end(); iterator++) {
@@ -29,18 +32,18 @@ void MainMenuState::Update() {
 void MainMenuState::Render() {
     SDL_SetRenderDrawColor(m_game->getRenderer(), 30, 30, 30, 255);
     if (m_game->getTextureManager()->TextureExists("MainMenu"))
-        m_game->getTextureManager()->Draw("MainMenu", 740/4, 100, 2, m_game->getRenderer());
-
-    //for (objs_it iterator = gameObjects.begin(); iterator != gameObjects.end(); iterator++)
-    //{
-        //iterator->second->draw();
-    //}
+        m_game->getTextureManager()->Draw("MainMenu", 740 / 4, 100, 2, m_game->getRenderer());
+    
+    if(m_game->getTextureManager()->TextureExists("PlayButton"))
+        m_game->getTextureManager()->DrawButton("PlayButton", m_playButton, m_game->getRenderer());
 }
 
 bool MainMenuState::onEnter() {
     std::cout << "entering MainMenu" << std::endl;
 
     m_game->getTextureManager()->TextLoad("Game Title", "MainMenu", m_game->getRenderer());
+
+    m_game->getTextureManager()->DrawButton("PlayButton", m_playButton, m_game->getRenderer());
 
     return true; //success
 }
@@ -77,8 +80,14 @@ void MainMenuState::onMouseButtonUp(SDL_Event* e) {
 }
 
 void MainMenuState::onMouseButtonDown(SDL_Event* e) {
+    int mouseX = e->button.x;
+    int mouseY = e->button.y;
 
+    if (m_playButton.IsClicked(mouseX, mouseY)) {
+        m_game->getStateMachine()->changeState(new PlayState(m_game));
+    }
 }
+
 
 void MainMenuState::onMouseMove(SDL_Event* e) {
 
