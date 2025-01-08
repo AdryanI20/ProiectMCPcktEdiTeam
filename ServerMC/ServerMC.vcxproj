@@ -133,6 +133,7 @@
     <ClCompile Include="source\Vector2D.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="DatabaseManager.h" />
     <ClInclude Include="source\BulletObject.h" />
     <ClInclude Include="source\CellType.h" />
     <ClInclude Include="source\GameObject.h" />
