@@ -34,9 +34,10 @@ void PlayState::Render() {
                     break;
                 case 4://PLAYER
                     textureManager->Draw("Wall0", j * img_size, i * img_size, 1, renderer);
+                    textureManager->Draw("Player1", j * img_size, i * img_size, 1, renderer);
                     break;
                 case 6://BULLET
-                    textureManager->Draw("Wall0", j * img_size, i * img_size, 1, renderer);
+                    textureManager->Draw("Bullet", j * img_size, i * img_size, 1, renderer);
                     break;
                 case 1://DESTRUCTIBIL_WALL
                     textureManager->Draw("Wall1", j * img_size, i * img_size, 1, renderer);
@@ -118,6 +119,18 @@ bool PlayState::onExit() {
 
 void PlayState::onKeyDown(SDL_Event* e) {
     //trimite input catre server
+    auto response = cpr::Put(
+        cpr::Url{ "http://localhost:18080/player_input" },
+        cpr::Payload{
+            { "clientID", std::to_string(m_game->getclientID()) },
+            { "upDown", std::to_string(m_game->getInputHandler()->isKeyJustPressed(SDL_SCANCODE_DOWN) - m_game->getInputHandler()->isKeyJustPressed(SDL_SCANCODE_UP)) },
+            { "leftRight", std::to_string(m_game->getInputHandler()->isKeyJustPressed(SDL_SCANCODE_RIGHT) - m_game->getInputHandler()->isKeyJustPressed(SDL_SCANCODE_LEFT)) },
+            { "Shoot" , std::to_string(m_game->getInputHandler()->isKeyJustPressed(SDL_SCANCODE_Z)) }
+        }  
+    );
+    if (response.status_code != 201) {
+        std::cout << "error with input";
+    }
     //std::cout << "Key Pressed: " << SDL_GetKeyName(e->key.keysym.sym) << std::endl;
 }
 
