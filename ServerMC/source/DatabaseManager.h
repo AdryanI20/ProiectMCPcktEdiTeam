@@ -6,6 +6,16 @@
 
 namespace sql = sqlite_orm;
 
+struct player
+{
+	int id;
+	std::string name;
+	int points;
+	int score;
+	float fireRate;
+	float speed;
+};
+
 class DatabaseManager
 {
 public:
@@ -16,11 +26,14 @@ public:
 	void AddPlayer(const std::string& DBname, 
 		int id, std::string name = "Name", int points = 0, int score = 0, float fireRate = 1, float speed = 1);
 
-	void PlayerUsePoints(const std::string& DBname, int points);
+	player GetPlayer(const std::string& DBname, int id);
+	player GetPlayer(const std::string& DBname, std::string name);
+
+	int GetPlayerID(const std::string& DBname, std::string name);
 
 	int GetPlayerPoints(const std::string& DBname, std::string name);
 
-	int GetPlayerID(const std::string& DBname, std::string name);
+	void PlayerUsePoints(const std::string& DBname, int points);
 
 	int GetFireRate(const std::string& DBname, std::string name);
 

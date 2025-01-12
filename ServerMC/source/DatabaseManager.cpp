@@ -2,16 +2,6 @@
 
 #include <sqlite_orm/sqlite_orm.h>
 
-struct player
-{
-	int id;
-	std::string name;
-	int points;
-	int score;
-	float fireRate;
-	float speed;
-};
-
 auto DatabaseManager::CreateDatabase(const std::string& fileName)
 {
 	auto storage = sql::make_storage(
@@ -54,4 +44,18 @@ void DatabaseManager::AddPlayer(const std::string& fileName,
 	auto storage = GetDatabase(fileName);
 	player newPlayer{ 0, name, points, score, fireRate, speed };
 	storage.insert(newPlayer);
+}
+
+player DatabaseManager::GetPlayer(const std::string& fileName, int id)
+{
+	auto storage = GetDatabase(fileName);
+	player foundPlayer = storage.get<player>(id);
+	return foundPlayer;
+}
+
+player DatabaseManager::GetPlayer(const std::string& fileName, std::string name)
+{
+	auto storage = GetDatabase(fileName);
+	auto foundPlayers = storage.get_all<player>(sqlite_orm::where(sqlite_orm::c(&player::name) == name));
+	return foundPlayers[0];
 }
