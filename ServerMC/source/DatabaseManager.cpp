@@ -22,10 +22,10 @@ auto DatabaseManager::CreateDatabase(const std::string& fileName)
 	return storage;
 }
 
-auto DatabaseManager::GetDatabase(const std::string& DBname)
+auto DatabaseManager::GetDatabase(const std::string& fileName)
 {
 	return sqlite_orm::make_storage(
-		DBname,
+		fileName,
 		sqlite_orm::make_table(
 			"Players",
 			sqlite_orm::make_column("id", &player::id, sqlite_orm::primary_key().autoincrement()),
@@ -58,4 +58,37 @@ player DatabaseManager::GetPlayer(const std::string& fileName, std::string name)
 	auto storage = GetDatabase(fileName);
 	auto foundPlayers = storage.get_all<player>(sqlite_orm::where(sqlite_orm::c(&player::name) == name));
 	return foundPlayers[0];
+}
+
+int DatabaseManager::GetPlayerScore(const std::string& fileName, int id)
+{
+	auto storage = GetDatabase(fileName);
+	player foundPlayer = storage.get<player>(id);
+	return foundPlayer.score;
+}
+
+void DatabaseManager::SetPlayerScore(const std::string& fileName, int id, int score)
+{
+}
+
+int DatabaseManager::GetPlayerPoints(const std::string& fileName, int id)
+{
+	auto storage = GetDatabase(fileName);
+	player foundPlayer = storage.get<player>(id);
+	return foundPlayer.points;
+}
+
+void DatabaseManager::SetPlayerPoints(const std::string& fileName, int id, int points)
+{
+}
+
+int DatabaseManager::GetFireRate(const std::string& fileName, int id)
+{
+	auto storage = GetDatabase(fileName);
+	player foundPlayer = storage.get<player>(id);
+	return foundPlayer.fireRate;
+}
+
+void DatabaseManager::UpdateFireRate(const std::string& fileName, int id, float fireRate)
+{
 }
