@@ -69,6 +69,10 @@ int DatabaseManager::GetPlayerScore(const std::string& fileName, int id)
 
 void DatabaseManager::SetPlayerScore(const std::string& fileName, int id, int score)
 {
+	auto storage = GetDatabase(fileName);
+	auto playerData = storage.get_pointer<player>(id);
+	playerData->score = score;
+	storage.update(*playerData);
 }
 
 int DatabaseManager::GetPlayerPoints(const std::string& fileName, int id)
@@ -80,6 +84,10 @@ int DatabaseManager::GetPlayerPoints(const std::string& fileName, int id)
 
 void DatabaseManager::SetPlayerPoints(const std::string& fileName, int id, int points)
 {
+	auto storage = GetDatabase(fileName);
+	auto playerData = storage.get_pointer<player>(id);
+	playerData->points = points;
+	storage.update(*playerData);
 }
 
 int DatabaseManager::GetFireRate(const std::string& fileName, int id)
@@ -89,6 +97,10 @@ int DatabaseManager::GetFireRate(const std::string& fileName, int id)
 	return foundPlayer.fireRate;
 }
 
-void DatabaseManager::UpdateFireRate(const std::string& fileName, int id, float fireRate)
+void DatabaseManager::SetFireRate(const std::string& fileName, int id, float fireRate)
 {
+	auto storage = GetDatabase(fileName);
+	auto playerData = storage.get_pointer<player>(id);
+	playerData->fireRate = fireRate;
+	storage.update(*playerData);
 }

@@ -38,5 +38,5 @@ public:
 	void SetPlayerPoints(const std::string& fileName, int id, int points);
 
 	int GetFireRate(const std::string& fileName, int id);
-	void UpdateFireRate(const std::string& fileName, int id, float fireRate);
+	void SetFireRate(const std::string& fileName, int id, float fireRate);
 };
