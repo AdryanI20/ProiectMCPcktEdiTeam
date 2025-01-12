@@ -11,7 +11,10 @@ class DatabaseManager
 public:
 	auto CreateDatabase(const std::string& DBname);
 
-	void AddPlayer(const std::string& DBname);
+	auto GetDatabase(const std::string& DBname);
+
+	void AddPlayer(const std::string& DBname, 
+		int id, std::string name = "Name", int points = 0, int score = 0, float fireRate = 1, float speed = 1);
 
 	void PlayerUsePoints(const std::string& DBname, int points);
 
@@ -21,7 +24,7 @@ public:
 
 	int GetFireRate(const std::string& DBname, std::string name);
 
-	int GetPlayerScore(const std::string& filename DBname, std::string name);
+	int GetPlayerScore(const std::string& DBname, std::string name);
 
 	void AddPoints(const std::string& filename, std::string name, int points);
 

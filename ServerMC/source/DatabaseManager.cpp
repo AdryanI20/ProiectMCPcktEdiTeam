@@ -12,7 +12,7 @@ struct player
 	float speed;
 };
 
-auto CreateDatabase(const std::string& fileName)
+auto DatabaseManager::CreateDatabase(const std::string& fileName)
 {
 	auto storage = sql::make_storage(
 		fileName,
@@ -31,3 +31,20 @@ auto CreateDatabase(const std::string& fileName)
 	
 	return storage;
 }
+
+auto GetDatabase(const std::string& DBname)
+{
+	return sqlite_orm::make_storage(
+		DBname,
+		sqlite_orm::make_table(
+			"Players",
+			sqlite_orm::make_column("id", &player::id, sqlite_orm::primary_key().autoincrement()),
+			sqlite_orm::make_column("name", &player::name),
+			sqlite_orm::make_column("points", &player::points),
+			sqlite_orm::make_column("score", &player::score),
+			sqlite_orm::make_column("fire_rate", &player::fireRate),
+			sqlite_orm::make_column("speed", &player::speed)
+		)
+	);
+}
+
