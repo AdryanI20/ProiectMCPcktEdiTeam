@@ -3,19 +3,19 @@
 #include "CellType.h"
 #include "BulletObject.h"
 #include "PowerUpType.h"
+#include <map>
 
 class PlayerObject : public GameObject {
 public:
     PlayerObject(int X, int Y, CellType valBelow, int mapping, const std::string& TEX_ID);
 
-    void Update() override;
+    void Update(Map* map, bool shot, std::map<std::string, GameObject*> gameObjects);
     void Clean() override;
     void setPos(int X, int Y);
     bool hasSpecialBullet() const { return m_hasSpecialBullet; }
     void useSpecialBullet() { m_hasSpecialBullet = false; } // Consumă glonțul special
     void givePowerUp(int powerUp);
     void activatePowerUp(PowerUpType powerUp);
-
     int getLives();
     bool isAlive();
     std::string getID() override;

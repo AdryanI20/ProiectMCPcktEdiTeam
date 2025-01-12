@@ -8,6 +8,16 @@ Vector2D& GameObject::getPos() {
 	return m_pos;
 }
 
-void GameObject::Update() {}
+Vector2D& GameObject::getVel()
+{
+	return m_vel;
+}
+
+void GameObject::setVel(Vector2D newVel)
+{
+	m_vel = newVel;
+}
+
+//void GameObject::Update() {}
 
 void GameObject::Clean() {}

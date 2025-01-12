@@ -37,6 +37,7 @@ void PlayState::Render() {
                     textureManager->Draw("Player1", j * img_size, i * img_size, 1, renderer);
                     break;
                 case 6://BULLET
+                    textureManager->Draw("Wall0", j * img_size, i * img_size, 1, renderer);
                     textureManager->Draw("Bullet", j * img_size, i * img_size, 1, renderer);
                     break;
                 case 1://DESTRUCTIBIL_WALL

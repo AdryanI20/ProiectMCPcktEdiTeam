@@ -8,7 +8,7 @@ class Bullet : public GameObject {
 public:
     Bullet(Vector2D pos, float speed, Vector2D direction, const std::string& TEX_ID);
 
-    void Update() override;
+    void Update();
     std::string getID() override;
     void Clean() override;
     bool shouldDestroy();
