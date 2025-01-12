@@ -42,6 +42,9 @@
     <ClCompile Include="source\utils.cppm">
       <Filter>Header Files</Filter>
     </ClCompile>
+    <ClCompile Include="source\DatabaseManager.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="source\BulletObject.h">
@@ -68,7 +71,7 @@
     <ClInclude Include="source\PowerUpType.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="DatabaseManager.h">
+    <ClInclude Include="source\DatabaseManager.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
