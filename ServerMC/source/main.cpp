@@ -13,8 +13,8 @@ int main(int argc, char* args[])
 
     Map* cur_map = new Map(30, 30);
     cur_map->createRandomMap();
-    uint16_t clientIDCounter = 0;
-    std::vector<uint16_t> Clients;
+    int clientIDCounter = 0;
+    std::vector<int> Clients;
     crow::SimpleApp app;
 
     //Change to account verification
@@ -25,43 +25,45 @@ int main(int argc, char* args[])
         //});
 
     CROW_ROUTE(app, "/player_input").methods(crow::HTTPMethod::PUT)
-        ([&Clients](const crow::request& req) {
+        ([&Clients, &gameObjects, cur_map](const crow::request& req) {
         auto bodyArgs = parseUrlArgs(req.body);
         auto end = bodyArgs.end();
 
         auto clientIter = bodyArgs.find("clientID");
-        uint16_t curClientID;
+        int curClientID;
         if (clientIter == end) return crow::response(500);
         curClientID = std::stoi(clientIter->second);
         
         clientIter = bodyArgs.find("upDown");
-        int8_t clientUpDown;
+        int clientUpDown;
         if (clientIter == end) return crow::response(500);
         clientUpDown = std::stoi(clientIter->second);
 
         clientIter = bodyArgs.find("leftRight");
-        int8_t clientleftRight;
+        int clientleftRight;
         if (clientIter == end) return crow::response(500);
         clientleftRight = std::stoi(clientIter->second);
 
         clientIter = bodyArgs.find("Shoot");
-        uint8_t clientShot;
+        bool clientShot;
         if (clientIter == end) return crow::response(500);
         clientShot = std::stoi(clientIter->second);
 
         auto ClientsIt = std::find(Clients.begin(), Clients.end(), curClientID);
         if (ClientsIt == Clients.end()) return crow::response(500);
 
-        
-
-        //std::cout << curClientID << " " << clientUpDown << " " << clientleftRight << " " << clientShot << std::endl;
+        PlayerObject* PlrObj = dynamic_cast<PlayerObject *>(gameObjects["Player" + std::to_string(curClientID)]);
+        PlrObj->setVel(Vector2D(clientUpDown, clientleftRight));
+        PlrObj->Update(cur_map, clientShot, gameObjects);
+        std::cout << PlrObj->getPos().getX() << " " << PlrObj->getPos().getY() << std::endl;
+        std::cout << curClientID << " " << clientUpDown << " " << clientleftRight << " " << std::endl;
 
         return crow::response(201);
         });
 
     CROW_ROUTE(app, "/join_game")
         ([&Clients, &gameObjects, cur_map, &clientIDCounter]() {
-        uint16_t clientID = clientIDCounter++;
+        int clientID = clientIDCounter++;
         Clients.push_back(clientID); //[clientID] = clientID;
         crow::json::wvalue response;
         response["clientID"] = clientID;
@@ -109,7 +111,7 @@ int main(int argc, char* args[])
         auto bodyArgs = parseUrlArgs(req.body);
         auto end = bodyArgs.end();
         auto clientIter = bodyArgs.find("clientID");
-        uint16_t curClientID;
+        int curClientID;
         if (clientIter != end) {
             curClientID = std::stoi(clientIter->second);
             auto ClientsIt = std::find(Clients.begin(), Clients.end(), curClientID);

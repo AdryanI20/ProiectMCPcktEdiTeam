@@ -10,10 +10,10 @@ PlayerObject::PlayerObject(int X, int Y, CellType valBelow, int mapping, const s
     m_spawnPoint.second = Y;
 }
 
-void PlayerObject::Update() {
+void PlayerObject::Update(Map* map, bool shot, std::map<std::string, GameObject*> gameObjects) {
     //InputHandle* inputHandler = game->getInputHandler();
     //Map* map = game->getMap();
-    //Vector2D oldPos = m_pos;
+    Vector2D oldPos = m_pos;
 
     //switch (inputMap)
     //{
@@ -39,23 +39,23 @@ void PlayerObject::Update() {
     //    break;
     //}
     //
-    //Vector2D newPos = m_pos + m_vel;
-    //if (map->getPositionValue(newPos.getX(), newPos.getY()) == CellType::FREE_SPACE)
-    //    m_pos = newPos;
+    Vector2D newPos = m_pos + m_vel;
+    if (map->getPositionValue(newPos.getX(), newPos.getY()) == CellType::FREE_SPACE)
+        m_pos = newPos;
 
     //if (map->getPositionValue(m_pos.getX(), m_pos.getY()) == CellType::SPECIAL_ITEM) {
     //    map->setPositionValue(m_pos.getX(), m_pos.getY(), CellType::FREE_SPACE);
     //    m_hasSpecialBullet = true; // Jucătorul primește glonțul special
     //}
 
-    //if (m_vel.getX() != 0 || m_vel.getY() != 0)
-    //    m_facing = m_vel;
+    if (m_vel.getX() != 0 || m_vel.getY() != 0)
+        m_facing = m_vel;
 
-    //if (m_pos != oldPos) {
-    //    map->setPositionValue(oldPos.getX(), oldPos.getY(), m_valBelow);
-    //    m_valBelow = map->getPositionValue(m_pos.getX(), m_pos.getY());
-    //    map->setPositionValue(m_pos.getX(), m_pos.getY(), CellType::PLAYER);
-    //}
+    if (m_pos != oldPos) {
+        map->setPositionValue(oldPos.getX(), oldPos.getY(), m_valBelow);
+        m_valBelow = map->getPositionValue(m_pos.getX(), m_pos.getY());
+        map->setPositionValue(m_pos.getX(), m_pos.getY(), CellType::PLAYER);
+    }
 
     //bool shoot = false;
     //switch (inputMap)
@@ -78,32 +78,30 @@ void PlayerObject::Update() {
     //    break;
     //}
 
-    ////TODO: id-urile care incerc sa le dau la gloante cateodata se intalnesc si atunci un glont care tocmai ce a fost distrus primeste o functie de rulat din cauza conflictului de ID si el este nullptr
-    //if (shoot && m_shot == nullptr) {
-    //    GameState* STATE = game->getStateMachine()->getCurrentState();
-    //    STATE->getGameObjects().emplace("Bullet" + std::to_string(STATE->getGameObjects().size()), new Bullet(
-    //        m_pos + m_facing,
-    //        0.11,
-    //        m_facing,
-    //        "Bullet"
-    //    ));
-    //    m_shot = dynamic_cast<Bullet*>(
-    //        STATE->getObjectByID( "Bullet" + std::to_string(STATE->getGameObjects().size() - 1) )
-    //        );
-    //    m_shot->CollideLogic(map, Vector2D(-1, -1), m_pos + m_facing, game);
-    //}
+    //TODO: id-urile care incerc sa le dau la gloante cateodata se intalnesc si atunci un glont care tocmai ce a fost distrus primeste o functie de rulat din cauza conflictului de ID si el este nullptr
+    /*if (shot && m_shot == nullptr) {
+        gameObjects.emplace("Bullet" + std::to_string(gameObjects.size()), new Bullet(
+            m_pos + m_facing,
+            0.11,
+            m_facing,
+            "Bullet"
+        ));
+        m_shot = dynamic_cast<Bullet*>(
+            STATE->getObjectByID( "Bullet" + std::to_string(STATE->getGameObjects().size() - 1) )
+            );
+        m_shot->CollideLogic(map, Vector2D(-1, -1), m_pos + m_facing, game);
+    }
 
-    //if (m_shot) {
-    //    std::map<std::string, GameObject*>& gameObjects = game->getStateMachine()->getCurrentState()->getGameObjects();
-    //    for (objs_it iterator = gameObjects.begin(); iterator != gameObjects.end(); iterator++) {
-    //        if (iterator->second == m_shot && m_shot->shouldDestroy()) {
-    //            m_shot = nullptr;
-    //            delete iterator->second;
-    //            gameObjects.erase(iterator);
-    //            break;
-    //        }
-    //    }
-    //}
+    if (m_shot) {
+        for (objs_it iterator = gameObjects.begin(); iterator != gameObjects.end(); iterator++) {
+            if (iterator->second == m_shot && m_shot->shouldDestroy()) {
+                m_shot = nullptr;
+                delete iterator->second;
+                gameObjects.erase(iterator);
+                break;
+            }
+        }
+    }*/
 }
 
 void PlayerObject::Clean() {
