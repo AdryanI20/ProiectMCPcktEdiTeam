@@ -32,7 +32,7 @@ auto DatabaseManager::CreateDatabase(const std::string& fileName)
 	return storage;
 }
 
-auto GetDatabase(const std::string& DBname)
+auto DatabaseManager::GetDatabase(const std::string& DBname)
 {
 	return sqlite_orm::make_storage(
 		DBname,
@@ -48,3 +48,10 @@ auto GetDatabase(const std::string& DBname)
 	);
 }
 
+void DatabaseManager::AddPlayer(const std::string& fileName,
+	int id, std::string name, int points, int score, float fireRate, float speed)
+{
+	auto storage = GetDatabase(fileName);
+	player newPlayer{ 0, name, points, score, fireRate, speed };
+	storage.insert(newPlayer);
+}
