@@ -24,6 +24,41 @@ int main(int argc, char* args[])
 
         //});
 
+    CROW_ROUTE(app, "/player_input").methods(crow::HTTPMethod::PUT)
+        ([&Clients](const crow::request& req) {
+        auto bodyArgs = parseUrlArgs(req.body);
+        auto end = bodyArgs.end();
+
+        auto clientIter = bodyArgs.find("clientID");
+        uint16_t curClientID;
+        if (clientIter == end) return crow::response(500);
+        curClientID = std::stoi(clientIter->second);
+        
+        clientIter = bodyArgs.find("upDown");
+        int8_t clientUpDown;
+        if (clientIter == end) return crow::response(500);
+        clientUpDown = std::stoi(clientIter->second);
+
+        clientIter = bodyArgs.find("leftRight");
+        int8_t clientleftRight;
+        if (clientIter == end) return crow::response(500);
+        clientleftRight = std::stoi(clientIter->second);
+
+        clientIter = bodyArgs.find("Shoot");
+        uint8_t clientShot;
+        if (clientIter == end) return crow::response(500);
+        clientShot = std::stoi(clientIter->second);
+
+        auto ClientsIt = std::find(Clients.begin(), Clients.end(), curClientID);
+        if (ClientsIt == Clients.end()) return crow::response(500);
+
+        
+
+        //std::cout << curClientID << " " << clientUpDown << " " << clientleftRight << " " << clientShot << std::endl;
+
+        return crow::response(201);
+        });
+
     CROW_ROUTE(app, "/join_game")
         ([&Clients, &gameObjects, cur_map, &clientIDCounter]() {
         uint16_t clientID = clientIDCounter++;
@@ -41,9 +76,11 @@ int main(int argc, char* args[])
             ));
 
         return response;
-            });
+        });
 
-    CROW_ROUTE(app, "/get_map")([cur_map]() {
+    CROW_ROUTE(app, "/get_map")
+        ([cur_map, &gameObjects]() {
+
         std::string binary_map;
         std::pair<int, int> curSize = cur_map->getSize();
         binary_map.reserve(curSize.first * curSize.second);
@@ -54,10 +91,21 @@ int main(int argc, char* args[])
             }
         }
 
+        for (const auto& [_, object] : gameObjects) {
+            Vector2D objPos = object->getPos();
+            int index = objPos.getY() * curSize.second + objPos.getX();
+            if (dynamic_cast<PlayerObject*>(object)) {
+                binary_map[index] = static_cast<uint8_t>(CellType::PLAYER);
+            }
+            //TODO: other objects
+        }
+
         return crow::response(binary_map);
     });
 
-    CROW_ROUTE(app, "/leave_game").methods(crow::HTTPMethod::PUT) ([&Clients](const crow::request& req) {
+    CROW_ROUTE(app, "/leave_game").methods(crow::HTTPMethod::PUT) 
+        ([&Clients](const crow::request& req) {
+
         auto bodyArgs = parseUrlArgs(req.body);
         auto end = bodyArgs.end();
         auto clientIter = bodyArgs.find("clientID");
