@@ -53,10 +53,12 @@ int main(int argc, char* args[])
         if (ClientsIt == Clients.end()) return crow::response(500);
 
         PlayerObject* PlrObj = dynamic_cast<PlayerObject *>(gameObjects["Player" + std::to_string(curClientID)]);
-        PlrObj->setVel(Vector2D(clientUpDown, clientleftRight));
+        //Vector2D vc = PlrObj->getPos() + Vector2D((float)clientleftRight, (float)clientUpDown);
+        //PlrObj->setPos(vc.getX(), vc.getY());
+        PlrObj->setVel(Vector2D((float)clientUpDown, (float)clientleftRight));
         PlrObj->Update(cur_map, clientShot, gameObjects);
-        std::cout << PlrObj->getPos().getX() << " " << PlrObj->getPos().getY() << std::endl;
-        std::cout << curClientID << " " << clientUpDown << " " << clientleftRight << " " << std::endl;
+        //std::cout << PlrObj->getPos().getX() << " " << PlrObj->getPos().getY() << std::endl;
+        //std::cout << curClientID << " " << clientUpDown << " " << clientleftRight << " " << std::endl;
 
         return crow::response(201);
         });
@@ -83,26 +85,31 @@ int main(int argc, char* args[])
     CROW_ROUTE(app, "/get_map")
         ([cur_map, &gameObjects]() {
 
-        std::string binary_map;
+        //std::string binary_map;
         std::pair<int, int> curSize = cur_map->getSize();
-        binary_map.reserve(curSize.first * curSize.second);
+        //binary_map.reserve(curSize.first * curSize.second);
+        auto mapData = cur_map->getMap();
 
-        for (const auto& row : cur_map->getMap()) {
-            for (const auto& cell : row) {
-                binary_map.push_back(static_cast<uint8_t>(cell));
+        crow::json::wvalue jsonMap;
+        for (int y = 0; y < curSize.first; ++y) {
+            for (int x = 0; x < curSize.second; ++x) {
+                jsonMap["map"][y][x] = mapData[y][x];
             }
         }
 
         for (const auto& [_, object] : gameObjects) {
             Vector2D objPos = object->getPos();
-            int index = objPos.getY() * curSize.second + objPos.getX();
+            //int index = objPos.getY() * curSize.second + objPos.getX();
             if (dynamic_cast<PlayerObject*>(object)) {
-                binary_map[index] = static_cast<uint8_t>(CellType::PLAYER);
+                //std::cout << index << std::endl;
+                //binary_map[index] = static_cast<char>(CellType::PLAYER);
+                jsonMap["map"][objPos.getX()][objPos.getY()] = CellType::PLAYER;
             }
             //TODO: other objects
         }
 
-        return crow::response(binary_map);
+        //std::cout << binary_map << std::endl;
+        return crow::response(jsonMap);
     });
 
     CROW_ROUTE(app, "/leave_game").methods(crow::HTTPMethod::PUT) 

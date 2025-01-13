@@ -13,7 +13,7 @@ PlayerObject::PlayerObject(int X, int Y, CellType valBelow, int mapping, const s
 void PlayerObject::Update(Map* map, bool shot, std::map<std::string, GameObject*> gameObjects) {
     //InputHandle* inputHandler = game->getInputHandler();
     //Map* map = game->getMap();
-    Vector2D oldPos = m_pos;
+    //Vector2D oldPos = m_pos;
 
     //switch (inputMap)
     //{
@@ -39,7 +39,10 @@ void PlayerObject::Update(Map* map, bool shot, std::map<std::string, GameObject*
     //    break;
     //}
     //
+
     Vector2D newPos = m_pos + m_vel;
+    std::cout << m_vel.getX() << " " << m_vel.getY() << std::endl;
+    std::cout << static_cast<int>(map->getPositionValue(newPos.getX(), newPos.getY())) << std::endl;
     if (map->getPositionValue(newPos.getX(), newPos.getY()) == CellType::FREE_SPACE)
         m_pos = newPos;
 
@@ -48,14 +51,14 @@ void PlayerObject::Update(Map* map, bool shot, std::map<std::string, GameObject*
     //    m_hasSpecialBullet = true; // Jucătorul primește glonțul special
     //}
 
-    if (m_vel.getX() != 0 || m_vel.getY() != 0)
-        m_facing = m_vel;
+    //if (m_vel.getX() != 0 || m_vel.getY() != 0)
+        //m_facing = m_vel;
 
-    if (m_pos != oldPos) {
-        map->setPositionValue(oldPos.getX(), oldPos.getY(), m_valBelow);
-        m_valBelow = map->getPositionValue(m_pos.getX(), m_pos.getY());
-        map->setPositionValue(m_pos.getX(), m_pos.getY(), CellType::PLAYER);
-    }
+    //if (m_pos != oldPos) {
+        //map->setPositionValue(oldPos.getX(), oldPos.getY(), m_valBelow);
+        //m_valBelow = map->getPositionValue(m_pos.getX(), m_pos.getY());
+        //map->setPositionValue(m_pos.getX(), m_pos.getY(), CellType::PLAYER);
+    //}
 
     //bool shoot = false;
     //switch (inputMap)

@@ -25,34 +25,66 @@ void PlayState::Render() {
     cpr::Response response = cpr::Get(cpr::Url{ "http://localhost:18080/get_map" });
 
     if (response.status_code == 200) {
-        size_t index = 0;
-        for (int i = 0; i < 30; ++i) {
-            for (int j = 0; j < 30; ++j) {
-                switch (static_cast<int>(response.text[index++])) {
+        auto parsedJson = crow::json::load(response.text);
+        auto mapArray = parsedJson["map"];
+
+        for (int y = 0; y < mapArray.size(); ++y) {
+            auto jsonRow = mapArray[y];
+            for (int x = 0; x < jsonRow.size(); ++x) {
+                switch (jsonRow[x].i()) {
                 case 0://FREE_SPACE
-                    textureManager->Draw("Wall0", j * img_size, i * img_size, 1, renderer);
+                    textureManager->Draw("Wall0", x * img_size, y * img_size, 1, renderer);
                     break;
                 case 4://PLAYER
-                    textureManager->Draw("Wall0", j * img_size, i * img_size, 1, renderer);
-                    textureManager->Draw("Player1", j * img_size, i * img_size, 1, renderer);
+                    textureManager->Draw("Wall0", x * img_size, y * img_size, 1, renderer);
+                    textureManager->Draw("Player1", x * img_size, y * img_size, 1, renderer);
                     break;
                 case 6://BULLET
-                    textureManager->Draw("Wall0", j * img_size, i * img_size, 1, renderer);
-                    textureManager->Draw("Bullet", j * img_size, i * img_size, 1, renderer);
+                    textureManager->Draw("Wall0", x * img_size, y * img_size, 1, renderer);
+                    textureManager->Draw("Bullet", x * img_size, y * img_size, 1, renderer);
                     break;
                 case 1://DESTRUCTIBIL_WALL
-                    textureManager->Draw("Wall1", j * img_size, i * img_size, 1, renderer);
+                    textureManager->Draw("Wall1", x * img_size, y * img_size, 1, renderer);
                     break;
                 case 2://INDESTRUCTIBIL_WALL
-                    textureManager->Draw("Wall2", j * img_size, i * img_size, 1, renderer);
+                    textureManager->Draw("Wall2", x * img_size, y * img_size, 1, renderer);
                     break;
                 case 3://BOMB_WALL
-                    textureManager->Draw("Wall1", j * img_size, i * img_size, 1, renderer);
+                    textureManager->Draw("Wall1", x * img_size, y * img_size, 1, renderer);
                     break;
                 }
-                //std::cout << static_cast<int>(response.text[index++]) << " ";
             }
         }
+
+        //std::cout << response.text << std::endl;
+        //size_t index = 0;
+        //for (int j = 0; j < 30; ++j) {
+        //    for (int i = 0; i < 30; ++i) {
+        //        switch (static_cast<int>(response.text[index++])) {
+        //        case 0://FREE_SPACE
+        //            textureManager->Draw("Wall0", j * img_size, i * img_size, 1, renderer);
+        //            break;
+        //        case 4://PLAYER
+        //            textureManager->Draw("Wall0", j * img_size, i * img_size, 1, renderer);
+        //            textureManager->Draw("Player1", j * img_size, i * img_size, 1, renderer);
+        //            break;
+        //        case 6://BULLET
+        //            textureManager->Draw("Wall0", j * img_size, i * img_size, 1, renderer);
+        //            textureManager->Draw("Bullet", j * img_size, i * img_size, 1, renderer);
+        //            break;
+        //        case 1://DESTRUCTIBIL_WALL
+        //            textureManager->Draw("Wall1", j * img_size, i * img_size, 1, renderer);
+        //            break;
+        //        case 2://INDESTRUCTIBIL_WALL
+        //            textureManager->Draw("Wall2", j * img_size, i * img_size, 1, renderer);
+        //            break;
+        //        case 3://BOMB_WALL
+        //            textureManager->Draw("Wall1", j * img_size, i * img_size, 1, renderer);
+        //            break;
+        //        }
+        //        //std::cout << static_cast<int>(response.text[index++]) << " ";
+        //    }
+        //}
     }
     //
 
@@ -120,13 +152,17 @@ bool PlayState::onExit() {
 
 void PlayState::onKeyDown(SDL_Event* e) {
     //trimite input catre server
+    int moveUpDown = m_game->getInputHandler()->isKeyDown(SDL_SCANCODE_DOWN) - m_game->getInputHandler()->isKeyDown(SDL_SCANCODE_UP);
+    int moveLeftRight = m_game->getInputHandler()->isKeyDown(SDL_SCANCODE_RIGHT) - m_game->getInputHandler()->isKeyDown(SDL_SCANCODE_LEFT);
+    bool Shoot = m_game->getInputHandler()->isKeyDown(SDL_SCANCODE_Z);
+    if (moveUpDown == 0 && moveLeftRight == 0 && Shoot == 0) return;
     auto response = cpr::Put(
         cpr::Url{ "http://localhost:18080/player_input" },
         cpr::Payload{
             { "clientID", std::to_string(m_game->getclientID()) },
-            { "upDown", std::to_string(m_game->getInputHandler()->isKeyJustPressed(SDL_SCANCODE_DOWN) - m_game->getInputHandler()->isKeyJustPressed(SDL_SCANCODE_UP)) },
-            { "leftRight", std::to_string(m_game->getInputHandler()->isKeyJustPressed(SDL_SCANCODE_RIGHT) - m_game->getInputHandler()->isKeyJustPressed(SDL_SCANCODE_LEFT)) },
-            { "Shoot" , std::to_string(m_game->getInputHandler()->isKeyJustPressed(SDL_SCANCODE_Z)) }
+            { "upDown", std::to_string(moveUpDown) },
+            { "leftRight", std::to_string(moveLeftRight) },
+            { "Shoot" , std::to_string(Shoot) }
         }  
     );
     if (response.status_code != 201) {
