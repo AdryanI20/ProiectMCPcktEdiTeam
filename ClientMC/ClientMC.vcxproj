@@ -128,8 +128,10 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="source\ButtonObject.cpp" />
     <ClCompile Include="source\Button.cpp" />
     <ClCompile Include="source\Game.cpp" />
+    <ClCompile Include="source\GameObject.cpp" />
     <ClCompile Include="source\GameStateMachine.cpp" />
     <ClCompile Include="source\InputHandle.cpp" />
     <ClCompile Include="source\main.cpp" />
@@ -139,8 +141,10 @@
     <ClCompile Include="source\Vector2D.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="source\ButtonObject.h" />
     <ClInclude Include="source\Button.h" />
     <ClInclude Include="source\Game.h" />
+    <ClInclude Include="source\GameObject.h" />
     <ClInclude Include="source\GameState.h" />
     <ClInclude Include="source\GameStateMachine.h" />
     <ClInclude Include="source\InputHandle.h" />
