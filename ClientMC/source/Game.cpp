@@ -2,13 +2,9 @@
 #include "MainMenuState.h"
 #include <iostream>
 
-Game::Game() {
+Game::Game() : m_serverLocation("localhost") {}
 
-}
-
-Game::~Game() {
-
-}
+Game::~Game() {}
 
 bool Game::Init(const std::string& title, int x, int y, int width, int height, int flags) {
     if (SDL_Init(SDL_INIT_EVERYTHING) != 0) {
@@ -114,9 +110,17 @@ void Game::setclientID(uint16_t newID)
     m_clientID = newID;
 }
 
+std::string Game::getServerLocation() {
+    return m_serverLocation;
+}
+
+void Game::setServerLocation(std::string newLocation) {
+    m_serverLocation = newLocation;
+}
+
 void Game::leaveGame()
 {
-    cpr::Response r = cpr::Put(cpr::Url{ "http://localhost:18080/leave_game" },
+    cpr::Response r = cpr::Put(cpr::Url{ "http://"+m_serverLocation+":18080/leave_game" },
         cpr::Payload{
             {"clientID", std::to_string(m_clientID)}
         });

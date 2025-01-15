@@ -22,6 +22,7 @@ void MainMenuState::Update() {
     if (gameObjects.contains("PlayButton")) {
         auto PlayButton = dynamic_cast<ButtonObject*>(gameObjects["PlayButton"]);
         if (PlayButton->getFlag())
+            m_game->setServerLocation(PlayButton->getText());
             m_game->getStateMachine()->changeState(new PlayState(m_game));
     }
 

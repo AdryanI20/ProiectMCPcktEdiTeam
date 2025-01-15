@@ -11,6 +11,7 @@ public:
     void Clean() override;
 
     bool getFlag();
+    std::string getText();
 
 private:
     Vector2D m_size;

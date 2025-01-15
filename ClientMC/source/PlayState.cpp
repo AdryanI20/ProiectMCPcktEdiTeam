@@ -22,7 +22,7 @@ void PlayState::Render() {
     TextureManager* textureManager = m_game->getTextureManager();
 
     //
-    cpr::Response response = cpr::Get(cpr::Url{ "http://localhost:18080/get_map" });
+    cpr::Response response = cpr::Get(cpr::Url{ "http://"+m_game->getServerLocation() + ":18080/get_map"});
 
     if (response.status_code == 200) {
         auto parsedJson = crow::json::load(response.text);
@@ -157,7 +157,7 @@ void PlayState::onKeyDown(SDL_Event* e) {
     bool Shoot = m_game->getInputHandler()->isKeyDown(SDL_SCANCODE_Z);
     if (moveUpDown == 0 && moveLeftRight == 0 && Shoot == 0) return;
     auto response = cpr::Put(
-        cpr::Url{ "http://localhost:18080/player_input" },
+        cpr::Url{ "http://"+m_game->getServerLocation()+":18080/player_input" },
         cpr::Payload{
             { "clientID", std::to_string(m_game->getclientID()) },
             { "upDown", std::to_string(moveUpDown) },

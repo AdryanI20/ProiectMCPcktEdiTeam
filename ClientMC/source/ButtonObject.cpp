@@ -136,3 +136,8 @@ bool ButtonObject::getFlag()
 {
     return m_specialFlag;
 }
+
+std::string ButtonObject::getText()
+{
+    return m_newText;
+}

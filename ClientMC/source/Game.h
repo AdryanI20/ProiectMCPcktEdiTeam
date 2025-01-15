@@ -28,7 +28,8 @@ public:
     uint16_t getclientID();
     void setclientID(uint16_t newID);
 
-
+    std::string getServerLocation();
+    void setServerLocation(std::string newLocation);
 private:
     void leaveGame();
 
@@ -39,6 +40,7 @@ private:
     TextureManager* m_texturemanager;
     GameStateMachine* m_gameStateMachine;
 
+    std::string m_serverLocation;
     bool m_running;
     uint16_t m_clientID;
 };
