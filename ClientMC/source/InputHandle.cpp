@@ -51,8 +51,14 @@ void InputHandle::Update(Game *game) {
                 onMouseButtonUp(&event, game->getStateMachine());
                 break;
 
-            case SDL_TEXTEDITING:
-                //TODO
+            case SDL_TEXTINPUT: {
+                //Not copy or pasting
+                if (!(SDL_GetModState() & KMOD_CTRL && (event.text.text[0] == 'c' || event.text.text[0] == 'C' || event.text.text[0] == 'v' || event.text.text[0] == 'V')))
+                {
+                    //Append character
+                    m_inputText += event.text.text;
+                }
+            }
                 break;
 
             default:
@@ -66,6 +72,10 @@ void InputHandle::Clean() {
 }
 
 void InputHandle::onKeyDown(SDL_Event *event, GameStateMachine* gameStateMachine) {
+    if (event->key.keysym.sym == SDLK_BACKSPACE && m_inputText.length() > 0) {
+        m_inputText.pop_back();
+    }
+
     gameStateMachine->onKeyDown(event);
 }
 
@@ -133,4 +143,12 @@ Vector2D* InputHandle::getMousePos()
 void InputHandle::resetMouseStates() {
     for (int i = 0; i < m_mouseButtonStates.size(); i++)
         m_mouseButtonStates[i] = false;
+}
+
+void InputHandle::resetTextInput() {
+    m_inputText.clear();
+}
+
+std::string InputHandle::getTextInput() {
+    return m_inputText;
 }

@@ -1,6 +1,6 @@
 #include "ButtonObject.h"
 
-ButtonObject::ButtonObject(Vector2D pos, Vector2D size, int scale, int type, std::string message, const std::string& TEX_ID) : GameObject(pos, TEX_ID), m_size(size), m_scale(scale), m_type(type), m_message(message), m_held(false), m_wasHeld(false), m_specialFlag(false), m_btnColor(SDL_Color{ 255,255,255,255 }) {}
+ButtonObject::ButtonObject(Vector2D pos, Vector2D size, int scale, int type, std::string message, const std::string& TEX_ID) : GameObject(pos, TEX_ID), m_size(size), m_scale(scale), m_type(type), m_textID(message), m_held(false), m_wasHeld(false), m_specialFlag(false), m_btnColor(SDL_Color{ 255,255,255,255 }), m_newText(" "), m_oldText(" ") {}
 
 void ButtonObject::Update(Game* game) {
 
@@ -41,9 +41,14 @@ void ButtonObject::Update(Game* game) {
         bool mouseInBtn = IsPointInsideRect(*mousePos, m_pos, m_size);
         if (mouseInBtn) {
             m_btnColor = SDL_Color{ 200, 0, 0, 255 };
-            SDL_StartTextInput();
-            //TODO
+            if (SDL_IsTextInputActive() == SDL_FALSE)
+                SDL_StartTextInput();
+            std::string tempInput = inputHandler->getTextInput();
+            m_oldText = m_newText;
+            m_newText = tempInput.empty() == true ? " " : tempInput;
         } else {
+            if (SDL_IsTextInputActive() == SDL_TRUE)
+                SDL_StopTextInput();
             m_btnColor = SDL_Color{ 255, 255, 255, 255 };
         }
     }
@@ -106,12 +111,18 @@ void ButtonObject::Draw(TextureManager* textureManager, SDL_Renderer* renderer) 
 	{
     case 0: {//Play button
         DrawUnfilledRectangle(renderer, 10, m_btnColor, SDL_Color{ 30,30,30,255 });
-        if (textureManager->TextureExists(m_message))
-            textureManager->Draw(m_message, (m_pos.getX()) * m_scale, (m_pos.getY() + m_size.getY() / 4) * m_scale, m_scale, renderer);
+        if (textureManager->TextureExists(m_textID))
+            textureManager->Draw(m_textID, (m_pos.getX()) * m_scale, (m_pos.getY() + m_size.getY() / 4) * m_scale, m_scale, renderer);
     }
         break;
     case 1: { //Server button
         DrawUnfilledRectangle(renderer, 10, m_btnColor, SDL_Color{ 30,30,30,255 });
+        if (m_oldText != m_newText) {
+            textureManager->clearFromTextureMap(m_textID);
+            textureManager->TextLoad(m_newText, m_textID, renderer);
+        }
+        if (textureManager->TextureExists(m_textID))
+            textureManager->Draw(m_textID, (m_pos.getX()) * m_scale, (m_pos.getY() + m_size.getY() / 2) * m_scale, m_scale/2, renderer);
     }
         break;
 	}

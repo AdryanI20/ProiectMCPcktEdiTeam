@@ -47,6 +47,7 @@ bool MainMenuState::onEnter() {
 
     m_game->getTextureManager()->TextLoad("Ship Combat", "MainMenu", m_game->getRenderer());
     m_game->getTextureManager()->TextLoad("Play", "PlayButton", m_game->getRenderer());
+    m_game->getTextureManager()->TextLoad(" ", "ServerButton", m_game->getRenderer());
     gameObjects.emplace("PlayButton",
         new ButtonObject(
             Vector2D(200, 80),
@@ -58,11 +59,11 @@ bool MainMenuState::onEnter() {
         ));
     gameObjects.emplace("ServerButton",
         new ButtonObject(
-            Vector2D(200, 160),
-            Vector2D(100, 50),
+            Vector2D(150, 160),
+            Vector2D(200, 50),
             img_size,
             1,
-            "",
+            "ServerButton",
             ""
         ));
 

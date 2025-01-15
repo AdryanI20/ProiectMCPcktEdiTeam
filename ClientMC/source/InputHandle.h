@@ -2,6 +2,7 @@
 #include "SDL.h"
 #include <vector>
 #include "Vector2D.h"
+#include <string>
 
 class Game;
 class GameStateMachine;
@@ -21,11 +22,15 @@ public:
     bool getMouseButtonState(int buttonNum);
     Vector2D* getMousePos();
     void resetMouseStates();
+
+    void resetTextInput();
+    std::string getTextInput();
 private:
     Vector2D* m_mousePos;
     const uint8_t* m_keystates;
     std::vector<uint8_t> m_OLDkeystates;
     std::vector<bool> m_mouseButtonStates;
+    std::string m_inputText;
 
     void onKeyDown(SDL_Event* event, GameStateMachine* gameStateMachine);
     void onKeyUp(SDL_Event* event, GameStateMachine* gameStateMachine);

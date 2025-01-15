@@ -16,7 +16,9 @@ private:
     Vector2D m_size;
     int m_scale;
     int m_type;
-    std::string m_message;
+    std::string m_textID;
+    std::string m_oldText;
+    std::string m_newText;
     bool m_held;
     bool m_wasHeld;
     bool m_specialFlag;
