@@ -51,6 +51,10 @@ void InputHandle::Update(Game *game) {
                 onMouseButtonUp(&event, game->getStateMachine());
                 break;
 
+            case SDL_TEXTEDITING:
+                //TODO
+                break;
+
             default:
                 break;
         }
