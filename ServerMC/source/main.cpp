@@ -51,6 +51,7 @@ int main(int argc, char* args[])
 
         auto ClientsIt = std::find(Clients.begin(), Clients.end(), curClientID);
         if (ClientsIt == Clients.end()) return crow::response(500);
+        //TODO: ADAUGA FACING INAPOI
 
         PlayerObject* PlrObj = dynamic_cast<PlayerObject *>(gameObjects["Player" + std::to_string(curClientID)]);
         //Vector2D vc = PlrObj->getPos() + Vector2D((float)clientleftRight, (float)clientUpDown);

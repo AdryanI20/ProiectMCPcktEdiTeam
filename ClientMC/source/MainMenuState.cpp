@@ -21,9 +21,13 @@ void MainMenuState::Update() {
 
     if (gameObjects.contains("PlayButton")) {
         auto PlayButton = dynamic_cast<ButtonObject*>(gameObjects["PlayButton"]);
-        if (PlayButton->getFlag())
-            m_game->setServerLocation(PlayButton->getText());
-            m_game->getStateMachine()->changeState(new PlayState(m_game));
+        if (PlayButton->getFlag()) {
+            if (gameObjects.contains("ServerButton")) {
+                auto ServerButton = dynamic_cast<ButtonObject*>(gameObjects["ServerButton"]);
+                m_game->setServerLocation(ServerButton->getText());
+                m_game->getStateMachine()->changeState(new PlayState(m_game));
+            }
+        }
     }
 
 }
@@ -87,14 +91,6 @@ bool MainMenuState::onExit() {
 void MainMenuState::onKeyDown(SDL_Event* e) {
     //std::cout << "Key Pressed: " << SDL_GetKeyName(e->key.keysym.sym) << std::endl;
     
-    //if (m_game->getInputHandler()->isKeyJustPressed(SDL_SCANCODE_RETURN)) { //Enter;
-        //if (joinGame()) {
-            //m_game->getStateMachine()->changeState(new PlayState(m_game));
-        //}
-        //else {
-            //std::cerr << "Couldn't join game" << std::endl;
-        //}
-    //}
 }
 
 void MainMenuState::onKeyUp(SDL_Event* e) {

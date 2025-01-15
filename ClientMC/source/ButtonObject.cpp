@@ -6,7 +6,7 @@ void ButtonObject::Update(Game* game) {
 
     switch (m_type)
     {
-    case 0: {//Play button
+    case 0: { //Play button
         InputHandle* inputHandler = game->getInputHandler();
         Vector2D* mousePos = inputHandler->getMousePos();
         bool mouseInBtn = IsPointInsideRect(*mousePos, m_pos, m_size);
@@ -46,6 +46,7 @@ void ButtonObject::Update(Game* game) {
             std::string tempInput = inputHandler->getTextInput();
             m_oldText = m_newText;
             m_newText = tempInput.empty() == true ? " " : tempInput;
+            game->setServerLocation(m_newText);
         } else {
             if (SDL_IsTextInputActive() == SDL_TRUE)
                 SDL_StopTextInput();
@@ -58,7 +59,7 @@ void ButtonObject::Update(Game* game) {
 }
 
 bool ButtonObject::JoinGame(Game* game) {
-    cpr::Response r = cpr::Get(cpr::Url{ "http://localhost:18080/join_game" });
+    cpr::Response r = cpr::Get(cpr::Url{ "http://"+ game->getServerLocation() + ":18080/join_game"});
     if (r.status_code == 200) {
         auto json = crow::json::load(r.text);
         game->setclientID(json["clientID"].i());
