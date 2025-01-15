@@ -11,8 +11,7 @@ TextureManager::~TextureManager() {
     TTF_CloseFont(m_font);
 }
 
-bool TextureManager::TextLoad(const std::string& input, const std::string& id, SDL_Renderer* renderer)
-{
+bool TextureManager::TextLoad(const std::string& input, const std::string& id, SDL_Renderer* renderer, SDL_Color textColor) {
     if (m_font == nullptr) {
         m_font = TTF_OpenFont("resources/kongtext.ttf", 24);
         if (!m_font) {
@@ -21,7 +20,7 @@ bool TextureManager::TextLoad(const std::string& input, const std::string& id, S
         }
     }
 
-    SDL_Surface* text_surf = TTF_RenderText_Solid_Wrapped(m_font, input.c_str(), SDL_Color( 255, 255, 255, 255), 1080);
+    SDL_Surface* text_surf = TTF_RenderText_Solid_Wrapped(m_font, input.c_str(), textColor, 1080);
     SDL_Texture* texture = SDL_CreateTextureFromSurface(renderer, text_surf);
     int textW = text_surf->w;
     int textH = text_surf->h;
@@ -92,9 +91,9 @@ bool TextureManager::TextureExists(const std::string &id) {
     return (m_textureMap.find(id) != m_textureMap.end());
 }
 
-void TextureManager::DrawButton(const std::string& id, Button& button, SDL_Renderer* renderer) {
-    button.Render(renderer, m_font);
-    SDL_Texture* texture = button.GetTexture();
-    m_textureMap.emplace(id, std::make_tuple(texture, 1, 1));
-}
+//void TextureManager::DrawButton(const std::string& id, Button& button, SDL_Renderer* renderer) {
+    //button.Render(renderer, m_font);
+    //SDL_Texture* texture = button.GetTexture();
+    //m_textureMap.emplace(id, std::make_tuple(texture, 1, 1));
+//}
 

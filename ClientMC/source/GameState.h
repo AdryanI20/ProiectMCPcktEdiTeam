@@ -2,7 +2,7 @@
 #include <map>
 #include <string>
 #include "SDL.h"
-#include "Game.h"
+#include "GameObject.h"
 
 class GameState {
 public:
@@ -21,9 +21,9 @@ public:
     //std::map<std::string, GameObject*>& getGameObjects() { return gameObjects; }
 
 protected:
-    //std::map<std::string, GameObject*> gameObjects;
+    std::map<std::string, GameObject*> gameObjects;
     Game* m_game;
 };
 
-//typedef std::map<std::string, GameObject*>::iterator objs_it;
+typedef std::map<std::string, GameObject*>::iterator objs_it;
 

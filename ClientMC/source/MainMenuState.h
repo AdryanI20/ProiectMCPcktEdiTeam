@@ -1,6 +1,6 @@
 #pragma once
 
-#include "Button.h"
+//#include "Button.h"
 #include "GameState.h"
 #include <string>
 
@@ -23,7 +23,7 @@ public:
 
 private:
     bool joinGame();
-    Button m_playButton; // Button for Play
+    //Button m_playButton; // Button for Play
     static const std::string menuID;
     Game* m_game;
 };
