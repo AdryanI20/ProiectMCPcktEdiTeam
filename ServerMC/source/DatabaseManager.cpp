@@ -2,7 +2,7 @@
 
 #include <sqlite_orm/sqlite_orm.h>
 
-auto DatabaseManager::CreateDatabase(const std::string& fileName)
+void DatabaseManager::CreateDatabase(const std::string& fileName)
 {
 	auto storage = sql::make_storage(
 		fileName,
@@ -19,7 +19,6 @@ auto DatabaseManager::CreateDatabase(const std::string& fileName)
 
 	storage.sync_schema();
 	
-	return storage;
 }
 
 auto DatabaseManager::GetDatabase(const std::string& fileName)

@@ -19,7 +19,7 @@ struct player
 class DatabaseManager
 {
 public:
-	auto CreateDatabase(const std::string& fileName);
+	void CreateDatabase(const std::string& fileName);
 
 	auto GetDatabase(const std::string& fileName);
 
