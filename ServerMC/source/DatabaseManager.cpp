@@ -112,3 +112,18 @@ void DatabaseManager::SetFireRate(const std::string& fileName, int id, float fir
 	playerData->fireRate = fireRate;
 	storage.update(*playerData);
 }
+
+bool DatabaseManager::GetScoreReachedState(const std::string& fileName, int id)
+{
+	auto storage = GetDatabase(fileName);
+	player foundPlayer = storage.get<player>(id);
+	return foundPlayer.scoreReached;
+}
+
+bool DatabaseManager::SetScoreReachedState(const std::string& fileName, int id, bool state)
+{
+	auto storage = GetDatabase(fileName);
+	auto playerData = storage.get_pointer<player>(id);
+	playerData->scoreReached = state;
+	storage.update(*playerData);
+}
