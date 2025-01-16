@@ -36,7 +36,7 @@ public:
 	void SetPlayerScore(const std::string& fileName, int id, int score);
 
 	bool GetScoreReachedState(const std::string& fileName, int id);
-	bool SetScoreReachedState(const std::string& fileName, int id, bool state);
+	void SetScoreReachedState(const std::string& fileName, int id, bool state);
 
 	int GetPlayerPoints(const std::string& fileName, int id);
 	void SetPlayerPoints(const std::string& fileName, int id, int points);

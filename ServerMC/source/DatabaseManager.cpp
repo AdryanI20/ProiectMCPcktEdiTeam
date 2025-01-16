@@ -120,7 +120,7 @@ bool DatabaseManager::GetScoreReachedState(const std::string& fileName, int id)
 	return foundPlayer.scoreReached;
 }
 
-bool DatabaseManager::SetScoreReachedState(const std::string& fileName, int id, bool state)
+void DatabaseManager::SetScoreReachedState(const std::string& fileName, int id, bool state)
 {
 	auto storage = GetDatabase(fileName);
 	auto playerData = storage.get_pointer<player>(id);

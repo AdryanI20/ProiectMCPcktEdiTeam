@@ -136,7 +136,7 @@ int main(int argc, char* args[])
     app.port(18080).multithreaded().run();
 
     DatabaseManager dbManager;
-    const std::string databaseFile = "BD.sqlite";
+    const std::string databaseFile = "BD.sqLite";
 
     if (std::filesystem::exists(databaseFile)) {
         std::cout << "Database already exists. Skipping creation.\n";
