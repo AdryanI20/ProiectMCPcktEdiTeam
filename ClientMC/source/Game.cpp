@@ -100,12 +100,12 @@ SDL_Renderer* Game::getRenderer()
     return m_renderer;
 }
 
-uint16_t Game::getclientID()
+int Game::getclientID()
 {
     return m_clientID;
 }
 
-void Game::setclientID(uint16_t newID)
+void Game::setclientID(int newID)
 {
     m_clientID = newID;
 }

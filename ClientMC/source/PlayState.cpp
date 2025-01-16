@@ -21,8 +21,10 @@ void PlayState::Render() {
 
     TextureManager* textureManager = m_game->getTextureManager();
 
-    //
-    cpr::Response response = cpr::Get(cpr::Url{ "http://"+m_game->getServerLocation() + ":18080/get_map"});
+    cpr::Response response = cpr::Get(
+        cpr::Url{ "http://"+m_game->getServerLocation() + ":18080/get_map"},
+        cpr::Parameters{ {"clientID", std::to_string(m_game->getclientID())} }
+    );
 
     if (response.status_code == 200) {
         auto parsedJson = crow::json::load(response.text);
@@ -70,65 +72,7 @@ void PlayState::Render() {
                 }
             }
         }
-
-        //std::cout << response.text << std::endl;
-        //size_t index = 0;
-        //for (int j = 0; j < 30; ++j) {
-        //    for (int i = 0; i < 30; ++i) {
-        //        switch (static_cast<int>(response.text[index++])) {
-        //        case 0://FREE_SPACE
-        //            textureManager->Draw("Wall0", j * img_size, i * img_size, 1, renderer);
-        //            break;
-        //        case 4://PLAYER
-        //            textureManager->Draw("Wall0", j * img_size, i * img_size, 1, renderer);
-        //            textureManager->Draw("Player1", j * img_size, i * img_size, 1, renderer);
-        //            break;
-        //        case 6://BULLET
-        //            textureManager->Draw("Wall0", j * img_size, i * img_size, 1, renderer);
-        //            textureManager->Draw("Bullet", j * img_size, i * img_size, 1, renderer);
-        //            break;
-        //        case 1://DESTRUCTIBIL_WALL
-        //            textureManager->Draw("Wall1", j * img_size, i * img_size, 1, renderer);
-        //            break;
-        //        case 2://INDESTRUCTIBIL_WALL
-        //            textureManager->Draw("Wall2", j * img_size, i * img_size, 1, renderer);
-        //            break;
-        //        case 3://BOMB_WALL
-        //            textureManager->Draw("Wall1", j * img_size, i * img_size, 1, renderer);
-        //            break;
-        //        }
-        //        //std::cout << static_cast<int>(response.text[index++]) << " ";
-        //    }
-        //}
     }
-    //
-
-    //std::pair<int, int> mapSize = m_game->getMap()->getSize();
-    //const std::vector<std::vector<CellType>>& mapData = m_game->getMap()->getMap();
-    //for (int i = 0; i < mapSize.first; ++i) {
-    //    for (int j = 0; j < mapSize.second; ++j) {
-    //        switch (mapData[i][j]) {
-    //        case FREE_SPACE:
-    //            textureManager->Draw("Wall0", j * img_size, i * img_size, 1, renderer);
-    //            break;
-    //        case PLAYER:
-    //            textureManager->Draw("Wall0", j * img_size, i * img_size, 1, renderer);
-    //            break;
-    //        case BULLET:
-    //            textureManager->Draw("Wall0", j * img_size, i * img_size, 1, renderer);
-    //            break;
-    //        case DESTRUCTIBIL_WALL:
-    //            textureManager->Draw("Wall1", j * img_size, i * img_size, 1, renderer);
-    //            break;
-    //        case INDESTRUCTIBIL_WALL:
-    //            textureManager->Draw("Wall2", j * img_size, i * img_size, 1, renderer);
-    //            break;
-    //        case BOMB_WALL:
-    //            textureManager->Draw("Wall1", j * img_size, i * img_size, 1, renderer);
-    //            break;
-    //        }
-    //    }
-    //}
 
     //for (objs_it iterator = gameObjects.begin(); iterator != gameObjects.end(); iterator++)
     //{
@@ -145,10 +89,10 @@ bool PlayState::onEnter() {
     m_game->getTextureManager()->ImageLoad("resources/brick_red_small.png", "Wall1", m_game->getRenderer());
     m_game->getTextureManager()->ImageLoad("resources/brick_grey_small.png", "Wall2", m_game->getRenderer());
 
-    m_game->getTextureManager()->ImageLoad("resources/ship1_small.png", "Player1", m_game->getRenderer());
-    m_game->getTextureManager()->ImageLoad("resources/ship2_small.png", "Player2", m_game->getRenderer());
-    m_game->getTextureManager()->ImageLoad("resources/ship3_small.png", "Player3", m_game->getRenderer());
-    m_game->getTextureManager()->ImageLoad("resources/ship4_small.png", "Player4", m_game->getRenderer());
+    m_game->getTextureManager()->ImageLoad("resources/ship1_small.png", "Player0", m_game->getRenderer());
+    m_game->getTextureManager()->ImageLoad("resources/ship2_small.png", "Player1", m_game->getRenderer());
+    m_game->getTextureManager()->ImageLoad("resources/ship3_small.png", "Player2", m_game->getRenderer());
+    m_game->getTextureManager()->ImageLoad("resources/ship4_small.png", "Player3", m_game->getRenderer());
 
     //getMap();
 
@@ -173,12 +117,12 @@ void PlayState::onKeyDown(SDL_Event* e) {
     if (moveUpDown == 0 && moveLeftRight == 0 && Shoot == 0) return;
     auto response = cpr::Put(
         cpr::Url{ "http://"+m_game->getServerLocation()+":18080/player_input" },
+        cpr::Parameters{ {"clientID", std::to_string(m_game->getclientID())} },
         cpr::Payload{
-            { "clientID", std::to_string(m_game->getclientID()) },
             { "upDown", std::to_string(moveUpDown) },
             { "leftRight", std::to_string(moveLeftRight) },
             { "Shoot" , std::to_string(Shoot) }
-        }  
+        }
     );
     if (response.status_code != 201) {
         std::cout << "error with input";

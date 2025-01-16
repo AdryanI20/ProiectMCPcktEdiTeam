@@ -25,8 +25,8 @@ public:
     InputHandle* getInputHandler();
     TextureManager* getTextureManager();
     SDL_Renderer* getRenderer();
-    uint16_t getclientID();
-    void setclientID(uint16_t newID);
+    int getclientID();
+    void setclientID(int newID);
 
     std::string getServerLocation();
     void setServerLocation(std::string newLocation);
@@ -42,5 +42,5 @@ private:
 
     std::string m_serverLocation;
     bool m_running;
-    uint16_t m_clientID;
+    int m_clientID;
 };
