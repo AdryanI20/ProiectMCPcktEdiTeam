@@ -15,8 +15,10 @@ void PlayerObject::Update(Map* map, bool shot, std::map<std::string, GameObject*
     Vector2D newPos = m_pos + m_vel;
     for (const auto& [_, object] : gameObjects) {
         //first check if the object is a powerup, if not continue down here V
-        if (object->getPos() == newPos)
-            canMove == false;
+        if (object->getPos() == newPos) {
+            canMove = false;
+            break;
+        }
     }
     if (map->getPositionValue(newPos.getX(), newPos.getY()) == CellType::FREE_SPACE && canMove)
         m_pos = newPos;
