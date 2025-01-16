@@ -35,9 +35,24 @@ void PlayState::Render() {
                 case 0://FREE_SPACE
                     textureManager->Draw("Wall0", x * img_size, y * img_size, 1, renderer);
                     break;
-                case 4://PLAYER
+                case 4: { //PLAYER
                     textureManager->Draw("Wall0", x * img_size, y * img_size, 1, renderer);
-                    textureManager->Draw("Player1", x * img_size, y * img_size, 1, renderer);
+                    std::string playerPosString = std::to_string(y) + std::to_string(x);
+                    if (parsedJson.has(playerPosString)) {
+                        Vector2D facingDir = Vector2D(parsedJson[playerPosString][1].i(), parsedJson[playerPosString][2].i());
+                        std::string playerTexID = parsedJson[playerPosString][0].s();
+                        int angle = 0;
+                        if (facingDir == Vector2D(-1, 0))
+                            angle = 180;
+                        else if (facingDir == Vector2D(1, 0))
+                            angle = 0;
+                        else if (facingDir == Vector2D(0, 1))
+                            angle = 270;
+                        else if (facingDir == Vector2D(0, -1))
+                            angle = 90;
+                        textureManager->Draw("Player"+playerTexID, x * img_size, y * img_size, 1, renderer, angle);
+                    }
+                }
                     break;
                 case 6://BULLET
                     textureManager->Draw("Wall0", x * img_size, y * img_size, 1, renderer);

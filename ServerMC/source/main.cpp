@@ -15,6 +15,7 @@ int main(int argc, char* args[])
     cur_map->createRandomMap();
     int clientIDCounter = 0;
     std::vector<int> Clients;
+    std::vector<std::array<int, 4>> Rooms;
     crow::SimpleApp app;
 
     //Change to account verification
@@ -51,23 +52,23 @@ int main(int argc, char* args[])
 
         auto ClientsIt = std::find(Clients.begin(), Clients.end(), curClientID);
         if (ClientsIt == Clients.end()) return crow::response(500);
-        //TODO: ADAUGA FACING INAPOI
 
         PlayerObject* PlrObj = dynamic_cast<PlayerObject *>(gameObjects["Player" + std::to_string(curClientID)]);
-        //Vector2D vc = PlrObj->getPos() + Vector2D((float)clientleftRight, (float)clientUpDown);
-        //PlrObj->setPos(vc.getX(), vc.getY());
         PlrObj->setVel(Vector2D((float)clientUpDown, (float)clientleftRight));
         PlrObj->Update(cur_map, clientShot, gameObjects);
-        //std::cout << PlrObj->getPos().getX() << " " << PlrObj->getPos().getY() << std::endl;
-        //std::cout << curClientID << " " << clientUpDown << " " << clientleftRight << " " << std::endl;
 
         return crow::response(201);
         });
 
     CROW_ROUTE(app, "/join_game")
-        ([&Clients, &gameObjects, cur_map, &clientIDCounter]() {
+        ([&Clients, &gameObjects, cur_map, &clientIDCounter, &Rooms]() {
         int clientID = clientIDCounter++;
-        Clients.push_back(clientID); //[clientID] = clientID;
+        Clients.push_back(clientID);
+        /*for (int i = 0; i < Rooms.size(); ++i) {
+            for (int j = 0; j < Rooms[i].size(); ++j) {
+                std::cout << vectorOfArrays[i][j] << " ";
+            }
+        }*/
         crow::json::wvalue response;
         response["clientID"] = clientID;
 
@@ -75,9 +76,7 @@ int main(int argc, char* args[])
             new PlayerObject(
                 0,
                 0,
-                cur_map->getPositionValue(0, 0),
-                0,
-                "Player" + std::to_string(clientID)
+                std::to_string((clientID%4)+1)
             ));
 
         return response;
@@ -86,9 +85,7 @@ int main(int argc, char* args[])
     CROW_ROUTE(app, "/get_map")
         ([cur_map, &gameObjects]() {
 
-        //std::string binary_map;
         std::pair<int, int> curSize = cur_map->getSize();
-        //binary_map.reserve(curSize.first * curSize.second);
         auto mapData = cur_map->getMap();
 
         crow::json::wvalue jsonMap;
@@ -100,16 +97,15 @@ int main(int argc, char* args[])
 
         for (const auto& [_, object] : gameObjects) {
             Vector2D objPos = object->getPos();
-            //int index = objPos.getY() * curSize.second + objPos.getX();
-            if (dynamic_cast<PlayerObject*>(object)) {
-                //std::cout << index << std::endl;
-                //binary_map[index] = static_cast<char>(CellType::PLAYER);
+            if (auto plrObj = dynamic_cast<PlayerObject*>(object)) {
                 jsonMap["map"][objPos.getX()][objPos.getY()] = CellType::PLAYER;
-            }
+                jsonMap[
+                    std::to_string((int)objPos.getX()) + std::to_string((int)objPos.getY())
+                ] = crow::json::wvalue::list{ plrObj->getID(), plrObj->getFacing().getX(), plrObj->getFacing().getY() };
+            };
             //TODO: other objects
         }
 
-        //std::cout << binary_map << std::endl;
         return crow::response(jsonMap);
     });
 

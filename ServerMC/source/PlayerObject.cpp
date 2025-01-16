@@ -3,47 +3,22 @@
 #include "CellType.h"
 #include <iostream>
 
-PlayerObject::PlayerObject(int X, int Y, CellType valBelow, int mapping, const std::string& TEX_ID)
-    : GameObject(X, Y, TEX_ID), m_facing(-1, 0), m_valBelow(valBelow), inputMap(mapping), m_shot(nullptr), m_lives(3), m_alive(true)
+PlayerObject::PlayerObject(int X, int Y, const std::string& TEX_ID)
+    : GameObject(X, Y, TEX_ID), m_facing(-1, 0), m_shot(nullptr), m_lives(3), m_alive(true)
 {
     m_spawnPoint.first = X;
     m_spawnPoint.second = Y;
 }
 
 void PlayerObject::Update(Map* map, bool shot, std::map<std::string, GameObject*> gameObjects) {
-    //InputHandle* inputHandler = game->getInputHandler();
-    //Map* map = game->getMap();
-    //Vector2D oldPos = m_pos;
-
-    //switch (inputMap)
-    //{
-    //case 0:
-    //    m_vel = Vector2D(
-    //        inputHandler->isKeyJustPressed(SDL_SCANCODE_DOWN) - inputHandler->isKeyJustPressed(SDL_SCANCODE_UP),
-    //        inputHandler->isKeyJustPressed(SDL_SCANCODE_RIGHT) - inputHandler->isKeyJustPressed(SDL_SCANCODE_LEFT));
-    //    break;
-    //case 1:
-    //    m_vel = Vector2D(
-    //        inputHandler->isKeyJustPressed(SDL_SCANCODE_S) - inputHandler->isKeyJustPressed(SDL_SCANCODE_W),
-    //        inputHandler->isKeyJustPressed(SDL_SCANCODE_D) - inputHandler->isKeyJustPressed(SDL_SCANCODE_A));
-    //    break;
-    //case 2:
-    //    m_vel = Vector2D(
-    //        inputHandler->isKeyJustPressed(SDL_SCANCODE_G) - inputHandler->isKeyJustPressed(SDL_SCANCODE_T),
-    //        inputHandler->isKeyJustPressed(SDL_SCANCODE_H) - inputHandler->isKeyJustPressed(SDL_SCANCODE_F));
-    //    break;
-    //case 3:
-    //    m_vel = Vector2D(
-    //        inputHandler->isKeyJustPressed(SDL_SCANCODE_K) - inputHandler->isKeyJustPressed(SDL_SCANCODE_I),
-    //        inputHandler->isKeyJustPressed(SDL_SCANCODE_L) - inputHandler->isKeyJustPressed(SDL_SCANCODE_J));
-    //    break;
-    //}
-    //
-
+    bool canMove = true;
     Vector2D newPos = m_pos + m_vel;
-    std::cout << m_vel.getX() << " " << m_vel.getY() << std::endl;
-    std::cout << static_cast<int>(map->getPositionValue(newPos.getX(), newPos.getY())) << std::endl;
-    if (map->getPositionValue(newPos.getX(), newPos.getY()) == CellType::FREE_SPACE)
+    for (const auto& [_, object] : gameObjects) {
+        //first check if the object is a powerup, if not continue down here V
+        if (object->getPos() == newPos)
+            canMove == false;
+    }
+    if (map->getPositionValue(newPos.getX(), newPos.getY()) == CellType::FREE_SPACE && canMove)
         m_pos = newPos;
 
     //if (map->getPositionValue(m_pos.getX(), m_pos.getY()) == CellType::SPECIAL_ITEM) {
@@ -51,8 +26,8 @@ void PlayerObject::Update(Map* map, bool shot, std::map<std::string, GameObject*
     //    m_hasSpecialBullet = true; // Jucătorul primește glonțul special
     //}
 
-    //if (m_vel.getX() != 0 || m_vel.getY() != 0)
-        //m_facing = m_vel;
+    if (m_vel.getX() != 0 || m_vel.getY() != 0)
+        m_facing = m_vel;
 
     //if (m_pos != oldPos) {
         //map->setPositionValue(oldPos.getX(), oldPos.getY(), m_valBelow);
@@ -187,6 +162,11 @@ void PlayerObject::killed(Map* map)
         map->setPositionValue(m_pos.getX(), m_pos.getY(), FREE_SPACE);
         Clean();
     }
+}
+
+Vector2D PlayerObject::getFacing()
+{
+    return m_facing;
 }
 
 //void PlayerObject::Respawn(Game* game)
