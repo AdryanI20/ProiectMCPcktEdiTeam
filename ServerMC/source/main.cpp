@@ -21,6 +21,11 @@ int main(int argc, char* args[])
     std::vector<std::array<int, 4>> Rooms;
     crow::SimpleApp app;
 
+    //DatabaseManager database2;
+    //database2.CreateDatabase("accounts.sqLite");
+    //database2.AddPlayer("accounts.sqLite", 0, "SuperMarius");
+    //database2.ShowDatabase("accounts.sqLite");
+
     //Change to account verification
     //CROW_ROUTE(app, "/login").methods(crow::HTTPMethod::PUT)(
         //[]() {

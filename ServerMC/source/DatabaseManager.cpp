@@ -19,7 +19,6 @@ void DatabaseManager::CreateDatabase(const std::string& fileName)
 	);
 
 	storage.sync_schema();
-	
 }
 
 auto DatabaseManager::GetDatabase(const std::string& fileName)
@@ -126,4 +125,30 @@ void DatabaseManager::SetScoreReachedState(const std::string& fileName, int id, 
 	auto playerData = storage.get_pointer<player>(id);
 	playerData->scoreReached = state;
 	storage.update(*playerData);
+}
+
+void DatabaseManager::ShowDatabase(const std::string& fileName)
+{
+	auto storage = GetDatabase(fileName);
+	auto allPlayers = storage.get_all<player>();
+
+	if (allPlayers.empty())
+	{
+		std::cout << "Database is empty." << std::endl;
+		return;
+	}
+
+	std::cout << "ID | Name       | Points | Score | FireRate | Speed | ScoreReached" << std::endl;
+	std::cout << "---------------------------------------------------------------" << std::endl;
+
+	for (const auto& player : allPlayers)
+	{
+		std::cout << player.id << " | "
+			<< player.name << " | "
+			<< player.points << " | "
+			<< player.score << " | "
+			<< player.fireRate << " | "
+			<< player.speed << " | "
+			<< (player.scoreReached ? "Yes" : "No") << std::endl;
+	}
 }
