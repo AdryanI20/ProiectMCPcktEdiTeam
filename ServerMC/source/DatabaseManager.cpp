@@ -2,7 +2,7 @@
 
 #include <sqlite_orm/sqlite_orm.h>
 
-auto DatabaseManager::CreateDatabase(const std::string& fileName)
+void DatabaseManager::CreateDatabase(const std::string& fileName)
 {
 	auto storage = sql::make_storage(
 		fileName,
@@ -13,13 +13,13 @@ auto DatabaseManager::CreateDatabase(const std::string& fileName)
 			sql::make_column("points", &player::points),
 			sql::make_column("score", &player::score),
 			sql::make_column("fireRate", &player::fireRate),
-			sql::make_column("speed", &player::speed)
+			sql::make_column("speed", &player::speed),
+			sql::make_column("scoreReached", &player::scoreReached)
 		)
 	);
 
 	storage.sync_schema();
 	
-	return storage;
 }
 
 auto DatabaseManager::GetDatabase(const std::string& fileName)
@@ -33,7 +33,8 @@ auto DatabaseManager::GetDatabase(const std::string& fileName)
 			sqlite_orm::make_column("points", &player::points),
 			sqlite_orm::make_column("score", &player::score),
 			sqlite_orm::make_column("fire_rate", &player::fireRate),
-			sqlite_orm::make_column("speed", &player::speed)
+			sqlite_orm::make_column("speed", &player::speed),
+			sqlite_orm::make_column("scoreReached", &player::scoreReached)
 		)
 	);
 }
@@ -58,6 +59,13 @@ player DatabaseManager::GetPlayer(const std::string& fileName, std::string name)
 	auto storage = GetDatabase(fileName);
 	auto foundPlayers = storage.get_all<player>(sqlite_orm::where(sqlite_orm::c(&player::name) == name));
 	return foundPlayers[0];
+}
+
+int DatabaseManager::GetPlayerID(const std::string& fileName, std::string nume)
+{
+	auto storage = GetDatabase(fileName);
+	player foundPlayer = storage.get<player>(nume);
+	return foundPlayer.id;
 }
 
 int DatabaseManager::GetPlayerScore(const std::string& fileName, int id)
@@ -102,5 +110,20 @@ void DatabaseManager::SetFireRate(const std::string& fileName, int id, float fir
 	auto storage = GetDatabase(fileName);
 	auto playerData = storage.get_pointer<player>(id);
 	playerData->fireRate = fireRate;
+	storage.update(*playerData);
+}
+
+bool DatabaseManager::GetScoreReachedState(const std::string& fileName, int id)
+{
+	auto storage = GetDatabase(fileName);
+	player foundPlayer = storage.get<player>(id);
+	return foundPlayer.scoreReached;
+}
+
+void DatabaseManager::SetScoreReachedState(const std::string& fileName, int id, bool state)
+{
+	auto storage = GetDatabase(fileName);
+	auto playerData = storage.get_pointer<player>(id);
+	playerData->scoreReached = state;
 	storage.update(*playerData);
 }

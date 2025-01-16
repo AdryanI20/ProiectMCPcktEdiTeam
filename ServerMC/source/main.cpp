@@ -2,6 +2,9 @@
 #include "Map.h"
 #include "PlayerObject.h"
 #include <algorithm>
+#include "DatabaseManager.h"
+#include <filesystem>
+
 import utils;
 using namespace http;
 
@@ -128,5 +131,21 @@ int main(int argc, char* args[])
 
     app.port(18080).multithreaded().run();
 
+    DatabaseManager dbManager;
+    const std::string databaseFile = "BD.sqLite";
+
+    if (std::filesystem::exists(databaseFile)) {
+        std::cout << "Database already exists. Skipping creation.\n";
+    }
+    else {
+        std::cout << "Database does not exist. Creating a new one...\n";
+
+        dbManager.CreateDatabase(databaseFile);
+        if (std::filesystem::exists(databaseFile))
+        {
+            std::cout << "Database created successfully.\n";
+        }
+        
+    }
     return 0;
 }

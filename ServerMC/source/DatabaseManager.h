@@ -14,12 +14,13 @@ struct player
 	int score;
 	float fireRate;
 	float speed;
+	bool scoreReached;
 };
 
 class DatabaseManager
 {
 public:
-	auto CreateDatabase(const std::string& fileName);
+	void CreateDatabase(const std::string& fileName);
 
 	auto GetDatabase(const std::string& fileName);
 
@@ -33,6 +34,9 @@ public:
 
 	int GetPlayerScore(const std::string& fileName, int id);
 	void SetPlayerScore(const std::string& fileName, int id, int score);
+
+	bool GetScoreReachedState(const std::string& fileName, int id);
+	void SetScoreReachedState(const std::string& fileName, int id, bool state);
 
 	int GetPlayerPoints(const std::string& fileName, int id);
 	void SetPlayerPoints(const std::string& fileName, int id, int points);
