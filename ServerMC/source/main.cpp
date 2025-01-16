@@ -56,6 +56,12 @@ int main(int argc, char* args[])
     > Rooms;
     crow::SimpleApp app;
     std::mutex DataMutex;
+
+    //DatabaseManager database2;
+    //database2.CreateDatabase("accounts.sqLite");
+    //database2.AddPlayer("accounts.sqLite", 0, "SuperMarius");
+    //database2.ShowDatabase("accounts.sqLite");
+
     //Change to account verification
     //CROW_ROUTE(app, "/login").methods(crow::HTTPMethod::PUT)(
         //[]() {
