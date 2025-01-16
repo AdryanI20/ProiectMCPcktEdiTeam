@@ -123,6 +123,7 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="source\BulletObject.cpp" />
+    <ClCompile Include="source\DatabaseManager.cpp" />
     <ClCompile Include="source\GameObject.cpp" />
     <ClCompile Include="source\main.cpp" />
     <ClCompile Include="source\Map.cpp" />
@@ -135,6 +136,7 @@
   <ItemGroup>
     <ClInclude Include="source\BulletObject.h" />
     <ClInclude Include="source\CellType.h" />
+    <ClInclude Include="source\DatabaseManager.h" />
     <ClInclude Include="source\GameObject.h" />
     <ClInclude Include="source\Map.h" />
     <ClInclude Include="source\PlayerObject.h" />
