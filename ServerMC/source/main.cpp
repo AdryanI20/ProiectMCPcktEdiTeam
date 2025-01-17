@@ -116,11 +116,10 @@ int main(int argc, char* args[])
         bool roomIsFull = true;
         std::array<int, 4>* curClients = nullptr;
         for (int i = 0; i < Rooms.size(); ++i) {
+            curClients = &std::get<1>(Rooms[i]);
             for (int j = 0; j < curClients->size(); ++j) {
-                curClients = &std::get<1>(Rooms[i]);
                 if ((*curClients)[j] == 0) {
                     roomIsFull = false;
-                    
                     (*curClients)[j] = clientID;
                     roomID = i;
                     break;
@@ -129,7 +128,7 @@ int main(int argc, char* args[])
         }
         if (roomIsFull == true) {
             roomID = Rooms.size();
-            Rooms.emplace_back(std::map<std::string, GameObject*>(), std::array<int, 4>{0,0,0,0}, Map(30, 30));
+            Rooms.emplace_back(std::map<std::string, GameObject*>(), std::array<int, 4>{0,0,0,0}, Map(25, 30));
             std::get<2>(Rooms[roomID]).createRandomMap();
             std::get<1>(Rooms[roomID])[0] = clientID;
         }
@@ -137,11 +136,28 @@ int main(int argc, char* args[])
         crow::json::wvalue response;
         response["clientID"] = clientID;
 
+        std::pair<int, int> mapSize = std::get<2>(Rooms[roomID]).getSize();
+        Vector2D spawnPos = Vector2D(0, 0);
+        switch ((clientID - 1) % 4)
+        {
+        case 0:
+            spawnPos = Vector2D(0, 0);
+            break;
+        case 1:
+            spawnPos = Vector2D(0, mapSize.second - 1);
+            break;
+        case 2:
+            spawnPos = Vector2D(mapSize.first - 1, 0);
+            break;
+        case 3:
+            spawnPos = Vector2D(mapSize.first-1, mapSize.second-1);
+            break;
+        }
+
         auto& gameObjects = std::get<0>(Rooms[roomID]);
         gameObjects.emplace("Player"+std::to_string(clientID),
             new PlayerObject(
-                0,
-                0,
+                spawnPos,
                 std::to_string((clientID-1) % 4)
             ));
 
@@ -172,13 +188,13 @@ int main(int argc, char* args[])
             }
         }
 
-        for (const auto& [_, object] : gameObjects) {
+        for (const auto& [objID, object] : gameObjects) {
             Vector2D objPos = object->getPos();
             if (auto plrObj = dynamic_cast<PlayerObject*>(object)) {
                 jsonMap["map"][objPos.getX()][objPos.getY()] = CellType::PLAYER;
                 jsonMap[
                     std::to_string((int)objPos.getX()) + std::to_string((int)objPos.getY())
-                ] = crow::json::wvalue::list{ plrObj->getID(), plrObj->getFacing().getX(), plrObj->getFacing().getY() };
+                ] = crow::json::wvalue::list{ std::stoi(std::string(1, objID.back())), plrObj->getID(), plrObj->getFacing().getX(), plrObj->getFacing().getY()};
             };
             //TODO: other objects
         }
@@ -187,21 +203,36 @@ int main(int argc, char* args[])
     });
 
     CROW_ROUTE(app, "/leave_game").methods(crow::HTTPMethod::PUT) 
-        ([&Clients, &DataMutex](const crow::request& req) {
+        ([&Clients, &Rooms, &DataMutex](const crow::request& req) {
         DataMutex.lock();
         
         auto bodyArgs = parseUrlArgs(req.body);
         auto end = bodyArgs.end();
         auto clientIter = bodyArgs.find("clientID");
-        int curClientID;
         if (clientIter != end) {
+            int curClientID;
             curClientID = std::stoi(clientIter->second);
-            auto it = std::find_if(Clients.begin(), Clients.end(), [curClientID](const std::pair<int, int>& client) {
+            std::pair<int, int>* curClient = nullptr;
+            auto clientIt = std::find_if(Clients.begin(), Clients.end(), [curClientID, &curClient](std::pair<int, int>& client) {
+                if (client.first == curClientID)
+                    curClient = &client;
                 return client.first == curClientID;
                 });
-            if (it == Clients.end()) return crow::response(400);
-            //TODO: DESTROY THE PLAYER OBJECT IN THE ROOM AS WELL
-            Clients.erase(it);
+            if (clientIt == Clients.end()) return crow::response(400);
+            auto& curRoom = Rooms[curClient->second];
+            auto& gameObjects = std::get<0>(curRoom);
+            auto objIt = gameObjects.find("Player"+std::to_string(curClientID));
+            if (objIt != gameObjects.end()) {
+                gameObjects.erase(objIt);
+            }
+            std::array<int, 4>& connectedClients = std::get<1>(curRoom);
+            for (int i = 0; i < connectedClients.size(); ++i) {
+                if (connectedClients[i] == curClientID) {
+                    connectedClients[i] = 0;
+                    break;
+                }
+            }
+            Clients.erase(clientIt);
         }
 
         DataMutex.unlock();
@@ -209,7 +240,7 @@ int main(int argc, char* args[])
     });
 
     //create a first initial room
-    Rooms.emplace_back(std::map<std::string, GameObject*>(), std::array<int, 4>{0, 0, 0, 0}, Map(30, 30));
+    Rooms.emplace_back(std::map<std::string, GameObject*>(), std::array<int, 4>{0, 0, 0, 0}, Map(25, 30));
     std::get<2>(Rooms[0]).createRandomMap();
 
     app.loglevel(crow::LogLevel::Warning);

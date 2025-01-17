@@ -2,7 +2,7 @@
 #include "MainMenuState.h"
 #include <iostream>
 
-Game::Game() : m_serverLocation("localhost") {}
+Game::Game() : m_serverLocation("127.0.0.1") {} //NU FOLOSI LOCALHOST FOLOSESTE 127.0.0.1
 
 Game::~Game() {}
 
@@ -33,6 +33,7 @@ bool Game::Init(const std::string& title, int x, int y, int width, int height, i
     }
     int img_size = 64;
     SDL_RenderSetLogicalSize(m_renderer, 30*img_size, 30*img_size);
+    //shouldnt be hardcoded
 
 
     m_texturemanager = new TextureManager();
