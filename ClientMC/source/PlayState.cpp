@@ -41,8 +41,8 @@ void PlayState::Render() {
                     textureManager->Draw("Wall0", x * img_size, y * img_size, 1, renderer);
                     std::string playerPosString = std::to_string(y) + std::to_string(x);
                     if (parsedJson.has(playerPosString)) {
-                        Vector2D facingDir = Vector2D(parsedJson[playerPosString][1].i(), parsedJson[playerPosString][2].i());
-                        std::string playerTexID = parsedJson[playerPosString][0].s();
+                        Vector2D facingDir = Vector2D(parsedJson[playerPosString][2].i(), parsedJson[playerPosString][3].i());
+                        std::string playerTexID = parsedJson[playerPosString][1].s();
                         int angle = 0;
                         if (facingDir == Vector2D(-1, 0))
                             angle = 180;
@@ -52,6 +52,8 @@ void PlayState::Render() {
                             angle = 270;
                         else if (facingDir == Vector2D(0, -1))
                             angle = 90;
+                        if (m_game->getclientID() == parsedJson[playerPosString][0].i())
+                            textureManager->Draw("Target", x * img_size, y * img_size, 1, renderer);
                         textureManager->Draw("Player"+playerTexID, x * img_size, y * img_size, 1, renderer, angle);
                     }
                 }
@@ -93,6 +95,8 @@ bool PlayState::onEnter() {
     m_game->getTextureManager()->ImageLoad("resources/ship2_small.png", "Player1", m_game->getRenderer());
     m_game->getTextureManager()->ImageLoad("resources/ship3_small.png", "Player2", m_game->getRenderer());
     m_game->getTextureManager()->ImageLoad("resources/ship4_small.png", "Player3", m_game->getRenderer());
+
+    m_game->getTextureManager()->ImageLoad("resources/target_small.png", "Target", m_game->getRenderer());
 
     //getMap();
 

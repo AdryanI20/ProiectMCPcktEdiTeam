@@ -3,12 +3,9 @@
 #include "CellType.h"
 #include <iostream>
 
-PlayerObject::PlayerObject(int X, int Y, const std::string& TEX_ID)
-    : GameObject(X, Y, TEX_ID), m_facing(-1, 0), m_shot(nullptr), m_lives(3), m_alive(true)
-{
-    m_spawnPoint.first = X;
-    m_spawnPoint.second = Y;
-}
+PlayerObject::PlayerObject(Vector2D spawnPos, const std::string& TEX_ID)
+    : GameObject(spawnPos.getX(), spawnPos.getY(), TEX_ID), m_facing(-1, 0), m_shot(nullptr), m_lives(3), m_alive(true), m_spawnPoint(spawnPos) 
+{}
 
 void PlayerObject::Update(Map* map, bool shot, std::map<std::string, GameObject*> gameObjects) {
     bool canMove = true;
@@ -35,27 +32,6 @@ void PlayerObject::Update(Map* map, bool shot, std::map<std::string, GameObject*
         //map->setPositionValue(oldPos.getX(), oldPos.getY(), m_valBelow);
         //m_valBelow = map->getPositionValue(m_pos.getX(), m_pos.getY());
         //map->setPositionValue(m_pos.getX(), m_pos.getY(), CellType::PLAYER);
-    //}
-
-    //bool shoot = false;
-    //switch (inputMap)
-    //{
-    //case 0:
-    //    if (inputHandler->isKeyJustPressed(SDL_SCANCODE_Z))
-    //        shoot = true;
-    //    break;
-    //case 1:
-    //    if (inputHandler->isKeyJustPressed(SDL_SCANCODE_X))
-    //        shoot = true;
-    //    break;
-    //case 2:
-    //    if (inputHandler->isKeyJustPressed(SDL_SCANCODE_C))
-    //        shoot = true;
-    //    break;
-    //case 3:
-    //    if (inputHandler->isKeyJustPressed(SDL_SCANCODE_V))
-    //        shoot = true;
-    //    break;
     //}
 
     //TODO: id-urile care incerc sa le dau la gloante cateodata se intalnesc si atunci un glont care tocmai ce a fost distrus primeste o functie de rulat din cauza conflictului de ID si el este nullptr
@@ -142,29 +118,29 @@ void PlayerObject::activatePowerUp(PowerUpType powerUp)
     }
 }
 
-void PlayerObject::respawn(Map* map)
-{
-    map->setPositionValue(m_pos.getX(), m_pos.getY(), FREE_SPACE);
-    _sleep(500);
-    this->setPos(m_spawnPoint.first, m_spawnPoint.second);
-    map->setPositionValue(m_pos.getX(), m_pos.getY(), PLAYER);
-}
+//void PlayerObject::respawn(Map* map)
+//{
+//    map->setPositionValue(m_pos.getX(), m_pos.getY(), FREE_SPACE);
+//    _sleep(500);
+//    this->setPos(m_spawnPoint.first, m_spawnPoint.second);
+//    map->setPositionValue(m_pos.getX(), m_pos.getY(), PLAYER);
+//}
 
-void PlayerObject::killed(Map* map)
-{
-    m_lives--;
-
-    if (m_lives > 0)
-    {
-        respawn(map);
-    }
-    else
-    {
-        setLivingState(false);
-        map->setPositionValue(m_pos.getX(), m_pos.getY(), FREE_SPACE);
-        Clean();
-    }
-}
+//void PlayerObject::killed(Map* map)
+//{
+//    m_lives--;
+//
+//    if (m_lives > 0)
+//    {
+//        respawn(map);
+//    }
+//    else
+//    {
+//        setLivingState(false);
+//        map->setPositionValue(m_pos.getX(), m_pos.getY(), FREE_SPACE);
+//        Clean();
+//    }
+//}
 
 Vector2D PlayerObject::getFacing()
 {

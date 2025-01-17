@@ -7,7 +7,7 @@
 
 class PlayerObject : public GameObject {
 public:
-    PlayerObject(int X, int Y, const std::string& TEX_ID);
+    PlayerObject(Vector2D spawnPos, const std::string& TEX_ID);
 
     void Update(Map* map, bool shot, std::map<std::string, GameObject*> gameObjects);
     void Clean() override;
@@ -20,14 +20,14 @@ public:
     bool isAlive();
     std::string getID() override;
     void setLivingState(bool state);
-    void respawn(Map* map);
-    void killed(Map* map);
+    //void respawn(Map* map);
+    //void killed(Map* map);
 
     Vector2D getFacing();
 private:
     Vector2D m_facing;
     Bullet* m_shot;
-    std::pair<int, int> m_spawnPoint;
+    Vector2D m_spawnPoint;
     int m_lives;
     bool m_alive;
     bool m_hasSpecialBullet = false; // Indică dacă jucătorul are glonțul special
