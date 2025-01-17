@@ -170,3 +170,22 @@ Vector2D PlayerObject::getFacing()
 //    }
 //}
 
+void PlayerObject::AddKillPoints()
+{
+    m_points += 100;
+}
+
+void PlayerObject::AddWinPoints()
+{
+    m_points += 200;
+}
+
+void PlayerObject::SetScore()
+{
+    if (m_finalPosition == 1)
+        m_score = 2;
+    if (m_finalPosition == 2)
+    {
+        m_score = 1;
+    }
+}

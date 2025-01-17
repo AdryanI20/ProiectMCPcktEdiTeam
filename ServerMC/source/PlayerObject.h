@@ -1,4 +1,5 @@
 #pragma once
+#include "DatabaseManager.h"
 #include "GameObject.h"
 #include "CellType.h"
 #include "BulletObject.h"
@@ -20,6 +21,9 @@ public:
     bool isAlive();
     std::string getID() override;
     void setLivingState(bool state);
+    void AddKillPoints();
+    void AddWinPoints();
+    void SetScore();
     //void respawn(Map* map);
     //void killed(Map* map);
 
@@ -34,4 +38,8 @@ private:
     PowerUpType m_powerUp;
     int m_fireRate;
     float m_powerUpTimer;
+
+    int m_points;
+    int m_finalPosition;
+    int m_score;
 };
