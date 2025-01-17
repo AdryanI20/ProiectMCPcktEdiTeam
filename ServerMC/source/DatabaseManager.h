@@ -43,6 +43,7 @@ public:
 
 	int GetFireRate(const std::string& fileName, int id);
 	void SetFireRate(const std::string& fileName, int id, float fireRate);
+	void UpgradeFireRate(const std::string& fileName, int id);
 
 	void ShowDatabase(const std::string& fileName);
 };

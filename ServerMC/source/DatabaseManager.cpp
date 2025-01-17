@@ -152,3 +152,14 @@ void DatabaseManager::ShowDatabase(const std::string& fileName)
 			<< (player.scoreReached ? "Yes" : "No") << std::endl;
 	}
 }
+
+void DatabaseManager::UpgradeFireRate(const std::string& fileName, int id)
+{
+	auto storage = GetDatabase(fileName);
+	auto playerData = storage.get_pointer < player>(id);
+	if (playerData->fireRate < 4 && playerData->points >= 500)
+	{
+		playerData->points -= 500;
+		playerData->fireRate += 1;
+	}
+}
