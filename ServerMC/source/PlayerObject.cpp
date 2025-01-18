@@ -25,6 +25,23 @@ void PlayerObject::Update(Map* map, bool shot, std::map<std::string, GameObject*
     //    m_hasSpecialBullet = true; // Jucătorul primește glonțul special
     //}
 
+    if (m_powerUpActive) {
+        auto now = std::chrono::steady_clock::now();
+        std::chrono::duration<double> elapsed = now - m_powerUpTimerStart;
+        if (elapsed.count() >= 5.0) {
+            //fire-rate dureaza 5 secunde, dar extra life e add-on, nu powerUp care expira
+            m_powerUpActive = false;
+            switch (m_powerUp) {
+            case FIRE_RATE:
+                m_fireRate /= 1.5;
+                break;
+            case EXTRA_LIFE:
+                break;
+            }
+            std::cout << "Power-up a expirat!\n";
+        }
+    }
+
     if (m_vel.getX() != 0 || m_vel.getY() != 0)
         m_facing = m_vel;
 
