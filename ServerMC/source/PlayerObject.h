@@ -5,6 +5,7 @@
 #include "BulletObject.h"
 #include "PowerUpType.h"
 #include <map>
+#include <chrono>
 
 class PlayerObject : public GameObject {
 public:
@@ -37,7 +38,8 @@ private:
     bool m_hasSpecialBullet = false; // Indică dacă jucătorul are glonțul special
     PowerUpType m_powerUp;
     int m_fireRate;
-    float m_powerUpTimer;
+    std::chrono::time_point<std::chrono::steady_clock> m_powerUpTimerStart;
+    bool m_powerUpActive;
 
     int m_points;
     int m_finalPosition;

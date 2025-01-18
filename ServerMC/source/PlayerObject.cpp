@@ -95,25 +95,17 @@ void PlayerObject::givePowerUp(int powerUp)
 
 void PlayerObject::activatePowerUp(PowerUpType powerUp)
 {
-    m_powerUpTimer = 3;
+    m_powerUp = powerUp;
+    m_powerUpActive = true;
+    m_powerUpTimerStart = std::chrono::steady_clock::now();
 
     switch (powerUp)
     {
-    case NO_POWERUP:
-        break;
     case FIRE_RATE:
-        m_fireRate /= 2;
-        break;
-    case BULLET_SPEED:
+        m_fireRate *= 1.5;
         break;
     case EXTRA_LIFE:
-        m_lives++;
-        break;
-    case INVINCIBLE:
-        break;
-    case INVISIBLE:
-        break;
-    default:
+        m_lives += 1;
         break;
     }
 }
