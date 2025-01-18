@@ -13,8 +13,6 @@ public:
 	GameObject(Vector2D pos, const std::string& TEX_ID = "");
 	virtual ~GameObject() = default;
 
-	//virtual void Update();
-	virtual void Clean();
 	virtual std::string getID() { return m_textureID; }
 
 	Vector2D& getPos();

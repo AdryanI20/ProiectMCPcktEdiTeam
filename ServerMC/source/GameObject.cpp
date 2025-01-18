@@ -20,4 +20,4 @@ void GameObject::setVel(Vector2D newVel)
 
 //void GameObject::Update() {}
 
-void GameObject::Clean() {}
+//void GameObject::Clean() {}

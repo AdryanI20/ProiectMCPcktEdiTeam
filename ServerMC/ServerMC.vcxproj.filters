@@ -68,10 +68,10 @@
     <ClInclude Include="source\Vector2D.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="source\PowerUpType.h">
+    <ClInclude Include="source\DatabaseManager.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="source\DatabaseManager.h">
+    <ClInclude Include="source\PowerUpType.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

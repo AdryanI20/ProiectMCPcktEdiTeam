@@ -70,6 +70,7 @@ void PlayState::Render() {
                     break;
                 case 3://BOMB_WALL
                     textureManager->Draw("Wall1", x * img_size, y * img_size, 1, renderer);
+                    textureManager->Draw("Target", x * img_size, y * img_size, 1, renderer);
                     break;
                 }
             }
