@@ -145,57 +145,31 @@ void PlayerObject::Respawn() {
     else {
         m_alive = false;
         setPos(-1, -1);
-std::string PlayerObject::getID()
-{
-    return m_textureID;
-}
-
-void PlayerObject::givePowerUp(int powerUp)
-{
-    m_powerUp = static_cast<PowerUpType>(powerUp);
-}
-
-void PlayerObject::activatePowerUp(PowerUpType powerUp)
-{
-    m_powerUp = powerUp;
-    m_powerUpActive = true;
-    m_powerUpTimerStart = std::chrono::steady_clock::now();
-
-    switch (powerUp)
-    {
-    case FIRE_RATE:
-        m_fireRate *= 1.5;
-        break;
-    case EXTRA_LIFE:
-        m_lives += 1;
-        break;
     }
 }
 
-//void PlayerObject::respawn(Map* map)
+//void PlayerObject::givePowerUp(int powerUp)
 //{
-//    map->setPositionValue(m_pos.getX(), m_pos.getY(), FREE_SPACE);
-//    _sleep(500);
-//    this->setPos(m_spawnPoint.first, m_spawnPoint.second);
-//    map->setPositionValue(m_pos.getX(), m_pos.getY(), PLAYER);
+//    m_powerUp = static_cast<PowerUpType>(powerUp);
+//}
+//
+//void PlayerObject::activatePowerUp(PowerUpType powerUp)
+//{
+//    m_powerUp = powerUp;
+//    m_powerUpActive = true;
+//    m_powerUpTimerStart = std::chrono::steady_clock::now();
+//
+//    switch (powerUp)
+//    {
+//    case FIRE_RATE:
+//        m_fireRate *= 1.5;
+//        break;
+//    case EXTRA_LIFE:
+//        m_lives += 1;
+//        break;
+//    }
 //}
 
-//void PlayerObject::killed(Map* map)
-//{
-//    m_lives--;
-//
-//    if (m_lives > 0)
-//    {
-//        respawn(map);
-//    }
-//    else
-//    {
-//        setLivingState(false);
-//        map->setPositionValue(m_pos.getX(), m_pos.getY(), FREE_SPACE);
-//        Clean();
-//    }
-    }
-}
 
 Vector2D PlayerObject::getFacing() {
     return m_facing;

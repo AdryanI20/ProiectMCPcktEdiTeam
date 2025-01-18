@@ -22,22 +22,8 @@ public:
     //int getLives();
     bool getAlive();
     void setAlive(bool newVal);
-    //std::string getID() override;
-    //void setLivingState(bool state);
     void Respawn();
-    bool hasSpecialBullet() const { return m_hasSpecialBullet; }
-    void useSpecialBullet() { m_hasSpecialBullet = false; } // Consumă glonțul special
-    void givePowerUp(int powerUp);
-    void activatePowerUp(PowerUpType powerUp);
-    int getLives();
-    bool isAlive();
-    std::string getID() override;
-    void setLivingState(bool state);
-    void AddKillPoints();
-    void AddWinPoints();
-    void SetScore();
-    //void respawn(Map* map);
-    //void killed(Map* map);
+    
 
     Vector2D getFacing();
 private:

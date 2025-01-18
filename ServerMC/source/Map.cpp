@@ -84,46 +84,6 @@ std::vector<CellType> Map::getNeighboursVal(int X, int Y)
     return neighbours;
 }
 
-//std::string Map::getMapString() {
-//    std::string MapOutput;
-//    for (int i = 0; i < m_rows; ++i) {
-//        for (int j = 0; j < m_cols; ++j) {
-//            char TileType;
-//            switch (m_grid[i][j]) {
-//            case FREE_SPACE:
-//                TileType = ' ';
-//                break;
-//            case DESTRUCTIBIL_WALL:
-//                TileType = 'M';
-//                break;
-//            case INDESTRUCTIBIL_WALL:
-//                TileType = 'W';
-//                break;
-//            case BOMB_WALL:
-//                TileType = 'B';
-//                break;
-//            case PLAYER:
-//                TileType = '@';
-//                break;
-//            case BULLET:
-//                TileType = '.';
-//                break;
-//            }
-//            MapOutput += TileType;
-//        }
-//        MapOutput += "\n";
-//    }
-//    //
-//    //for (int i = 0; i < m_rows; ++i) {
-//        //for (int j = 0; j < m_cols; ++j) {
-//            //std::cout << m_grid[i][j] << " ";
-//        //}
-//        //std::cout << "\n";
-//    //}
-//    //
-//    return MapOutput;
-//}
-
 const std::vector<std::vector<CellType>>& Map::getMap() {
     return m_grid;
 }
