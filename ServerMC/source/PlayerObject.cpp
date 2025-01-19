@@ -174,3 +174,11 @@ void PlayerObject::Respawn() {
 Vector2D PlayerObject::getFacing() {
     return m_facing;
 }
+
+bool PlayerObject::getHasSpecialBullet() const {
+    return m_hasSpecialBullet;
+}
+
+void PlayerObject::setHasSpecialBullet(bool val) {
+    m_hasSpecialBullet = val;
+}

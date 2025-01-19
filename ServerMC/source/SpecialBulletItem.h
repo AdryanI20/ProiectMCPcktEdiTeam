@@ -11,7 +11,7 @@ class SpecialBulletItem : public GameObject {
 public:
 
     SpecialBulletItem(int x, int y, const std::string& textureID = "special_bullet_item");
-    
+
     void Update(Map& map, std::map<std::string, std::shared_ptr<GameObject>>& gameObjects);
 
     virtual std::string getID() override;

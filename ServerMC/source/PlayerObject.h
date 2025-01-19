@@ -23,9 +23,11 @@ public:
     bool getAlive();
     void setAlive(bool newVal);
     void Respawn();
-    
 
     Vector2D getFacing();
+
+    bool getHasSpecialBullet() const;
+    void setHasSpecialBullet(bool val);
 private:
     Vector2D m_facing;
     std::weak_ptr<Bullet> m_bullet;
@@ -37,6 +39,8 @@ private:
     int m_fireRate;
     std::chrono::time_point<std::chrono::steady_clock> m_powerUpTimerStart;
     bool m_powerUpActive;
+
+    bool m_hasSpecialBullet = false;
 
     int m_points;
     int m_finalPosition;
