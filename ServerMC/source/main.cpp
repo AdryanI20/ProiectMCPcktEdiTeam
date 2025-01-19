@@ -6,7 +6,6 @@
 #include <algorithm>
 #include <mutex>
 #include <memory>
-#include <chrono>
 
 import utils;
 using namespace http;
@@ -40,81 +39,80 @@ int getIntFromArgs(std::unordered_map<std::string, std::string>& bodyArgs, const
 }
 
 
-
 int main(int argc, char* args[])
 {
+    //int clientIDCounter = 0;
     std::vector< std::pair<int,int> > Clients;
     std::vector<
         std::tuple<
             std::map<std::string, std::shared_ptr<GameObject>>, //Objects in the room
             std::array<int, 4>, //Clients connected to room
-            Map, //Map of the room
-            std::chrono::steady_clock::time_point
+            Map //Map of the room
             >
     > Rooms;
     crow::SimpleApp app;
     std::mutex DataMutex;
     DatabaseManager databaseManager;
 
-    // EXEMPLE ROUTE COMENTATE...
-    // ...
+    //Change to account verification
+    //CROW_ROUTE(app, "/login").methods(crow::HTTPMethod::PUT)(
+        //[]() {
+            //if 
+
+        //});
 
     CROW_ROUTE(app, "/player_input").methods(crow::HTTPMethod::PUT)
-            ([&Clients, &Rooms, &DataMutex](const crow::request& req) {
-                DataMutex.lock();
-                auto bodyArgs = parseUrlArgs(req.body);
+        ([&Clients, &Rooms, &DataMutex](const crow::request& req) {
+        DataMutex.lock();
+        auto bodyArgs = parseUrlArgs(req.body);
+        auto end = bodyArgs.end();
 
-                if (!req.url_params.get("clientID")) {
-                    DataMutex.unlock();
-                    return crow::response(500);
-                }
+        if (!req.url_params.get("clientID")) { 
+            DataMutex.unlock();
+            return crow::response(500);
+        }
 
-                std::string clientID = req.url_params.get("clientID");
-                const std::pair<int, int>* curClient = findClientByID(Clients, std::stoi(clientID));
-                if (curClient == nullptr) {
-                    DataMutex.unlock();
-                    return crow::response(500);
-                }
+        std::string clientID = req.url_params.get("clientID");
+        const std::pair<int, int>* curClient = findClientByID(Clients, std::stoi(clientID));
+        if (curClient == nullptr) {
+            DataMutex.unlock();
+            return crow::response(500);
+        }
+        
+        int clientUpDown = getIntFromArgs(bodyArgs, "upDown");
+        int clientleftRight = getIntFromArgs(bodyArgs, "leftRight");
+        bool clientShot = getIntFromArgs(bodyArgs, "Shoot");
 
-                int clientUpDown = getIntFromArgs(bodyArgs, "upDown");
-                int clientleftRight = getIntFromArgs(bodyArgs, "leftRight");
-                bool clientShot = getIntFromArgs(bodyArgs, "Shoot");
+        if (clientUpDown != 0) clientleftRight = 0;
 
-                if (clientUpDown != 0) clientleftRight = 0;
+        auto& curRoom = Rooms[curClient->second];
+        auto& gameObjects = std::get<0>(curRoom);
 
-                auto& curRoom = Rooms[curClient->second];
-                auto& gameObjects = std::get<0>(curRoom);
+        auto it = gameObjects.find("Player" + std::to_string(curClient->first));
+        if (it == gameObjects.end()) {
+            DataMutex.unlock();
+            return crow::response(500);
+        }
+        Map& curMap = std::get<2>(curRoom);
 
-                auto it = gameObjects.find("Player" + std::to_string(curClient->first));
-                if (it == gameObjects.end()) {
-                    DataMutex.unlock();
-                    return crow::response(500);
-                }
-                Map& curMap = std::get<2>(curRoom);
+        std::shared_ptr<PlayerObject> plrObj = std::dynamic_pointer_cast<PlayerObject>(it->second);
+        
+        if (!plrObj->getAlive()) {
+            DataMutex.unlock();
+            return crow::response(500);
+        }
 
-                std::shared_ptr<PlayerObject> plrObj = std::dynamic_pointer_cast<PlayerObject>(it->second);
+        plrObj->setVel(Vector2D((float)clientUpDown, (float)clientleftRight));
+        plrObj->Update(curMap, clientShot, gameObjects);
 
-                if (!plrObj->getAlive()) {
-                    DataMutex.unlock();
-                    return crow::response(500);
-                }
-
-                plrObj->setVel(Vector2D((float)clientUpDown, (float)clientleftRight));
-                plrObj->Update(curMap, clientShot, gameObjects);
-
-                DataMutex.unlock();
-                return crow::response(201);
-            });
+        DataMutex.unlock();
+        return crow::response(201);
+        });
 
     CROW_ROUTE(app, "/join_game")
         ([&Clients, &Rooms, &DataMutex, &databaseManager](const crow::request& req) {
         DataMutex.lock();
 
-        //if (!req.url_params.get("clientUser")) {
-            //DataMutex.unlock();
-            //response["success"] = false;
-            //return response;
-        //}
         std::string clientUser = req.url_params.get("clientUser");
 
         int clientID = databaseManager.GetUserIdByUsername(clientUser);
@@ -130,41 +128,47 @@ int main(int argc, char* args[])
                     (*curClients)[j] = clientID;
                     roomID = i;
                     break;
-            ([&Clients, &clientIDCounter, &Rooms, &DataMutex]() {
                 }
+            }
+        }
+        if (roomIsFull == true) {
+            roomID = Rooms.size();
+            Rooms.emplace_back(std::map<std::string, std::shared_ptr<GameObject>>(), std::array<int, 4>{0,0,0,0}, Map(25, 30));
+            std::get<2>(Rooms[roomID]).createRandomMap();
+            std::get<1>(Rooms[roomID])[0] = clientID;
+        }
+        Clients.emplace_back(clientID, roomID);
+        crow::json::wvalue response;
+        response["clientID"] = clientID;
 
-                Clients.emplace_back(clientID, roomID);
-                crow::json::wvalue response;
-                response["clientID"] = clientID;
+        std::pair<int, int> mapSize = std::get<2>(Rooms[roomID]).getSize();
+        Vector2D spawnPos = Vector2D(0, 0);
+        switch ((clientID - 1) % 4)
+        {
+        case 0:
+            spawnPos = Vector2D(0, 0);
+            break;
+        case 1:
+            spawnPos = Vector2D(0, mapSize.second - 1);
+            break;
+        case 2:
+            spawnPos = Vector2D(mapSize.first - 1, 0);
+            break;
+        case 3:
+            spawnPos = Vector2D(mapSize.first-1, mapSize.second-1);
+            break;
+        }
 
-                std::pair<int, int> mapSize = std::get<2>(Rooms[roomID]).getSize();
-                Vector2D spawnPos = Vector2D(0, 0);
-                switch ((clientID - 1) % 4)
-                {
-                    case 0:
-                        spawnPos = Vector2D(0, 0);
-                        break;
-                    case 1:
-                        spawnPos = Vector2D(0, mapSize.second - 1);
-                        break;
-                    case 2:
-                        spawnPos = Vector2D(mapSize.first - 1, 0);
-                        break;
-                    case 3:
-                        spawnPos = Vector2D(mapSize.first - 1, mapSize.second - 1);
-                        break;
-                }
+        auto& gameObjects = std::get<0>(Rooms[roomID]);
+        gameObjects.emplace("Player"+std::to_string(clientID),
+            std::make_shared<PlayerObject>(
+                spawnPos,
+                std::to_string((clientID-1) % 4)
+            ));
 
-                auto& gameObjects = std::get<0>(Rooms[roomID]);
-                gameObjects.emplace("Player"+std::to_string(clientID),
-                                    std::make_shared<PlayerObject>(
-                                            spawnPos,
-                                            std::to_string((clientID-1) % 4)
-                                    ));
-
-                DataMutex.unlock();
-                return response;
-            });
+        DataMutex.unlock();
+        return response;
+        });
 
     CROW_ROUTE(app, "/get_map")
         ([&Rooms, &Clients, &DataMutex](const crow::request& req) {
@@ -280,13 +284,8 @@ int main(int argc, char* args[])
     //load the database
     databaseManager.CreateDatabase("gamedb.sqlite");
 
-
-    Rooms.emplace_back(
-            std::map<std::string, std::shared_ptr<GameObject>>(),
-            std::array<int, 4>{0, 0, 0, 0},
-            Map(25, 30),
-            std::chrono::steady_clock::now()
-    );
+    //create a first initial room
+    Rooms.emplace_back(std::map<std::string, std::shared_ptr<GameObject>>(), std::array<int, 4>{0, 0, 0, 0}, Map(25, 30));
     std::get<2>(Rooms[0]).createRandomMap();
 
     app.loglevel(crow::LogLevel::Warning);
