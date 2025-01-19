@@ -15,11 +15,6 @@ public:
     void Update(Map& map, bool shot, std::map<std::string, std::shared_ptr<GameObject>>& gameObjects);
     void setPos(int X, int Y);
     void setPos(Vector2D newPos);
-    //bool hasSpecialBullet() const { return m_hasSpecialBullet; }
-    //void useSpecialBullet() { m_hasSpecialBullet = false; } // Consumă glonțul special
-    //void givePowerUp(int powerUp);
-    //void activatePowerUp(PowerUpType powerUp);
-    //int getLives();
     bool getAlive();
     void setAlive(bool newVal);
     void Respawn();

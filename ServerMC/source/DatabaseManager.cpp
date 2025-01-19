@@ -47,7 +47,7 @@ int DatabaseManager::GetUserIdByUsername(const std::string& username) {
                     username,
                     0,
                     0,
-                    0.0
+                    0.4
                 )
             )
         );

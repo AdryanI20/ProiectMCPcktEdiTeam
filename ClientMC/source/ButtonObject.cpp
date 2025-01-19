@@ -1,4 +1,5 @@
 #include "ButtonObject.h"
+#include <regex>
 
 ButtonObject::ButtonObject(Vector2D pos, Vector2D size, int scale, int type, std::string message, const std::string& TEX_ID, int inputIndex) : GameObject(pos, TEX_ID), m_size(size), m_scale(scale), m_type(type), m_textID(message), m_held(false), m_wasHeld(false), m_specialFlag(false), m_btnColor(SDL_Color{ 255,255,255,255 }), m_newText(" "), m_oldText(" "), m_inputIndex(inputIndex) {}
 
@@ -37,14 +38,16 @@ void ButtonObject::Update(Game* game) {
         if (mouseInBtn) {
             inputHandler->setInputIndex(m_inputIndex);
             m_btnColor = SDL_Color{ 200, 0, 0, 255 };
-            //if (SDL_IsTextInputActive() == SDL_FALSE)
-                //SDL_StartTextInput();
             std::string tempInput = inputHandler->getTextInput(m_inputIndex);
+            /*if (m_inputIndex == 1) {
+                std::regex ipv4("([0-9]|[1-9][0-9]|1[0-9]{2}|2[0-4][0-9]|25[0-5])\\.){3}([0-9]|[1-9][0-9]|1[0-9]{2}|2[0-4][0-9]|25[0-5])");
+                if (std::regex_match(tempInput, ipv4) == false) {
+                    std::cerr << "Invalid IP Adress!" << '\n';
+                }
+            }*/
             m_oldText = m_newText;
             m_newText = tempInput.empty() == true ? " " : tempInput;
         } else {
-            //if (SDL_IsTextInputActive() == SDL_TRUE)
-                //SDL_StopTextInput();
             m_btnColor = SDL_Color{ 255, 255, 255, 255 };
         }
     }

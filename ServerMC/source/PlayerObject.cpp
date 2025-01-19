@@ -11,8 +11,8 @@ PlayerObject::PlayerObject(Vector2D spawnPos, const std::string& TEX_ID, float f
           m_alive(true),
           m_lives(3),
           m_spawnPoint(spawnPos),
-          m_hasSpecialBullet(false),  // Inițial, jucătorul nu are glonț special
-          m_powerUpActive(false),     // Inițial, niciun power-up nu e activ
+          m_hasSpecialBullet(false),  
+          m_powerUpActive(false),     
           m_fireRate(fireRate)
 {}
 
@@ -37,16 +37,16 @@ void PlayerObject::Update(Map& map, bool shot, std::map<std::string, std::shared
     if (map.getPositionValue(newPos.getX(), newPos.getY()) == CellType::FREE_SPACE && canMove)
         m_pos = newPos;
 
-    //if (map->getPositionValue(m_pos.getX(), m_pos.getY()) == CellType::SPECIAL_ITEM) {
-    //    map->setPositionValue(m_pos.getX(), m_pos.getY(), CellType::FREE_SPACE);
-    //    m_hasSpecialBullet = true; // Jucătorul primește glonțul special
-    //}
+    
+    
+    
+    
 
     if (m_powerUpActive) {
         auto now = std::chrono::steady_clock::now();
         std::chrono::duration<double> elapsed = now - m_powerUpTimerStart;
         if (elapsed.count() >= 5.0) {
-            //fire-rate dureaza 5 secunde, dar extra life e add-on, nu powerUp care expira
+            
             m_powerUpActive = false;
             switch (m_powerUp) {
                 case FIRE_RATE:
@@ -85,56 +85,6 @@ void PlayerObject::setPos(Vector2D newPos) {
     m_pos = newPos;
 }
 
-//int PlayerObject::getLives()
-//{
-//    return m_lives;
-//}
-////
-//bool PlayerObject::isAlive()
-//{
-//    return m_alive;
-//}
-////
-////void PlayerObject::setLivingState(bool state)
-////{
-////    m_alive = state;
-////}
-////
-////std::string PlayerObject::getID()
-////{
-////    return m_textureID;
-////}
-////
-////void PlayerObject::givePowerUp(int powerUp)
-////{
-////    m_powerUp = static_cast<PowerUpType>(powerUp);
-////}
-
-//void PlayerObject::activatePowerUp(PowerUpType powerUp)
-//{
-//    m_powerUpTimer = 3;
-//
-//    switch (powerUp)
-//    {
-//    case NO_POWERUP:
-//        break;
-//    case FIRE_RATE:
-//        m_fireRate /= 2;
-//        break;
-//    case BULLET_SPEED:
-//        break;
-//    case EXTRA_LIFE:
-//        m_lives++;
-//        break;
-//    case INVINCIBLE:
-//        break;
-//    case INVISIBLE:
-//        break;
-//    default:
-//        break;
-//    }
-//}
-
 bool PlayerObject::getAlive() {
     return m_alive;
 }
@@ -153,28 +103,6 @@ void PlayerObject::Respawn() {
         setPos(-1, -1);
     }
 }
-
-//void PlayerObject::givePowerUp(int powerUp)
-//{
-//    m_powerUp = static_cast<PowerUpType>(powerUp);
-//}
-////
-//void PlayerObject::activatePowerUp(PowerUpType powerUp)
-//{
-//    m_powerUp = powerUp;
-//    m_powerUpActive = true;
-//    m_powerUpTimerStart = std::chrono::steady_clock::now();
-//
-//    switch (powerUp)
-//    {
-//    case FIRE_RATE:
-//        m_fireRate *= 1.5;
-//        break;
-//    case EXTRA_LIFE:
-//        m_lives += 1;
-//        break;
-//    }
-//}
 
 Vector2D PlayerObject::getFacing() {
     return m_facing;

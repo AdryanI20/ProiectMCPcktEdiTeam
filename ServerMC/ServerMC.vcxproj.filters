@@ -30,9 +30,6 @@
     <ClCompile Include="source\PlayerObject.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="source\routing.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="source\utils.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>

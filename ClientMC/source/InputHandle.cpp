@@ -52,7 +52,6 @@ void InputHandle::Update(Game *game) {
                 break;
 
             case SDL_TEXTINPUT: {
-                std::cout << event.text.text << '\n';
                 if (m_inputIndex < 0 || m_inputIndex >= m_inputs.size()) {
                     if (m_inputIndex >= 0) {
                         m_inputs.resize(m_inputIndex + 1);

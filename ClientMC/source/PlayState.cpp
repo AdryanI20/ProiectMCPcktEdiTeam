@@ -68,6 +68,9 @@ void PlayState::Render() {
                 case 2://INDESTRUCTIBIL_WALL
                     textureManager->Draw("Wall2", x * img_size, y * img_size, 1, renderer);
                     break;
+                case 7://SPECIAL
+                    textureManager->Draw("Wall0", x * img_size, y * img_size, 1, renderer);
+                    break;
                 case 3://BOMB_WALL
                     textureManager->Draw("Wall1", x * img_size, y * img_size, 1, renderer);
                     textureManager->Draw("Target", x * img_size, y * img_size, 1, renderer);

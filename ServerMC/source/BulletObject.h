@@ -16,7 +16,6 @@ public:
     void CollideLogic(Map& map, std::map<std::string, std::shared_ptr<GameObject>>& gameObjects, Vector2D oldPos, Vector2D newPos);
     void explodeBombWall(Map& map, std::map<std::string, std::shared_ptr<GameObject>>& gameObjects, Vector2D pos);
 
-    // Metodă setter pentru glonț special:
     void setIsSpecial(bool val);
 
     bool isSpecial() const;

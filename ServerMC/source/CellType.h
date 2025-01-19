@@ -8,5 +8,5 @@ enum CellType : uint8_t {
     PLAYER,
     EMPTY_SPACE,
     BULLET,
-    SPECIAL_BULLET_ITEM
+    SPECIAL_ITEM
 };

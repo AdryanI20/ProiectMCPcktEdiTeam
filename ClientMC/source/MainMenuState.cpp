@@ -20,6 +20,8 @@ bool MainMenuState::JoinGame(std::string username) {
     );
     if (r.status_code == 200) {
         auto json = crow::json::load(r.text);
+        if (json.count("clientConnected") && json["clientConnected"].b())
+            return false;
         m_game->setclientID(json["clientID"].i());
         return true;
     }
@@ -58,10 +60,6 @@ void MainMenuState::TextShow(const std::string& ID, int posX, int posY, double s
 
 void MainMenuState::Render() {
     SDL_SetRenderDrawColor(m_game->getRenderer(), 30, 30, 30, 255);
-    //int w, h;
-    //SDL_GetRendererOutputSize(m_game->getRenderer(), &w, &h);
-    //if (m_game->getTextureManager()->TextureExists("MainMenu"))
-        //m_game->getTextureManager()->Draw("MainMenu", 600, 80, 3, m_game->getRenderer());
     TextShow("MainMenu", 600, 80, 3);
     TextShow("serverIP", 150, 560, 3);
     TextShow("Username", 5, 1000, 3);
@@ -69,8 +67,6 @@ void MainMenuState::Render() {
     for (objs_it iterator = gameObjects.begin(); iterator != gameObjects.end(); iterator++) {
         iterator->second->Draw(m_game->getTextureManager(), m_game->getRenderer());
     }
-    //if(m_game->getTextureManager()->TextureExists("PlayButton"))
-        //m_game->getTextureManager()->DrawButton("PlayButton", m_playButton, m_game->getRenderer());
 }
 
 bool MainMenuState::onEnter() {

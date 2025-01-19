@@ -17,7 +17,3 @@ void GameObject::setVel(Vector2D newVel)
 {
 	m_vel = newVel;
 }
-
-//void GameObject::Update() {}
-
-//void GameObject::Clean() {}

@@ -90,10 +90,3 @@ void TextureManager::clearFromTextureMap(const std::string& id)
 bool TextureManager::TextureExists(const std::string &id) {
     return (m_textureMap.find(id) != m_textureMap.end());
 }
-
-//void TextureManager::DrawButton(const std::string& id, Button& button, SDL_Renderer* renderer) {
-    //button.Render(renderer, m_font);
-    //SDL_Texture* texture = button.GetTexture();
-    //m_textureMap.emplace(id, std::make_tuple(texture, 1, 1));
-//}
-

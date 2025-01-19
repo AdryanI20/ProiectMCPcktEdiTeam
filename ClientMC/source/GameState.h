@@ -17,9 +17,6 @@ public:
     virtual void onMouseMove(SDL_Event* e) = 0;
     virtual std::string getStateID() const = 0;
 
-    //GameObject* getObjectByID(std::string id) { return gameObjects[id]; }
-    //std::map<std::string, GameObject*>& getGameObjects() { return gameObjects; }
-
 protected:
     std::map<std::string, GameObject*> gameObjects;
     Game* m_game;
