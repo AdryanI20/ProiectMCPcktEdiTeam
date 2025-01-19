@@ -2,19 +2,57 @@
 
 void DatabaseManager::CreateDatabase(const std::string& fileName)
 {
-    auto storage = sql::make_storage(
-        fileName,
-        sql::make_table(
-            "Users",
-            sql::make_column("id", &player::id, sql::primary_key().autoincrement()),
-            sql::make_column("name", &player::name),
-            sql::make_column("wins", &player::wins),
-            sql::make_column("score", &player::score),
-            sql::make_column("fireRate", &player::fireRate)
+    m_storage = std::make_shared<decltype(createStorage(""))>(sql::make_storage(
+            fileName,
+            sql::make_table(
+                "Users",
+                sql::make_column("id", &player::id, sql::primary_key().autoincrement()),
+                sql::make_column("name", &player::name),
+                sql::make_column("wins", &player::wins),
+                sql::make_column("score", &player::score),
+                sql::make_column("fireRate", &player::fireRate)
+            )
         )
     );
 
-	storage.sync_schema();
+    m_storage->sync_schema();
+}
+
+int DatabaseManager::GetUserIdByUsername(const std::string& username) {
+    if (m_storage) {
+        auto userCount = m_storage->get_all<player>();
+        auto userSearch = m_storage->select(
+            sql::columns(&player::id),
+            sql::where(sql::is_equal(&player::name, username))
+        );
+
+        if (!userSearch.empty()) {
+            return std::get<0>(userSearch.front());
+        }
+        else {
+            m_storage->insert(
+                sql::into<player>(),
+                sql::columns(
+                    &player::name,
+                    &player::wins,
+                    &player::score,
+                    &player::fireRate
+                ),
+                sql::values(
+                    std::make_tuple(
+                        username,
+                        0,
+                        0,
+                        0.0
+                    )
+                )
+            );
+            return userCount.size()+1;
+        }
+    }
+
+    std::cerr << "Database not initialized!" << std::endl;
+    return -1;
 }
 
 //auto DatabaseManager::GetDatabase(const std::string& fileName)
