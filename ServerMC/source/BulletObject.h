@@ -10,26 +10,24 @@ class Bullet : public GameObject {
 public:
     Bullet(Vector2D pos, float speed, Vector2D direction, const std::string& TEX_ID);
 
-    void Update(Map& map, std::map<std::string, std::shared_ptr<GameObject> >& gameObjects);
+    void Update(Map& map, std::map<std::string, std::shared_ptr<GameObject>>& gameObjects);
     std::string getID() override;
-    //bool shouldDestroy();
 
-    void CollideLogic(Map& map, std::map<std::string, std::shared_ptr<GameObject> >& gameObjects, Vector2D oldPos, Vector2D newPos);
-    void explodeBombWall(Map& map, std::map<std::string, std::shared_ptr<GameObject> >& gameObjects, Vector2D pos);
-    
+    void CollideLogic(Map& map, std::map<std::string, std::shared_ptr<GameObject>>& gameObjects, Vector2D oldPos, Vector2D newPos);
+    void explodeBombWall(Map& map, std::map<std::string, std::shared_ptr<GameObject>>& gameObjects, Vector2D pos);
+
+    // Metodă setter pentru glonț special:
+    void setIsSpecial(bool val);
+
     bool isSpecial() const;
 
     void setState(bool newState);
     bool getState();
 
 private:
-    float m_speed; 
+    float m_speed;
     Vector2D m_direction;
     Vector2D m_oldPos;
-    //std::string m_bltKey;
     bool m_hit;
     bool m_isSpecial;
 };
-
-
-

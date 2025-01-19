@@ -132,3 +132,7 @@ std::string Bullet::getID()
 {
     return m_textureID;
 }
+void Bullet::setIsSpecial(bool val)
+{
+    m_isSpecial = val;
+}
