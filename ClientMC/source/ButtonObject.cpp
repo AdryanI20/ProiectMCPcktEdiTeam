@@ -1,6 +1,6 @@
 #include "ButtonObject.h"
 
-ButtonObject::ButtonObject(Vector2D pos, Vector2D size, int scale, int type, std::string message, const std::string& TEX_ID) : GameObject(pos, TEX_ID), m_size(size), m_scale(scale), m_type(type), m_textID(message), m_held(false), m_wasHeld(false), m_specialFlag(false), m_btnColor(SDL_Color{ 255,255,255,255 }), m_newText(" "), m_oldText(" ") {}
+ButtonObject::ButtonObject(Vector2D pos, Vector2D size, int scale, int type, std::string message, const std::string& TEX_ID, int inputIndex) : GameObject(pos, TEX_ID), m_size(size), m_scale(scale), m_type(type), m_textID(message), m_held(false), m_wasHeld(false), m_specialFlag(false), m_btnColor(SDL_Color{ 255,255,255,255 }), m_newText(" "), m_oldText(" "), m_inputIndex(inputIndex) {}
 
 void ButtonObject::Update(Game* game) {
 
@@ -40,16 +40,16 @@ void ButtonObject::Update(Game* game) {
         Vector2D* mousePos = inputHandler->getMousePos();
         bool mouseInBtn = IsPointInsideRect(*mousePos, m_pos, m_size);
         if (mouseInBtn) {
+            inputHandler->setInputIndex(m_inputIndex);
             m_btnColor = SDL_Color{ 200, 0, 0, 255 };
-            if (SDL_IsTextInputActive() == SDL_FALSE)
-                SDL_StartTextInput();
-            std::string tempInput = inputHandler->getTextInput();
+            //if (SDL_IsTextInputActive() == SDL_FALSE)
+                //SDL_StartTextInput();
+            std::string tempInput = inputHandler->getTextInput(m_inputIndex);
             m_oldText = m_newText;
             m_newText = tempInput.empty() == true ? " " : tempInput;
-            game->setServerLocation(m_newText);
         } else {
-            if (SDL_IsTextInputActive() == SDL_TRUE)
-                SDL_StopTextInput();
+            //if (SDL_IsTextInputActive() == SDL_TRUE)
+                //SDL_StopTextInput();
             m_btnColor = SDL_Color{ 255, 255, 255, 255 };
         }
     }

@@ -23,14 +23,16 @@ public:
     Vector2D* getMousePos();
     void resetMouseStates();
 
-    void resetTextInput();
-    std::string getTextInput();
+    std::string getTextInput(int index);
+    void setInputIndex(int index);
+
 private:
     Vector2D* m_mousePos;
     const uint8_t* m_keystates;
     std::vector<uint8_t> m_OLDkeystates;
     std::vector<bool> m_mouseButtonStates;
-    std::string m_inputText;
+    std::vector < std::string > m_inputs;
+    int m_inputIndex;
 
     void onKeyDown(SDL_Event* event, GameStateMachine* gameStateMachine);
     void onKeyUp(SDL_Event* event, GameStateMachine* gameStateMachine);

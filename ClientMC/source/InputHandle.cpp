@@ -2,7 +2,7 @@
 #include "Game.h"
 #include <iostream>
 
-InputHandle::InputHandle() {}
+InputHandle::InputHandle() : m_inputIndex(0) {}
 
 InputHandle::~InputHandle() {}
 
@@ -52,11 +52,18 @@ void InputHandle::Update(Game *game) {
                 break;
 
             case SDL_TEXTINPUT: {
+                std::cout << event.text.text << '\n';
+                if (m_inputIndex < 0 || m_inputIndex >= m_inputs.size()) {
+                    if (m_inputIndex >= 0) {
+                        m_inputs.resize(m_inputIndex + 1);
+                        m_inputs[m_inputIndex] = "";
+                    }
+                }
                 //Not copy or pasting
                 if (!(SDL_GetModState() & KMOD_CTRL && (event.text.text[0] == 'c' || event.text.text[0] == 'C' || event.text.text[0] == 'v' || event.text.text[0] == 'V')))
                 {
                     //Append character
-                    m_inputText += event.text.text;
+                    m_inputs[m_inputIndex] += event.text.text;
                 }
             }
                 break;
@@ -72,8 +79,14 @@ void InputHandle::Clean() {
 }
 
 void InputHandle::onKeyDown(SDL_Event *event, GameStateMachine* gameStateMachine) {
-    if (event->key.keysym.sym == SDLK_BACKSPACE && m_inputText.length() > 0) {
-        m_inputText.pop_back();
+    if (m_inputIndex < 0 || m_inputIndex >= m_inputs.size()) {
+        if (m_inputIndex >= 0) {
+            m_inputs.resize(m_inputIndex + 1);
+            m_inputs[m_inputIndex] = "";
+        }
+    }
+    if (event->key.keysym.sym == SDLK_BACKSPACE && m_inputs[m_inputIndex].length() > 0) {
+        m_inputs[m_inputIndex].pop_back();
     }
 
     gameStateMachine->onKeyDown(event);
@@ -145,10 +158,16 @@ void InputHandle::resetMouseStates() {
         m_mouseButtonStates[i] = false;
 }
 
-void InputHandle::resetTextInput() {
-    m_inputText.clear();
+std::string InputHandle::getTextInput(int index) {
+    if (index < 0 || index >= m_inputs.size()) {
+        if (index >= 0) {
+            m_inputs.resize(index + 1);
+            m_inputs[index] = "";
+        }
+    }
+    return m_inputs[index];
 }
 
-std::string InputHandle::getTextInput() {
-    return m_inputText;
+void InputHandle::setInputIndex(int index) {
+    m_inputIndex = index;
 }

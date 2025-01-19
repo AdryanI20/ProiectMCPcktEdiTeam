@@ -10,8 +10,7 @@ std::string MainMenuState::getStateID() const {
 }
 
 MainMenuState::MainMenuState(Game* game)
-    : m_game(game) {//, m_playButton(500, 500, 200, 200, "Play") {  // Define position and size of the button
-    // Constructor code
+    : m_game(game) {
 }
 
 void MainMenuState::Update() {
@@ -32,12 +31,20 @@ void MainMenuState::Update() {
 
 }
 
+void MainMenuState::TextShow(const std::string& ID, int posX, int posY, double scale) {
+    if (m_game->getTextureManager()->TextureExists(ID))
+        m_game->getTextureManager()->Draw(ID, posX, posY, scale, m_game->getRenderer());
+}
+
 void MainMenuState::Render() {
     SDL_SetRenderDrawColor(m_game->getRenderer(), 30, 30, 30, 255);
-    int w, h;
-    SDL_GetRendererOutputSize(m_game->getRenderer(), &w, &h);
-    if (m_game->getTextureManager()->TextureExists("MainMenu"))
-        m_game->getTextureManager()->Draw("MainMenu", 600, 80, 3, m_game->getRenderer());
+    //int w, h;
+    //SDL_GetRendererOutputSize(m_game->getRenderer(), &w, &h);
+    //if (m_game->getTextureManager()->TextureExists("MainMenu"))
+        //m_game->getTextureManager()->Draw("MainMenu", 600, 80, 3, m_game->getRenderer());
+    TextShow("MainMenu", 600, 80, 3);
+    TextShow("serverIP", 150, 560, 3);
+    TextShow("Username", 5, 1000, 3);
     
     for (objs_it iterator = gameObjects.begin(); iterator != gameObjects.end(); iterator++) {
         iterator->second->Draw(m_game->getTextureManager(), m_game->getRenderer());
@@ -51,8 +58,11 @@ bool MainMenuState::onEnter() {
     int img_size = 4;
 
     m_game->getTextureManager()->TextLoad("Ship Combat", "MainMenu", m_game->getRenderer());
+    m_game->getTextureManager()->TextLoad("Please input server IP:", "serverIP", m_game->getRenderer());
+    m_game->getTextureManager()->TextLoad("Please input your username:", "Username", m_game->getRenderer());
     m_game->getTextureManager()->TextLoad("Play", "PlayButton", m_game->getRenderer());
     m_game->getTextureManager()->TextLoad(" ", "ServerButton", m_game->getRenderer());
+    m_game->getTextureManager()->TextLoad(" ", "LoginButton", m_game->getRenderer());
     gameObjects.emplace("PlayButton",
         new ButtonObject(
             Vector2D(200, 80),
@@ -64,15 +74,24 @@ bool MainMenuState::onEnter() {
         ));
     gameObjects.emplace("ServerButton",
         new ButtonObject(
-            Vector2D(150, 160),
+            Vector2D(150, 170),
             Vector2D(200, 50),
             img_size,
             1,
             "ServerButton",
-            ""
+            "",
+            1
         ));
-
-    //m_game->getTextureManager()->DrawButton("PlayButton", m_playButton, m_game->getRenderer());
+    gameObjects.emplace("LoginButton",
+        new ButtonObject(
+            Vector2D(150, 280),
+            Vector2D(200, 50),
+            img_size,
+            1,
+            "LoginButton",
+            "",
+            2
+        ));
 
     return true; //success
 }
@@ -87,7 +106,6 @@ bool MainMenuState::onExit() {
     return true;
 }
 
-//TODO: IMPLEMENT MOUSE LOGIC, GUI BUTTONS
 void MainMenuState::onKeyDown(SDL_Event* e) {
     //std::cout << "Key Pressed: " << SDL_GetKeyName(e->key.keysym.sym) << std::endl;
     
@@ -102,12 +120,7 @@ void MainMenuState::onMouseButtonUp(SDL_Event* e) {
 }
 
 void MainMenuState::onMouseButtonDown(SDL_Event* e) {
-    //int mouseX = e->button.x;
-    //int mouseY = e->button.y;
 
-    //if (m_playButton.IsClicked(mouseX, mouseY)) {
-        //m_game->getStateMachine()->changeState(new PlayState(m_game));
-    //}
 }
 
 

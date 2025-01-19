@@ -22,8 +22,8 @@ public:
     std::string getStateID() const override;
 
 private:
-    bool joinGame();
-    //Button m_playButton; // Button for Play
+    void TextShow(const std::string& ID, int posX, int posY, double scale);
+
     static const std::string menuID;
     Game* m_game;
 };

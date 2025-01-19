@@ -35,6 +35,7 @@ bool Game::Init(const std::string& title, int x, int y, int width, int height, i
     SDL_RenderSetLogicalSize(m_renderer, 30*img_size, 30*img_size);
     //shouldnt be hardcoded
 
+    SDL_StartTextInput();
 
     m_texturemanager = new TextureManager();
     m_inputhandler = new InputHandle();
@@ -64,6 +65,8 @@ void Game::HandleEvents() {
 void Game::Clean() {
     SDL_DestroyWindow(m_window);
     SDL_DestroyRenderer(m_renderer);
+    if (SDL_IsTextInputActive() == SDL_TRUE)
+        SDL_StopTextInput();
     TTF_Quit();
     IMG_Quit();
     SDL_Quit();

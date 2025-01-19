@@ -85,6 +85,8 @@ void PlayState::Render() {
 
 bool PlayState::onEnter() {
     std::cout << "entering Play" << std::endl;
+    if (SDL_IsTextInputActive() == SDL_TRUE)
+        SDL_StopTextInput();
 
     m_game->getTextureManager()->ImageLoad("resources/cannonBall_small.png", "Bullet", m_game->getRenderer());
 
