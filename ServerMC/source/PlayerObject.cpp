@@ -6,7 +6,14 @@
 #include <string_view>
 
 PlayerObject::PlayerObject(Vector2D spawnPos, const std::string& TEX_ID)
-    : GameObject(spawnPos.getX(), spawnPos.getY(), TEX_ID), m_facing(-1, 0), m_alive(true), m_lives(3), m_spawnPoint(spawnPos)
+        : GameObject(spawnPos.getX(), spawnPos.getY(), TEX_ID),
+          m_facing(-1, 0),
+          m_alive(true),
+          m_lives(3),
+          m_spawnPoint(spawnPos),
+          m_hasSpecialBullet(false),  // Inițial, jucătorul nu are glonț special
+          m_powerUpActive(false),     // Inițial, niciun power-up nu e activ
+          m_fireRate(1)              // Ex. fire-rate de bază = 1
 {}
 
 uint32_t SDBM_hash(const uint8_t* buf, size_t size) {
@@ -42,11 +49,11 @@ void PlayerObject::Update(Map& map, bool shot, std::map<std::string, std::shared
             //fire-rate dureaza 5 secunde, dar extra life e add-on, nu powerUp care expira
             m_powerUpActive = false;
             switch (m_powerUp) {
-            case FIRE_RATE:
-                m_fireRate /= 1.5;
-                break;
-            case EXTRA_LIFE:
-                break;
+                case FIRE_RATE:
+                    m_fireRate /= 1.5;
+                    break;
+                case EXTRA_LIFE:
+                    break;
             }
             std::cout << "Power-up a expirat!\n";
         }
@@ -56,15 +63,26 @@ void PlayerObject::Update(Map& map, bool shot, std::map<std::string, std::shared
         m_facing = m_vel;
 
     if (shot && !m_bullet.lock()) {
-        std::string hashKey = std::format("{}{}{}{}{}{}", m_spawnPoint.getX(), m_spawnPoint.getY(), m_vel.getX(), m_vel.getY(), m_pos.getX(), m_pos.getY());
-        uint32_t hash = SDBM_hash(reinterpret_cast<const uint8_t*>(hashKey.c_str()), hashKey.size());
-        //std::string bltKey = 
-        std::shared_ptr<Bullet> newBlt = std::make_shared<Bullet>(
-            m_pos + m_facing,
-            0.4,
-            m_facing,
-            ""
+        std::string hashKey = std::format("{}{}{}{}{}{}",
+                                          m_spawnPoint.getX(), m_spawnPoint.getY(),
+                                          m_vel.getX(), m_vel.getY(),
+                                          m_pos.getX(), m_pos.getY()
         );
+        uint32_t hash = SDBM_hash(reinterpret_cast<const uint8_t*>(hashKey.c_str()), hashKey.size());
+        //std::string bltKey =
+        std::shared_ptr<Bullet> newBlt = std::make_shared<Bullet>(
+                m_pos + m_facing,
+                0.4f, // viteza glonțului
+                m_facing,
+                ""
+        );
+
+        // Dacă jucătorul are glonț special, îl setăm și-l consumăm
+        if (m_hasSpecialBullet) {
+            newBlt->setIsSpecial(true);
+            m_hasSpecialBullet = false;
+        }
+
         gameObjects.emplace("Bullet" + std::to_string(hash), newBlt);
         m_bullet = newBlt;
         newBlt->CollideLogic(map, gameObjects, Vector2D(-1, -1), m_pos + m_facing);
@@ -83,26 +101,26 @@ void PlayerObject::setPos(Vector2D newPos) {
 //{
 //    return m_lives;
 //}
-//
+////
 //bool PlayerObject::isAlive()
 //{
 //    return m_alive;
 //}
-//
-//void PlayerObject::setLivingState(bool state)
-//{
-//    m_alive = state;
-//}
-//
-//std::string PlayerObject::getID()
-//{
-//    return m_textureID;
-//}
-//
-//void PlayerObject::givePowerUp(int powerUp)
-//{
-//    m_powerUp = static_cast<PowerUpType>(powerUp);
-//}
+////
+////void PlayerObject::setLivingState(bool state)
+////{
+////    m_alive = state;
+////}
+////
+////std::string PlayerObject::getID()
+////{
+////    return m_textureID;
+////}
+////
+////void PlayerObject::givePowerUp(int powerUp)
+////{
+////    m_powerUp = static_cast<PowerUpType>(powerUp);
+////}
 
 //void PlayerObject::activatePowerUp(PowerUpType powerUp)
 //{
@@ -152,7 +170,7 @@ void PlayerObject::Respawn() {
 //{
 //    m_powerUp = static_cast<PowerUpType>(powerUp);
 //}
-//
+////
 //void PlayerObject::activatePowerUp(PowerUpType powerUp)
 //{
 //    m_powerUp = powerUp;
@@ -169,7 +187,6 @@ void PlayerObject::Respawn() {
 //        break;
 //    }
 //}
-
 
 Vector2D PlayerObject::getFacing() {
     return m_facing;
