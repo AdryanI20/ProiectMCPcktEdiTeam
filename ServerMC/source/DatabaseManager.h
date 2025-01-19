@@ -1,28 +1,16 @@
 #pragma once
-
 #include <sqlite_orm/sqlite_orm.h>
 #include <string>
 #include <crow.h>
 
 namespace sql = sqlite_orm;
 
-struct player
-{
-	int id;
-	std::string name;
-	int points;
-	int score;
-	float fireRate;
-	float speed;
-	bool scoreReached;
-};
-
 class DatabaseManager
 {
 public:
 	void CreateDatabase(const std::string& fileName);
 
-	auto GetDatabase(const std::string& fileName);
+	/*auto GetDatabase(const std::string& fileName);
 
 	void AddPlayer(const std::string& fileName,
 		int id, std::string name = "Name", int points = 0, int score = 0, float fireRate = 1, float speed = 1);
@@ -45,5 +33,13 @@ public:
 	void SetFireRate(const std::string& fileName, int id, float fireRate);
 	void UpgradeFireRate(const std::string& fileName, int id);
 
-	void ShowDatabase(const std::string& fileName);
+	void ShowDatabase(const std::string& fileName);*/
+private:
+	struct player {
+		int id;
+		std::string name;
+		int wins;
+		int score;
+		float fireRate;
+	};
 };

@@ -2,6 +2,7 @@
 #include "Map.h"
 #include "PlayerObject.h"
 #include "BulletObject.h"
+#include "DatabaseManager.h"
 #include <algorithm>
 #include <mutex>
 #include <memory>
@@ -51,11 +52,7 @@ int main(int argc, char* args[])
     > Rooms;
     crow::SimpleApp app;
     std::mutex DataMutex;
-
-    //DatabaseManager database2;
-    //database2.CreateDatabase("accounts.sqLite");
-    //database2.AddPlayer("accounts.sqLite", 0, "SuperMarius");
-    //database2.ShowDatabase("accounts.sqLite");
+    DatabaseManager databaseManager;
 
     //Change to account verification
     //CROW_ROUTE(app, "/login").methods(crow::HTTPMethod::PUT)(
@@ -282,6 +279,9 @@ int main(int argc, char* args[])
         DataMutex.unlock();
         return crow::response(204);
     });
+
+    //load the database
+    databaseManager.CreateDatabase("gamedb.sqlite");
 
     //create a first initial room
     Rooms.emplace_back(std::map<std::string, std::shared_ptr<GameObject>>(), std::array<int, 4>{0, 0, 0, 0}, Map(25, 30));
