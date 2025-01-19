@@ -13,6 +13,19 @@ MainMenuState::MainMenuState(Game* game)
     : m_game(game) {
 }
 
+bool MainMenuState::JoinGame(std::string username) {
+    cpr::Response r = cpr::Get(
+        cpr::Url{ "http://" + m_game->getServerLocation() + ":18080/join_game" },
+        cpr::Parameters{ {"clientUser", username} }
+    );
+    if (r.status_code == 200) {
+        auto json = crow::json::load(r.text);
+        m_game->setclientID(json["clientID"].i());
+        return true;
+    }
+    return false;
+}
+
 void MainMenuState::Update() {
     for (objs_it iterator = gameObjects.begin(); iterator != gameObjects.end(); iterator++) {
         iterator->second->Update(m_game);
@@ -21,10 +34,17 @@ void MainMenuState::Update() {
     if (gameObjects.contains("PlayButton")) {
         auto PlayButton = dynamic_cast<ButtonObject*>(gameObjects["PlayButton"]);
         if (PlayButton->getFlag()) {
-            if (gameObjects.contains("ServerButton")) {
+            if (gameObjects.contains("ServerButton") && gameObjects.contains("LoginButton")) {
                 auto ServerButton = dynamic_cast<ButtonObject*>(gameObjects["ServerButton"]);
+                auto LoginButton = dynamic_cast<ButtonObject*>(gameObjects["LoginButton"]);
                 m_game->setServerLocation(ServerButton->getText());
-                m_game->getStateMachine()->changeState(new PlayState(m_game));
+                if (!LoginButton->getText().empty() && JoinGame(LoginButton->getText())) {
+                    m_game->getStateMachine()->changeState(new PlayState(m_game));
+                }
+                else {
+                    PlayButton->setFlag(false);
+                    std::cerr << "Couldn't join game" << std::endl;
+                }
             }
         }
     }

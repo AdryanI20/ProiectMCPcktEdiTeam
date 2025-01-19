@@ -23,6 +23,7 @@ public:
 
 private:
     void TextShow(const std::string& ID, int posX, int posY, double scale);
+    bool JoinGame(std::string username);
 
     static const std::string menuID;
     Game* m_game;

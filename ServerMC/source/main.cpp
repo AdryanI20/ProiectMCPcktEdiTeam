@@ -41,7 +41,7 @@ int getIntFromArgs(std::unordered_map<std::string, std::string>& bodyArgs, const
 
 int main(int argc, char* args[])
 {
-    int clientIDCounter = 0;
+    //int clientIDCounter = 0;
     std::vector< std::pair<int,int> > Clients;
     std::vector<
         std::tuple<
@@ -110,10 +110,17 @@ int main(int argc, char* args[])
         });
 
     CROW_ROUTE(app, "/join_game")
-        ([&Clients, &clientIDCounter, &Rooms, &DataMutex]() {
+        ([&Clients, &Rooms, &DataMutex, &databaseManager](const crow::request& req) {
         DataMutex.lock();
 
-        int clientID = ++clientIDCounter;
+        //if (!req.url_params.get("clientUser")) {
+            //DataMutex.unlock();
+            //response["success"] = false;
+            //return response;
+        //}
+        std::string clientUser = req.url_params.get("clientUser");
+
+        int clientID = databaseManager.GetUserIdByUsername(clientUser);
         int roomID = -1;
 
         bool roomIsFull = true;
@@ -171,8 +178,7 @@ int main(int argc, char* args[])
     CROW_ROUTE(app, "/get_map")
         ([&Rooms, &Clients, &DataMutex](const crow::request& req) {
         DataMutex.lock();
-        //TODO: USE THIS AS A COUNTER FOR WHEN TO ADD POWER UP
-
+        
         if (!req.url_params.get("clientID")) {
             DataMutex.unlock();
             return crow::response(400);

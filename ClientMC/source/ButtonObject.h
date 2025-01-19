@@ -9,7 +9,7 @@ public:
     void Update(Game* game) override;
     void Draw(TextureManager* textureManager, SDL_Renderer* renderer) override;
     void Clean() override;
-
+    void setFlag(bool newVal);
     bool getFlag();
     std::string getText();
 
@@ -28,5 +28,5 @@ private:
 
     void DrawUnfilledRectangle(SDL_Renderer* renderer, int thickness, SDL_Color color, SDL_Color oldColor);
     bool IsPointInsideRect(const Vector2D point, Vector2D rectPos, Vector2D rectSize);
-    bool JoinGame(Game* game);
+    
 };

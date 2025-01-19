@@ -26,12 +26,7 @@ void ButtonObject::Update(Game* game) {
 
         if (m_wasHeld) {
             m_wasHeld = false;
-            if (JoinGame(game)) {
-                m_specialFlag = true;
-            }
-            else {
-                std::cerr << "Couldn't join game" << std::endl;
-            }
+            m_specialFlag = true;
         }
     }
         break;
@@ -56,16 +51,6 @@ void ButtonObject::Update(Game* game) {
         break;
     }
 
-}
-
-bool ButtonObject::JoinGame(Game* game) {
-    cpr::Response r = cpr::Get(cpr::Url{ "http://"+ game->getServerLocation() + ":18080/join_game"});
-    if (r.status_code == 200) {
-        auto json = crow::json::load(r.text);
-        game->setclientID(json["clientID"].i());
-        return true;
-    }
-    return false;
 }
 
 bool ButtonObject::IsPointInsideRect(const Vector2D point, Vector2D rectPos, Vector2D rectSize) {
@@ -131,6 +116,10 @@ void ButtonObject::Draw(TextureManager* textureManager, SDL_Renderer* renderer) 
 
 void ButtonObject::Clean() {
 
+}
+
+void ButtonObject::setFlag(bool newVal) {
+    m_specialFlag = newVal;
 }
 
 bool ButtonObject::getFlag()
