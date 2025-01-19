@@ -35,6 +35,12 @@ public:
 	void CreateDatabase(const std::string& fileName);
 	int GetUserIdByUsername(const std::string& username);
 
+    void SetUserFirerate(int clientID, float fireRate);
+    float GetUserFirerate(int clientID);
+    void SetUserScore(int clientID, int score);
+    int GetUserScore(int clientID);
+    void SetUserWins(int clientID, int wins);
+    int GetUserWins(int clientID);
 
 private:
     	

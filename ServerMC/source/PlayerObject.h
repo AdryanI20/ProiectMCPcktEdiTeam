@@ -10,7 +10,7 @@
 
 class PlayerObject : public GameObject {
 public:
-    PlayerObject(Vector2D spawnPos, const std::string& TEX_ID);
+    PlayerObject(Vector2D spawnPos, const std::string& TEX_ID, float fireRate);
 
     void Update(Map& map, bool shot, std::map<std::string, std::shared_ptr<GameObject>>& gameObjects);
     void setPos(int X, int Y);
@@ -36,7 +36,7 @@ private:
     bool m_alive;
     //bool m_hasSpecialBullet = false; // Indică dacă jucătorul are glonțul special
     PowerUpType m_powerUp;
-    int m_fireRate;
+    float m_fireRate;
     std::chrono::time_point<std::chrono::steady_clock> m_powerUpTimerStart;
     bool m_powerUpActive;
 

@@ -6,6 +6,7 @@
 #include <algorithm>
 #include <mutex>
 #include <memory>
+#include <chrono>
 
 #include <chrono>   // pentru std::chrono
 #include <cstdlib>  // pentru rand(), srand()
@@ -59,13 +60,6 @@ int main(int argc, char* args[])
     crow::SimpleApp app;
     std::mutex DataMutex;
     DatabaseManager databaseManager;
-
-    //Change to account verification
-    //CROW_ROUTE(app, "/login").methods(crow::HTTPMethod::PUT)(
-    //[]() {
-    //if
-
-    //});
 
     CROW_ROUTE(app, "/player_input").methods(crow::HTTPMethod::PUT)
             ([&Clients, &Rooms, &DataMutex](const crow::request& req) {
@@ -165,12 +159,13 @@ int main(int argc, char* args[])
                         break;
                 }
 
-                auto& gameObjects = std::get<0>(Rooms[roomID]);
-                gameObjects.emplace("Player"+std::to_string(clientID),
-                                    std::make_shared<PlayerObject>(
-                                            spawnPos,
-                                            std::to_string((clientID-1) % 4)
-                                    ));
+        auto& gameObjects = std::get<0>(Rooms[roomID]);
+        gameObjects.emplace("Player" + std::to_string(clientID),
+            std::make_shared<PlayerObject>(
+                spawnPos,
+                std::to_string((clientID - 1) % 4),
+                databaseManager.GetUserFirerate(clientID)
+            ));
 
                 DataMutex.unlock();
                 return response;

@@ -5,7 +5,7 @@
 #include <format>
 #include <string_view>
 
-PlayerObject::PlayerObject(Vector2D spawnPos, const std::string& TEX_ID)
+PlayerObject::PlayerObject(Vector2D spawnPos, const std::string& TEX_ID, float fireRate)
         : GameObject(spawnPos.getX(), spawnPos.getY(), TEX_ID),
           m_facing(-1, 0),
           m_alive(true),
@@ -13,7 +13,7 @@ PlayerObject::PlayerObject(Vector2D spawnPos, const std::string& TEX_ID)
           m_spawnPoint(spawnPos),
           m_hasSpecialBullet(false),  // Inițial, jucătorul nu are glonț special
           m_powerUpActive(false),     // Inițial, niciun power-up nu e activ
-          m_fireRate(1)              // Ex. fire-rate de bază = 1
+          m_fireRate(fireRate)
 {}
 
 uint32_t SDBM_hash(const uint8_t* buf, size_t size) {
@@ -63,26 +63,14 @@ void PlayerObject::Update(Map& map, bool shot, std::map<std::string, std::shared
         m_facing = m_vel;
 
     if (shot && !m_bullet.lock()) {
-        std::string hashKey = std::format("{}{}{}{}{}{}",
-                                          m_spawnPoint.getX(), m_spawnPoint.getY(),
-                                          m_vel.getX(), m_vel.getY(),
-                                          m_pos.getX(), m_pos.getY()
-        );
+        std::string hashKey = std::format("{}{}{}{}{}{}", m_spawnPoint.getX(), m_spawnPoint.getY(), m_vel.getX(), m_vel.getY(), m_pos.getX(), m_pos.getY());
         uint32_t hash = SDBM_hash(reinterpret_cast<const uint8_t*>(hashKey.c_str()), hashKey.size());
-        //std::string bltKey =
         std::shared_ptr<Bullet> newBlt = std::make_shared<Bullet>(
-                m_pos + m_facing,
-                0.4f, // viteza glonțului
-                m_facing,
-                ""
+            m_pos + m_facing,
+            m_fireRate,
+            m_facing,
+            ""
         );
-
-        // Dacă jucătorul are glonț special, îl setăm și-l consumăm
-        if (m_hasSpecialBullet) {
-            newBlt->setIsSpecial(true);
-            m_hasSpecialBullet = false;
-        }
-
         gameObjects.emplace("Bullet" + std::to_string(hash), newBlt);
         m_bullet = newBlt;
         newBlt->CollideLogic(map, gameObjects, Vector2D(-1, -1), m_pos + m_facing);
