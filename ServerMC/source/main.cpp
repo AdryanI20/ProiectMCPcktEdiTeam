@@ -111,7 +111,6 @@ int main(int argc, char* args[])
             });
 
     CROW_ROUTE(app, "/join_game")
-        ([&Clients, &clientIDCounter, &Rooms, &DataMutex]() {
         DataMutex.lock();
 
         int clientID = ++clientIDCounter;
@@ -127,6 +126,7 @@ int main(int argc, char* args[])
                     (*curClients)[j] = clientID;
                     roomID = i;
                     break;
+            ([&Clients, &clientIDCounter, &Rooms, &DataMutex]() {
                 }
 
                 Clients.emplace_back(clientID, roomID);
