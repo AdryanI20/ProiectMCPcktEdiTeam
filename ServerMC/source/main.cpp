@@ -7,7 +7,6 @@
 #include <mutex>
 #include <memory>
 
-// (1) Adăugăm includeri pentru rand(), time() etc.
 #include <chrono>   // pentru std::chrono
 #include <cstdlib>  // pentru rand(), srand()
 #include <ctime>    // pentru std::time(nullptr)
@@ -45,7 +44,7 @@ int getIntFromArgs(std::unordered_map<std::string, std::string>& bodyArgs, const
 
 int main(int argc, char* args[])
 {
-    // (2) Inițializăm generatorul random
+    // Inițializare random
     std::srand(std::time(nullptr));
 
     //int clientIDCounter = 0;
@@ -197,8 +196,31 @@ int main(int argc, char* args[])
                 auto& gameObjects = std::get<0>(curRoom);
                 Map& curMap = std::get<2>(curRoom);
 
-                // Deocamdată nu facem nimic cu SPAWN la 60 de secunde:
-                // doar am adăugat #include <chrono> și srand(time(NULL))
+                // (1) - Cream un static pentru ultimul moment de spawn
+                static auto lastSpecialSpawn = std::chrono::steady_clock::now();
+                auto now = std::chrono::steady_clock::now();
+
+                // (2) - Cât timp au trecut secunde de la ultimul spawn?
+                auto diffSec = std::chrono::duration_cast<std::chrono::seconds>(now - lastSpecialSpawn).count();
+                if (diffSec >= 60) {
+                    // (3) - Dacă au trecut cel puțin 60s, generăm un item special
+
+                    // Obținem dimensiunea hărții
+                    std::pair<int, int> mapSize = curMap.getSize();
+
+                    // Generăm coordonate aleatoare
+                    int rx = std::rand() % mapSize.first;   // random pe direcția rând
+                    int ry = std::rand() % mapSize.second;  // random pe direcția coloană
+
+                    // Verificăm dacă e liber
+                    if (curMap.getPositionValue(rx, ry) == CellType::FREE_SPACE) {
+                        // Punem itemul SPECIAL pe hartă
+                        curMap.setPositionValue(rx, ry, CellType::SPECIAL_ITEM);
+
+                        // Resetăm timerul
+                        lastSpecialSpawn = now;
+                    }
+                }
 
                 std::pair<int, int> curSize = curMap.getSize();
                 auto mapData = curMap.getMap();
