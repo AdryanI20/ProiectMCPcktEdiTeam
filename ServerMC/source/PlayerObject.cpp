@@ -115,3 +115,14 @@ bool PlayerObject::getHasSpecialBullet() const {
 void PlayerObject::setHasSpecialBullet(bool val) {
     m_hasSpecialBullet = val;
 }
+
+bool PlayerObject::canUseSpecialBullet(bool hasSpecial, bool isAlive)
+{
+    if (hasSpecial == true && isAlive == true)
+        return true;
+    else
+    {
+        std::cout << "Player doesnt have special or is dead";
+        return false;
+    }
+}

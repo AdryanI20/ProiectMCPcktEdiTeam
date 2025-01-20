@@ -23,6 +23,7 @@ public:
 
     bool getHasSpecialBullet() const;
     void setHasSpecialBullet(bool val);
+    bool canUseSpecialBullet(bool hasSpecial, bool alive);
 private:
     Vector2D m_facing;
     std::weak_ptr<Bullet> m_bullet;
